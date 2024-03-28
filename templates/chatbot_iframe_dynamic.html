@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://chatflux.io/static/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" />
+    
+    <title>Chatbot</title>
+  </head>
+  <body>
+
+
+    <section id="chatbot-container">
+      <div id="chbox"  style="background-color: {{ mychatbot['background_color'] or'white'}} ; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};" class="relative h-screen flex flex-col justify-between overflow-y-auto rounded-2xl border border-4 shadow-faq scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded dark:border-dark dark:bg-black">
+        
+        {% if mychatbot['header_enabled'] and mychatbot['header_name'] %}
+        <header style="background-color: {{ mychatbot['header_color'] or 'white' }};"
+         class="sticky top-0 flex items-center justify-center rounded-xl border-b border-gray-200 z-10">
+          <h1 style="color: {{ mychatbot['text_color'] or 'black' }} ;" class="font-bold text-xl py-2">{{ mychatbot['header_name'] }}</h1>
+        </header>
+          {% endif %}
+    
+    
+    
+          <div class="mb-6 space-y-5 px-5 " id="chatcont">
+
+        
+         <div name="chatbot" class="flex flex-col items-start space-y-4">
+           <div class="mt-4 w-[90%] space-y-4">
+            {% if mychatbot['profile_pic_enabled'] and mychatbot['profile_pic'] %}
+            <img src="../{{ mychatbot['profile_pic'] }}" alt="Chatbot" class="h-10 w-10 rounded-full mr-3 mt-1">
+            {% endif %}
+             <div style="color: {{ mychatbot['text_color'] or 'black' }} ;background-color: {{ mychatbot['bot_msg_color'] or 'white' }}; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};" 
+               class=" inline-block rounded-lg rounded-tl-none border py-3 px-4 text-bas dark:border-white/10 dark:bg-dark dark:text-white custom-border-color"
+             >
+             {{ mychatbot['custom_greeting']|default('Hey there! I am an AI Assistant, How can I help you ?', true) }}
+            </div>
+           </div>
+         </div>
+    
+       </div>
+       
+       <form id="chatbot-form" onsubmit="submitForm(event)">
+
+        <div id="suggestedmsgs" class="mx-2 space-x-2 flex overflow-y-auto text-center scrollbar-thumb-body-color scrollbar-thumb-rounded scrollbar-thin">
+          {% if mychatbot['suggested_messages'] %}
+              {% set suggested_messages = mychatbot['suggested_messages'].split(',') %}
+                {% for message in suggested_messages %}
+                <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))" style="color: {{ mychatbot['text_color'] or 'black' }} ; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};"  class="mb-1 whitespace-nowrap text-base text-body-color rounded py-3 px-2 transition-all hover:shadow-primary-hover border">{{  message|safe }}</button>
+                {% endfor %}
+          {% endif %}
+           </div>
+
+        {% if not no_branding %}
+        <p class="text-center text-xs py-1 text-body-color">Powered By <a target="_blank" class="text-primary" href="https://chatflux.io">Chatflux.io</a></p>
+        {% endif %}
+        <div class="rounded-[20px] py-3 px-5 flex items-center justify-between space-x-4">
+          {% if mychatbot['human_assistance'] == 1 %}
+          <a href="/contact/{{ mychatbot['chat_id'] }}" target="_blank">
+            <button type="button" style="color: {{ mychatbot['text_color'] or 'black' }} ; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};"  class="whitespace-nowrap text-base rounded py-3 px-2 transition-all hover:shadow-primary-hover border">Ask Human</button>
+          </a>
+          {% endif %}
+          <input required
+          type="text"
+          style="color: {{ mychatbot['text_color'] or 'black' }} ; background-color: {{ mychatbot['background_color'] or '' }} ; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};" 
+          placeholder="Enter your question"
+          class="w-full rounded border py-3 px-5 outline-none  transition-all duration-300  dark:border-white/10 dark:bg-dark dark:text-white"
+          />
+          <button type="submit" id="sbmtbtn"  style="background-color: {{ mychatbot['custom_color'] or '#5e81f7' }}" class="rounded py-3.5 px-5 text-white custom-bg-color">
+            <svg
+              fill="currentColor"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+ </section>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    marked.setOptions({
+      highlight: function(code, lang) {
+        return hljs.highlightAuto(code, [lang]).value;
+      }
+    });
+  </script>
+
+ <script>
+  function simulateInputAndSubmit(encodedMessage) {
+const message = decodeURI(encodedMessage);
+
+const inputElement = document.querySelector('input[required]');
+const buttonElement = document.querySelector('button[type="submit"]');
+
+if (inputElement && buttonElement) {
+ inputElement.value = message;
+ buttonElement.click();
+}
+}
+
+
+   // window.addEventListener('message', (event) => {
+   //   if (event.data && event.data.type === 'updateStyles') {
+   //     const color = event.data.color;
+       
+   //     const style = document.createElement("style");
+   //     style.textContent = `
+   //       .custom-bg-color {
+   //         background-color: ${color} !important;
+   //       }
+   //       .custom-border-color {
+   //         border-color: ${color} !important;
+   //       }
+   //     `;
+       
+   //     document.head.appendChild(style);
+   //   }
+   // });
+
+   const urlParams = new URLSearchParams(window.location.search);
+   const chatId = urlParams.get("chatId");
+
+
+   // API GET ANSWER
+   async function submitForm(event) {
+   event.preventDefault();
+   
+   const chatcont = document.getElementById('chatcont');
+   const form = document.getElementById('chatbot-form');
+   const input = form.querySelector('input[type="text"]');
+   const message = input.value;
+   const submitButton = document.getElementById('sbmtbtn'); 
+   const chatWindow = document.querySelector('#chbox');
+
+ function scrollToBottom() {
+   chatWindow.scrollTop = chatWindow.scrollHeight - chatWindow.clientHeight;
+ }
+ 
+ // update chat interface with user input and answer
+       const userDiv = document.createElement('div');
+       userDiv.classList.add('ml-auto',  'flex', 'w-[90%]','flex-col', 'items-end');
+       userDiv.setAttribute('name', 'user');
+       userDiv.innerHTML = `
+         <div  style="color: {{ mychatbot['text_color'] or 'black' }}; background-color: {{ mychatbot['user_msg_color'] or 'white' }}; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};"  class="inline-block rounded-lg rounded-br-none border py-3 px-4 text-base dark:border-white/10 dark:bg-dark dark:text-white/80 custom-border-color">
+           ${message}
+         </div>
+       `;
+         
+       {% if mychatbot['loading_style'] == 1 %}
+   // show loading div
+   const loadingDiv = document.createElement('div');
+   loadingDiv.classList.add('animate-pulse', 'space-y-2');
+   loadingDiv.setAttribute('name', 'loading');
+   loadingDiv.innerHTML = `
+     <div style="background-color:{{ mychatbot['custom_color'] or '#5e81f7' }}" class="h-2 w-full rounded dark:bg-dark custom-bg-color"></div>
+     <div style="background-color:{{ mychatbot['custom_color'] or '#5e81f7' }}" class="h-2 w-full rounded dark:bg-dark custom-bg-color"></div>
+   `;{% endif %}
+
+   {% if mychatbot['loading_style'] == 2 %}
+   const loadingDiv = document.createElement('div');
+   loadingDiv.innerHTML = `
+   <div class="flex items-center justify-center" name="loading">
+       <div style="border-top-color:transparent; border-bottom-color:{{ mychatbot['custom_color'] or '#5e81f7' }}; border-right-color:{{ mychatbot['custom_color'] or '#5e81f7' }}; border-left-color:{{ mychatbot['custom_color'] or '#5e81f7' }};" class="w-8 h-8 border-4 rounded-full animate-spin"></div>
+       <p class="ml-2 text-dark dark:text-white font-bold">Thinking...</p>
+     </div>`;{% endif %}
+
+   {% if mychatbot['loading_style'] == 3 %}
+   const loadingDiv = document.createElement('div');
+   loadingDiv.innerHTML = `
+   <div class="flex items-center justify-center p-5 min-w-screen" name="loading">
+     <div class="flex space-x-2 animate-pulse">
+       <div style="background-color:{{ mychatbot['custom_color'] or '#5e81f7' }}" class="w-3 h-3 rounded-full"></div>
+       <div style="background-color:{{ mychatbot['custom_color'] or '#5e81f7' }}" class="w-3 h-3 rounded-full"></div>
+       <div style="background-color:{{ mychatbot['custom_color'] or '#5e81f7' }}" class="w-3 h-3 rounded-full"></div>
+     </div>
+   </div>`;{% endif %}
+
+
+
+   chatcont.appendChild(userDiv);
+   chatcont.appendChild(loadingDiv);
+   scrollToBottom();
+   
+ 
+   if (!message) {
+     return;
+   }
+   submitButton.disabled = true;
+   submitButton.classList.add('cursor-not-allowed');
+
+   input.value = '';
+   const data = {
+     message: message,
+     chatid: chatId
+   };
+
+   const response = await fetch('/chat', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify(data)
+   });
+ 
+   const result = await response.json();
+   const notmarked = result.answer;
+   let answer = marked.parse(notmarked);
+   submitButton.disabled = false;
+   submitButton.classList.remove('cursor-not-allowed');
+   const showEmailForm = result.showEmailForm;
+
+ 
+    // chatbot
+    const chatbotDiv = document.createElement('div');
+       chatbotDiv.classList.add('flex', 'mt-4', 'flex-col', 'items-start', 'space-y-4');
+       chatbotDiv.setAttribute('name', 'chatbot');
+       chatbotDiv.innerHTML = `
+         <div class="w-[90%] space-y-4">
+           {% if mychatbot['profile_pic_enabled'] and mychatbot['profile_pic'] %}
+           <img src="../{{ mychatbot['profile_pic'] }}" alt="Chatbot" class="h-10 w-10 rounded-full mr-3 mt-1">
+           {% endif %}
+           <div  style="color: {{ mychatbot['text_color'] or 'black' }} ;background-color: {{ mychatbot['bot_msg_color'] or 'white' }}; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};"  class="inline-block rounded-lg rounded-tl-none border py-3 px-4 text-base dark:border-white/10 dark:bg-dark dark:text-white custom-border-color">
+             ${answer}
+           </div>
+         </div>
+       `;
+       chatcont.removeChild(loadingDiv);
+       chatcont.appendChild(chatbotDiv);
+   // remove loading div
+   scrollToBottom();
+ }
+
+ if (showEmailForm) {
+   // show email form
+   const emailForm = document.createElement('div');
+   emailForm.innerHTML = `
+   <div class="flex flex-col items-start space-y-4">
+       <div class="w-[90%] space-y-4">
+         {% if mychatbot['profile_pic_enabled'] and mychatbot['profile_pic'] %}
+         <img src="../{{ mychatbot['profile_pic'] }}" alt="Chatbot" class="h-10 w-10 rounded-full mr-3 mt-1">
+         {% endif %}
+         <div  style="background-color: {{ mychatbot['bot_msg_color'] or 'white' }}; border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};" 
+           class="inline-block rounded-lg rounded-tl-none border   py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white"
+         >
+           <form action="" method="POST">
+             <label for="email" class="font-semibold text-base text-black dark:text-white mb-3 block">
+               Enter your email:
+             </label>
+             <div class="flex items-center space-x-4">
+               <input id="email" type="email" placeholder="john@company.com" 
+               style="border-color: {{ mychatbot['custom_color'] or '#5e81f7' }};" 
+                 class="font-semibold text-sm text-body-color py-[14px] px-5 rounded-lg border  dark:border-dark bg-transparent dark:bg-black outline-none placeholder-body-color focus-visible:shadow-none focus:border-primary"/>
+               <button class="font-bold text-base text-white bg-primary rounded py-3 px-5 text-center hover:shadow-primary-hover">
+                 <svg
+              fill="currentColor"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z"
+              />
+            </svg>
+               </button>
+             </div>
+           </form>
+         </div>
+       </div>
+     </div>
+   `;
+       chatcont.appendChild(emailForm);
+   }
+
+ </script>
+
+
+</body>
+</html>

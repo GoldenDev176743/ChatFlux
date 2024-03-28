@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" class="scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatflux</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  </head>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-S67Y5MJGJ3"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-S67Y5MJGJ3');
+      </script>
+      
+  <body x-data="
+      {
+        scrolledFromTop: false
+      }
+    " x-init="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = false" @scroll.window="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = false" class="bg-white dark:bg-dark">
+    <!-- ===== Preloader start ===== -->
+    <div class="spin-wrapper h-screen flex justify-center items-center bg-primary">
+      <div class="text-white inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+      </div>
+    </div>
+    <!-- ===== Preloader end ===== --> 
+    {% if session.loggedin %}
+    <!-- ===== Header start ===== -->
+    <header x-data="
+        {
+          navbarOpen: false,
+          dropdownOpen: false
+        }
+      " :class="scrolledFromTop ? 'bg-white dark:bg-dark bg-opacity-80 dark:bg-opacity-80 backdrop-blur-sm' : 'bg-white dark:bg-dark' " class="sticky top-0 z-50 flex w-full items-center">
+      <div class="container">
+        <div class="relative -mx-4 flex items-center justify-between">
+          <div class="w-60 max-w-full px-4">
+            <a href="/" :class="scrolledFromTop ? 'py-5 lg:py-2' : 'py-7 lg:py-5' " class="block w-full">
+              <img src="{{ url_for('static', filename='src/images/logo/logo.svg') }}" alt="logo" class="w-full dark:hidden" />
+              <img src="{{ url_for('static', filename='src/images/logo/logo-white.svg') }}" alt="logo" class="hidden w-full dark:block" />
+            </a>
+          </div>
+          <div class="flex w-full items-center px-4">
+            <div>
+              <button @click="navbarOpen = !navbarOpen" :class="navbarOpen && 'navbarTogglerActive' " id="navbarToggler" class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden">
+                <span :class="navbarOpen && 'rotate-45 top-[7px]' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+                <span :class="navbarOpen && 'opacity-0' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+                <span :class="navbarOpen && 'top-[-8px] rotate-[135deg]' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+              </button>
+              <nav :class="!navbarOpen && 'hidden' " id="navbarCollapse" class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-4 px-6 shadow dark:bg-black lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:shadow-none dark:lg:bg-transparent">
+                <ul class="blcok lg:flex">
+                  <li>
+                    <a href="{{ url_for('mychatbots') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> My Chatbots </a>
+                  </li>
+                  <li class="relative group submenu-item">
+                    <a href="javascript:void(0)" @click="dropdownOpen = !dropdownOpen" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="text-base text-body-color group-hover:text-primary lg:inline-flex lg:pl-0 lg:pr-4 flex lg:ml-10 xl:ml-12 relative after:absolute after:w-2 after:h-2 after:border-b-2 after:border-r-2 after:border-current after:rotate-45 lg:after:right-0 after:right-1 after:top-1/2 after:translate-y-[-50%] after:mt-[-2px]"> Create a Chatbot </a>
+                    <div :class="dropdownOpen ? 'block' : 'hidden lg:block ' " class="submenu relative lg:absolute lg:w-[250px] top-full lg:top-[115%] left-0 rounded-lg lg:shadow-lg lg:p-4 lg:opacity-0 lg:invisible group-hover:opacity-100 lg:group-hover:visible lg:group-hover:top-full bg-white dark:bg-black transition-[top] duration-300">
+                      <a href="{{ url_for('create') }}" class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"> From Document </a>
+                      <a href="{{ url_for('urlcreate') }}" class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"> From Website </a>
+                      <a href="{{ url_for('youtubecreate') }}" class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"> From Youtube Video </a>
+                      <a href="{{ url_for('fromtext') }}" class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"> From Plain text </a>
+                    
+                    </div>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('profile') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> My Account </a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('developers') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> API </a>
+                  </li>
+                  <li>
+                    <a href="mailto:aymane@chatflux.io" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> Contact </a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('logout') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> Log out → </a>
+                  </li>
+                </ul>
+              </nav>
+            </div> 
+            {% if role == 'Admin' %} 
+            <div>
+              <a href="{{ url_for('admin') }}">
+                <svg height="56px" width="82px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <circle style="fill:#5e81f7;" cx="256" cy="256" r="256"></circle>
+                    <path style="fill:#044b9b;" d="M294.996,509.049c105.746-16.162,190.195-97.028,211.687-200.923l-110.485-112.63l-11.102,12.448 l-99.711-98.695l-86.776,137.052l-47.94-47.937l-31.799,16.649l81.846,82.198l-64.445,53.646L294.996,509.049z"></path>
+                    <path style="fill:#001846;" d="M368.635,256c0-3.798-0.19-7.551-0.56-11.252c-0.498-4.994,1.431-9.923,5.277-13.148l19.778-16.586 c5.585-4.684,7.001-12.705,3.356-19.018l-18.279-31.658c-3.646-6.313-11.298-9.097-18.148-6.603l-24.254,8.835 c-4.722,1.72-9.961,0.922-14.039-2.015c-6.072-4.375-12.597-8.159-19.49-11.271c-4.57-2.064-7.866-6.197-8.737-11.136l-4.47-25.398 c-1.264-7.18-7.501-12.416-14.793-12.416h-36.555c-7.29,0-13.527,5.235-14.793,12.416l-4.47,25.398 c-0.869,4.939-4.165,9.073-8.737,11.136c-6.894,3.112-13.419,6.896-19.49,11.271c-4.077,2.938-9.316,3.736-14.039,2.015 l-24.254-8.835c-6.851-2.496-14.503,0.288-18.148,6.603l-18.279,31.658c-3.646,6.313-2.231,14.334,3.356,19.018l19.778,16.586 c3.846,3.225,5.775,8.152,5.277,13.148c-0.369,3.701-0.56,7.454-0.56,11.252c0,3.825,0.193,7.606,0.567,11.331 c0.503,5.008-1.434,9.947-5.298,13.174l-19.732,16.484c-5.603,4.68-7.028,12.714-3.379,19.037l18.254,31.616 c3.651,6.323,11.319,9.106,18.175,6.592l24.142-8.847c4.732-1.734,9.987-0.938,14.074,2.012c6.111,4.41,12.681,8.223,19.625,11.35 c4.584,2.065,7.887,6.215,8.749,11.167l4.405,25.305c1.252,7.194,7.496,12.443,14.796,12.443h36.507 c7.301,0,13.545-5.251,14.796-12.443l4.405-25.305c0.862-4.953,4.165-9.102,8.749-11.167c6.946-3.129,13.515-6.94,19.625-11.35 c4.086-2.95,9.342-3.746,14.074-2.012l24.142,8.847c6.856,2.512,14.524-0.269,18.175-6.592l18.254-31.616 c3.651-6.323,2.226-14.355-3.379-19.037l-19.732-16.484c-3.862-3.227-5.799-8.166-5.298-13.174 C368.442,263.606,368.635,259.825,368.635,256z"></path>
+                    <path style="fill:#001846;" d="M237.096,407.666h37.81c8.447,0,15.294-6.847,15.294-15.294v-75.186c0-1.203-0.976-2.181-2.181-2.181 h-64.038c-1.203,0-2.181,0.976-2.181,2.181v75.186C221.801,400.818,228.649,407.666,237.096,407.666z"></path>
+                    <path style="fill:#5e81f7;" d="M290.637,183.637v68.532l-34.944,13.712l-34.942-13.712v-68.218 c-24.51,12.75-41.262,38.362-41.262,67.901c0,42.256,34.256,76.51,76.51,76.51c42.256,0,76.51-34.256,76.51-76.51 C332.51,222.068,315.48,196.277,290.637,183.637z"></path>
+                  </g>
+                </svg>
+                </label>
+              </a>
+            </div> 
+            {% endif %} 
+            <div class="hidden justify-end pr-16 sm:flex lg:pr-0 xl:pl-20">
+              <div>
+                <label for="darkToggler" class="bg-gray-2 dark:bg-dark-bg flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-black dark:text-white md:h-14 md:w-14">
+                  <input type="checkbox" name="darkToggler" id="darkToggler" class="sr-only" aria-label="darkToggler" />
+                  <svg viewBox="0 0 23 23" class="h-5 w-5 stroke-current dark:hidden md:h-6 md:w-6" fill="none">
+                    <path d="M9.55078 1.5C5.80078 1.5 1.30078 5.25 1.30078 11.25C1.30078 17.25 5.80078 21.75 11.8008 21.75C17.8008 21.75 21.5508 17.25 21.5508 13.5C13.3008 18.75 4.30078 9.75 9.55078 1.5Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5 dark:block md:h-6 md:w-6">
+                    <mask id="path-1-inside-1_977:1934" fill="white">
+                      <path d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z" />
+                    </mask>
+                    <path d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z" fill="black" stroke="white" stroke-width="2" mask="url(#path-1-inside-1_977:1934)" />
+                  </svg>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ===== Header end ===== --> 
+    {% else %}
+    <!-- ===== Header start ===== -->
+    <header x-data="
+        {
+          navbarOpen: false,
+          dropdownOpen: false
+        }
+      " :class="scrolledFromTop ? 'bg-white dark:bg-dark bg-opacity-80 dark:bg-opacity-80 backdrop-blur-sm' : 'bg-white dark:bg-dark' " class="sticky top-0 z-50 flex w-full items-center">
+      <div class="container">
+        <div class="relative -mx-4 flex items-center justify-between">
+          <div class="w-60 max-w-full px-4">
+            <a href="/" :class="scrolledFromTop ? 'py-5 lg:py-2' : 'py-7 lg:py-5' " class="block w-full">
+              <img src="{{ url_for('static', filename='src/images/logo/logo.svg') }}" alt="logo" class="w-full dark:hidden" />
+              <img src="{{ url_for('static', filename='src/images/logo/logo-white.svg') }}" alt="logo" class="hidden w-full dark:block" />
+            </a>
+          </div>
+          <div class="flex w-full items-center justify-end px-4">
+            <div>
+              <button @click="navbarOpen = !navbarOpen" :class="navbarOpen && 'navbarTogglerActive' " id="navbarToggler" class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden">
+                <span :class="navbarOpen && 'rotate-45 top-[7px]' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+                <span :class="navbarOpen && 'opacity-0' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+                <span :class="navbarOpen && 'top-[-8px] rotate-[135deg]' " class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
+              </button>
+              <nav :class="!navbarOpen && 'hidden' " id="navbarCollapse" class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-4 px-6 shadow dark:bg-black lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:shadow-none dark:lg:bg-transparent">
+                <ul class="blcok lg:flex">
+                  <li>
+                    <a href="/#showcase" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> Showcase </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/#features"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                    Features
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#usecases" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> Use Cases </a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('developers') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> API </a>
+                  </li>
+                  <li>
+                    <a href="/#faq" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> FAQ </a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('developers') }}" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"> Pricing </a>
+                  </li>
+                  <li> 
+                    {% if session.loggedin %} 
+                    <a href="/mychatbots" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu lg:hidden text-base font-medium text-body-color hover:text-primary lg:ml-8 xl:ml-12"> Dashboard </a> 
+                    {% else %} 
+                    <a href="/login" :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' " class="scroll-menu lg:hidden text-base font-medium text-body-color hover:text-primary lg:ml-8 xl:ml-12"> Try it </a> {% endif %} </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="hidden justify-end pr-16 sm:flex lg:pr-0 xl:pl-20"> {% if session.loggedin %} <a href="./mychatbots" class="flex items-center justify-center rounded-lg bg-primary py-3 px-7 text-base font-medium text-white transition-all hover:shadow-primary-hover"> Dashboard </a> {% else %} <a href="/login" class="flex items-center justify-center rounded-lg bg-primary py-3 px-7 text-base font-medium text-white transition-all hover:shadow-primary-hover"> Try it </a> {% endif %} <div>
+                <label for="darkToggler" class="bg-gray-2 dark:bg-dark-bg flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-black dark:text-white md:h-14 md:w-14">
+                  <input type="checkbox" name="darkToggler" id="darkToggler" class="sr-only" aria-label="darkToggler" />
+                  <svg viewBox="0 0 23 23" class="h-5 w-5 stroke-current dark:hidden md:h-6 md:w-6" fill="none">
+                    <path d="M9.55078 1.5C5.80078 1.5 1.30078 5.25 1.30078 11.25C1.30078 17.25 5.80078 21.75 11.8008 21.75C17.8008 21.75 21.5508 17.25 21.5508 13.5C13.3008 18.75 4.30078 9.75 9.55078 1.5Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5 dark:block md:h-6 md:w-6">
+                    <mask id="path-1-inside-1_977:1934" fill="white">
+                      <path d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z" />
+                    </mask>
+                    <path d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z" fill="black" stroke="white" stroke-width="2" mask="url(#path-1-inside-1_977:1934)" />
+                  </svg>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ===== Header end ===== --> {% endif %}
+    <!-- ===== Pricing start ===== -->
+    <section class="flex flex-col justify-center antialiased text-gray-600 min-h-screen p-4">
+      <div class="h-full">
+        <!-- Pricing -->
+        <!-- Toggle switch -->
+        <h2 class="text-3xl dark:text-white text-gray-800 font-bold text-center mb-2">Pricing</h2>
+        {% if account['partner'] == 1 %}
+          <h2 class="px-20 text-xl dark:text-white text-primary font-bold text-center mb-2 text-center">
+            Welcome to the exclusive partnership between Chatflux.io and InnovAitors.<br>As a valued partner, you're entitled to a special 25% discount on your account.<br>Enjoy the benefits of our collaboration!
+          </h2>
+          <p class="px-20  font-semibold text-base text-body-color text-center">
+            Your exclusive partnership discount will be automatically applied during the checkout process 😉
+          </p>
+        {% endif %}
+      
+        <div x-data="{ selected: true, redirectToCheckout: redirectToCheckout }">
+          <div class="mb-2 items-center w-full rounded h-auto m-auto flex flex-col py-4 lg:px-4 rounded-xl">
+            <div class="relative lg:w-[30%] md:w-[30%] w-[90%] rounded-md border h-10 p-1 bg-gray-200 dark:bg-black dark:border-dark">
+              <div class="relative w-full h-full flex items-center">
+                <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                  <button>Monthly</button>
+                </div>
+                <div @click="selected=!selected" class="w-full flex text-gray-400 justify-center cursor-pointer">
+                  <button>Yearly <span class="text-green-400">(Save 20%)</span>
+                  </button>
+                </div>
+              </div>
+              <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }" x-text="selected ? 'Monthly' : 'Yearly'" class="bg-white dark:bg-primary shadow flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute"></span>
+            </div>
+          </div>
+          <div class="max-w-[90%] mx-auto">
+            <!-- Pricing tabs -->
+            <div class="grid grid-cols-12 gap-6">
+              <!-- Tab 1 -->
+              <div class="group-hover:bg-opacity-100 group-hover:text-white transition-all relative rounded-2xl col-span-full md:col-span-3 shadow-md border border-gradient-1 dark:border-black">
+                <!-- Icon -->
+                <div class="pt-4 pb-2 justify-center flex items-center font-bold text-base text-black dark:text-white hover:text-primary dark:hover:text-primary group transition-all">
+                  <span class="w-[50px] h-[50px] rounded-full inline-flex items-center justify-center bg-primary bg-opacity-10 text-primary transition-all group-hover:bg-opacity-100 group-hover:text-white">
+                    <svg class="fill-current" width="25" height="25" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                      <g>
+                        <path d="M60.4,50.3L48.7,38.7c-1.2-1.2-2.8-1.9-4.5-1.9c-1.2,0-2.3,0.3-3.3,0.9l-5.2-5.2c2.6-3.3,4.1-7.4,4.1-11.8
+                              c0-5.1-2-9.9-5.6-13.5c-3.6-3.6-8.4-5.6-13.5-5.6s-9.9,2-13.5,5.6c-3.6,3.6-5.6,8.4-5.6,13.5s2,9.9,5.6,13.5
+                              c3.6,3.6,8.4,5.6,13.5,5.6c4.3,0,8.4-1.4,11.8-4.1l5.2,5.2c-0.6,1-0.9,2.1-0.9,3.3c0,1.7,0.7,3.3,1.9,4.5l11.6,11.6
+                              c1.2,1.2,2.8,1.9,4.5,1.9c1.7,0,3.3-0.7,4.5-1.9l1.1-1.1c1.2-1.2,1.9-2.8,1.9-4.5C62.3,53.1,61.6,51.5,60.4,50.3z M10.5,31.1
+                              c-2.7-2.7-4.3-6.4-4.3-10.3s1.5-7.5,4.3-10.3s6.4-4.3,10.3-4.3s7.5,1.5,10.3,4.3s4.3,6.4,4.3,10.3s-1.5,7.5-4.3,10.3
+                              s-6.4,4.3-10.3,4.3S13.3,33.8,10.5,31.1z M57.2,56.1l-1.1,1.1c-0.7,0.7-1.9,0.7-2.7,0L41.8,45.6c-0.7-0.7-0.7-1.9,0-2.7l1.1-1.1
+                              c0.4-0.4,0.8-0.5,1.3-0.5c0.5,0,1,0.2,1.3,0.5l11.6,11.6c0.4,0.4,0.5,0.8,0.5,1.3C57.8,55.3,57.6,55.8,57.2,56.1z" />
+                        <path d="M24.7,12.7c-0.9,0.9-0.9,2.3,0,3.2c2.4,2.4,2.4,6.4,0,8.8c-0.9,0.9-0.9,2.3,0,3.2c0.4,0.4,1,0.7,1.6,0.7s1.2-0.2,1.6-0.7
+                              c2-2,3.1-4.7,3.1-7.6s-1.1-5.5-3.1-7.6C27,11.8,25.5,11.8,24.7,12.7z" />
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+                <!-- Icon -->
+                <div class="px-5 pb-2">
+                  <header class="flex items-center mb-2 justify-center">
+                    <h3 class="text-2xl text-primary dark:text-primary font-bold">Explorer</h3>
+                  </header>
+                  <!-- Price -->
+                  <div class="text-center text-gray-800 dark:text-white font-bold mb-4">
+                    <span class="text-2xl">$</span>
+                    <span class="text-3xl" x-text="selected ? '0' : '0'"></span>
+                    <span x-text="selected ? '/month' : '/month'" class="text-body-color font-medium text-sm"></span>
+                  </div>
+                </div>
+                <div class="px-5 pb-5">
+                  <!-- <div class="text-xs text-gray-800 font-semibold uppercase mb-4">What's included</div> -->
+                  <!-- List -->
+                  <ul>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Train 1 custom chatbot</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">50 chatbot interactions</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from a single document (txt, pdf, docx, csv)</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Chatbot integration on your websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Make chatbots private or public</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">100,000 characters per file</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Import data from Youtube Videos</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Import data from Websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized Greeting Message</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized Base Prompt</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized appearance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Human Assistance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Collect Leads</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Manage Chatbot Content</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Suggested Messages</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">No Chatflux branding on embedded chatbots</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">API access for integration with third-party tools</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Support</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="px-5 pt-2 pb-6">
+                  <!-- CTA -->
+                  {% if session.loggedin %}
+                  <button class="dark:bg-black font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 w-full cursor-not-allowed flex items-center" disabled>
+                    <svg class="w-3 h-3 flex-shrink-0 fill-current mr-2" viewBox="0 0 12 12">
+                      <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                    </svg>
+                    <span>Signed in</span>
+                  </button>
+                  {% else %}
+                  <a href="/register" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Sign up</a>     
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Tab 2 -->
+              <div class="group-hover:bg-opacity-100 group-hover:text-white transition-all relative rounded-2xl col-span-full md:col-span-3 shadow-md border border-gradient-1 dark:border-black">
+                <!-- Icon -->
+                <div class="pt-4 pb-2 justify-center flex items-center font-bold text-base text-black dark:text-white hover:text-primary dark:hover:text-primary group transition-all">
+                  <span class="w-[50px] h-[50px] rounded-full inline-flex items-center justify-center bg-primary bg-opacity-10 text-primary transition-all group-hover:bg-opacity-100 group-hover:text-white">
+                    <svg class="fill-current" width="25" height="25" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                      <path d="M59,45.9a7.63,7.63,0,0,0-9.31-5.29c-3.53,1-8.37,2.48-12,3.53a4.81,4.81,0,0,0-.11-3.21c-.92-2.29-3.47-3.31-5.6-3.31H22a4,4,0,0,1-2.68-1.25,5.77,5.77,0,0,0-3.9-1.52H7.31A6.45,6.45,0,0,0,1,41.42V54.28A6.57,6.57,0,0,0,7.43,61h9.74a6.34,6.34,0,0,0,3.51-1.08l.12.06a19.23,19.23,0,0,0,9.26,2.39,18.64,18.64,0,0,0,5.68-.86L53.84,56l.12,0a7.89,7.89,0,0,0,5.09-10ZM7.43,57A2.57,2.57,0,0,1,5,54.28V41.42a2.46,2.46,0,0,1,2.31-2.57h8.1a1.74,1.74,0,0,1,1.2.48,11.54,11.54,0,0,0,1,.78V56.92a2,2,0,0,1-.42,0Zm45.18-4.82L34.55,57.66a14.75,14.75,0,0,1-4.49.68,15.2,15.2,0,0,1-7.35-1.91l-1.12-.59V41.6l.4,0H32a2.16,2.16,0,0,1,1.89.8c.16.41-.12,1.63-2.22,3.63l-1.15,1.09.79,1.36C32.17,50,32.17,50,42.27,47c4.29-1.25,8.57-2.53,8.57-2.53a3.66,3.66,0,0,1,4.37,2.62A3.9,3.9,0,0,1,52.61,52.15Z" />
+                      <path d="M62.92,10.24A3.22,3.22,0,0,0,60,7.3c-2.49-.19-7.15,0-10.41,3.21a10,10,0,0,0-1.44,1.81,12.41,12.41,0,0,0-2.81-6.65h0c-3-3.38-8-3.95-10.66-4a3.22,3.22,0,0,0-3.18,3c-.21,2.86-.11,8.17,2.87,11.51,2.47,2.77,6.27,3.33,9,3.33a17.6,17.6,0,0,0,2-.1V34.09a2,2,0,0,0,4,0v-9c2.84-.05,7.58-.61,10.53-3.54C63.08,18.29,63.16,13.06,62.92,10.24ZM44.25,15.52c-2.09.13-5.28-.12-6.94-2-1.86-2.07-2-5.93-1.91-7.83,1.91.12,5.13.63,6.91,2.62S44.33,13.64,44.25,15.52ZM57,18.75c-1.93,1.92-5.47,2.32-7.59,2.38.27-2.16,1-5.8,3-7.79,1.78-1.77,4.48-2.09,6.22-2.09H59C59.06,13.06,59,16.76,57,18.75Z" />
+                    </svg>
+                  </span>
+                </div>
+                <!-- Icon -->
+                <div class="px-5 pb-2">
+                  <header class="flex items-center mb-2 justify-center">
+                    <h3 class="text-2xl text-primary font-bold">Adventurer</h3>
+                  </header>
+                  <!-- Price -->
+                  <div class="text-center text-gray-800 dark:text-white font-bold mb-4">
+                    <span class="text-2xl">$</span>
+                    <span class="text-3xl" x-text="selected ? '9.99' : '8.33'"></span>
+                    <span x-text="selected ? '/month' : '/month'" class="text-body-color font-medium text-sm"></span>
+                  </div>
+                </div>
+                <div class="px-5 pb-5">
+                  <!-- <div class="text-xs text-gray-800 font-semibold uppercase mb-4">What's included</div> -->
+                  <!-- List -->
+                  <ul>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Train up to 3 custom chatbots</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">2,000 monthly chatbot interactions</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from multiple documents (txt, pdf, docx, csv)</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from Youtube Videos</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Chatbot integration on your websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized Greeting Message</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Make chatbots private or public</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">API access for integration with third-party tools</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Email support</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized Base Prompt</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Import data from Websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized appearance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Human Assistance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Collect Leads</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Manage Chatbot Content</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Suggested Messages</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">No Chatflux branding on embedded chatbots</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="px-5 pt-2 pb-6">
+                  <!-- CTA -->
+                  {% if session.loggedin %}
+
+                    {% if account['plan_id'] == 2 %}
+                    <button class="font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 dark:bg-black w-full cursor-not-allowed flex items-center" disabled>
+                        <svg class="w-3 h-3 flex-shrink-0 fill-current mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                        </svg>
+                        <span>Current Plan</span>
+                    </button>
+                    {% elif account['plan_id'] == 3 %}
+                    <button  x-on:click="selected ? redirectToCheckout('2') : redirectToCheckout('2A')" class="font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 dark:bg-black w-full flex items-center">
+                        <span>Downgrade</span>
+                    </button>
+                    {% elif account['plan_id'] == 4 %}
+                    <button  x-on:click="selected ? redirectToCheckout('2') : redirectToCheckout('2A')" class="font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 dark:bg-black w-full flex items-center">
+                        <span>Downgrade</span>
+                    </button>
+                    {% else %}
+                    <button  x-on:click="selected ? redirectToCheckout('2') : redirectToCheckout('2A')" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Upgrade</button>
+                    {% endif %}
+                  {% else %}
+                  <a href="/register" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Subscribe</a>
+                  {% endif %}
+                  
+
+                </div>
+              </div>
+              <!-- Tab 3 -->
+              <div class="group-hover:bg-opacity-100 group-hover:text-white transition-all relative rounded-2xl col-span-full md:col-span-3 shadow-md border-2 border-primary">
+                <div class="absolute inset-x-0 top-0 flex justify-center -mt-3">
+                  <div class="inline-block px-3 py-1 text-xs font-medium tracking-wider text-white bg-primary uppercase rounded"> Best value </div>
+                </div>
+                <!-- Icon -->
+                <div class="pt-4 pb-2 justify-center flex items-center font-bold text-base text-black dark:text-white hover:text-primary dark:hover:text-primary group transition-all">
+                  <span class="w-[50px] h-[50px] rounded-full inline-flex items-center justify-center bg-primary bg-opacity-10 text-primary transition-all group-hover:bg-opacity-100 group-hover:text-white">
+                    <svg class="fill-current" width="25" height="25" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                      <path d="M53.5,38.8l-0.8-0.4l1-0.6c2-1.2,3.1-3.3,3.1-5.7c0-2.3-1.3-4.4-3.3-5.6l-2.1-1.2l2.3-1.4c2-1.2,3.1-3.3,3.1-5.7
+                              c0-2.3-1.3-4.4-3.3-5.5L35.4,2.6c-2-1.1-4.5-1.1-6.4,0L10.4,13.4c-2,1.2-3.2,3.3-3.2,5.6s1.2,4.5,3.2,5.6l2.2,1.3l-2.2,1.3
+                              c-2,1.2-3.2,3.3-3.2,5.6s1.2,4.5,3.2,5.6l0.9,0.5l-0.9,0.5c-2,1.2-3.3,3.3-3.3,5.6c0,2.4,1.2,4.5,3.2,5.6l18.4,10.7
+                              c1,0.6,2.1,0.9,3.3,0.9c1.2,0,2.4-0.3,3.4-1L53.8,50c2-1.2,3.1-3.3,3.1-5.7C56.8,42,55.6,39.9,53.5,38.8z M11.6,19
+                              c0-0.3,0.1-1.2,1-1.7L31.2,6.5c0.6-0.4,1.4-0.4,2,0l18.2,10.1c0.9,0.5,1,1.4,1,1.7c0,0.3-0.1,1.2-1,1.8L33.1,31.4
+                              c-0.6,0.4-1.4,0.4-2.1,0L12.6,20.7C11.7,20.2,11.6,19.3,11.6,19z M12.6,31.1l4.4-2.6l11.7,6.8c1,0.6,2.1,0.9,3.3,0.9
+                              c1.2,0,2.4-0.3,3.4-1l11.6-7.1l4.3,2.4c0.9,0.5,1,1.4,1,1.7c0,0.3-0.1,1.2-1,1.8L33.1,45.2c-0.6,0.4-1.4,0.4-2.1,0L12.6,34.5
+                              c-0.9-0.5-1-1.4-1-1.7C11.6,32.5,11.7,31.6,12.6,31.1z M51.4,46.2L33.1,57.5c-0.6,0.4-1.4,0.4-2.1,0L12.6,46.8c-0.9-0.5-1-1.4-1-1.7
+                              c0-0.3,0.1-1.2,1-1.7l3.1-1.8l13.1,7.6c1,0.6,2.1,0.9,3.3,0.9c1.2,0,2.4-0.3,3.4-1l12.9-7.9l3,1.6c0.9,0.5,1,1.4,1,1.7
+                              C52.4,44.8,52.3,45.7,51.4,46.2z" />
+                    </svg>
+                  </span>
+                </div>
+                <!-- Icon -->
+                <div class="px-5 pb-2">
+                  <header class="flex items-center mb-2 justify-center">
+                    <h3 class="text-2xl text-primary font-bold">Conqueror</h3>
+                  </header>
+                  <!-- Price -->
+                  <div class="text-center text-gray-800 dark:text-white font-bold mb-4">
+                    <span class="text-2xl">$</span>
+                    <span class="text-3xl" x-text="selected ? '29.99' : '24.91'"></span>
+                    <span class="text-body-color font-medium text-sm" x-text="selected ? '/month' : '/month'"></span>
+                  </div>
+                </div>
+                <div class="px-5 pb-5">
+                  <!-- <div class="text-xs text-gray-800 font-semibold uppercase mb-4">What's included</div> -->
+                  <!-- List -->
+                  <ul>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Train up to 10 custom chatbots</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">10,000 monthly chatbot interactions</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from multiple documents (txt, pdf, docx, csv)</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from Youtube Videos</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from Websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Chatbot integration on your websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized Greeting Message</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized Base Prompt</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Human Assistance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Suggested Messages</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Make chatbots private or public</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">API access for integration with third-party tools</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Priority support</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Collect Leads</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Manage Chatbot Content</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">Customized appearance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-gray-300 dark:text-gray-600 mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm text-gray-300 dark:text-gray-600">No Chatflux branding on embedded chatbots</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="px-5 pt-2 pb-6">
+                  <!-- CTA -->
+                  {% if session.loggedin %}
+                  {% if account['plan_id'] == 3 %}
+                  <button class="dark:bg-black font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 w-full cursor-not-allowed flex items-center" disabled>
+                    <svg class="w-3 h-3 flex-shrink-0 fill-current mr-2" viewBox="0 0 12 12">
+                      <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                    </svg>
+                    <span>Current Plan</span>
+                  </button>
+                  {% elif account['plan_id'] == 4 %}
+                  <button x-on:click="selected ? redirectToCheckout('3') : redirectToCheckout('3A')" class="dark:bg-black font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 w-full flex items-center">
+                    <span>Downgrade</span>
+                  </button>
+                  {% else %}
+                  <button x-on:click="selected ? redirectToCheckout('3') : redirectToCheckout('3A')" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Upgrade</button>
+                  {% endif %}
+                  {% else %}
+                  <a href="/register" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Subscribe</a>
+                  {% endif %}
+                  
+                  
+                </div>
+              </div>
+              <!-- Tab 4 -->
+              <div class="group-hover:bg-opacity-100 group-hover:text-white transition-all relative rounded-2xl col-span-full md:col-span-3 shadow-md border border-gradient-1 dark:border-black">
+                <!-- Icon -->
+                <div class="pt-4 pb-2 justify-center flex items-center font-bold text-base text-black dark:text-white hover:text-primary dark:hover:text-primary group transition-all">
+                  <span class="w-[50px] h-[50px] rounded-full inline-flex items-center justify-center bg-primary bg-opacity-10 text-primary transition-all group-hover:bg-opacity-100 group-hover:text-white">
+                    <svg class="fill-current" width="25" height="25" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                      <g>
+                        <path d="M61.4,19.5l-8.2-8.2l-0.3-0.3c-0.6-0.4-1.2-0.6-1.8-0.6l-12.9,1.1C28.5,3.4,16.3-0.1,6,2.7C4.4,3.1,3.1,4.4,2.7,6
+                              c-2.8,10.2,0.7,22.5,8.9,32.1l-1.1,12.7l0,0.2c0,0.6,0.2,1.3,0.6,1.8l8.5,8.6c0.6,0.6,1.3,0.9,2.1,0.9c0.3,0,0.6,0,0.8-0.1
+                              c1-0.3,1.8-1.2,2.1-2.2l1.2-10.7c1.4,0.7,2.8,1.3,4.2,1.8c0.5,0.2,1,0.3,1.5,0.3c1.3,0,2.5-0.5,3.4-1.4l14.9-14.9
+                              c1.3-1.3,1.8-3.3,1.2-5c-0.5-1.4-1.1-2.8-1.8-4.2l10.5-1.2l0.2,0c1.1-0.2,1.9-1,2.2-2.1C62.4,21.4,62.2,20.3,61.4,19.5z M20.4,56
+                              L15,50.5l0.7-8.1c1.8,1.6,3.7,3.1,5.7,4.4L20.4,56z M46.6,31.8L31.8,46.6c-0.1,0.1-0.2,0.1-0.3,0.1c-5.2-1.8-10.2-5-14.3-9.1
+                              C8.4,28.7,4.4,16.8,7,7.2C7.1,7.1,7.1,7,7.2,7h0c2-0.5,4-0.8,6.1-0.8c8.3,0,17.3,3.9,24.2,10.9c4.1,4.1,7.3,9.1,9.1,14.3
+                              C46.7,31.6,46.7,31.7,46.6,31.8z M46.8,21.5c-1.3-2-2.8-4-4.4-5.8l8.1-0.7l5.4,5.4L46.8,21.5z" />
+                        <path d="M55.3,40.2c-0.3-0.2-1.4-0.7-2.6,0.3c-1,0.8-5.7,5.5-6.6,6.4c-6.4,6.4-6.4,6.4-6,7.8c0.1,0.4,0.3,0.8,0.6,1
+                              c3.2,3.2,8.1,3.9,11.8,3.9c2.8,0,4.9-0.4,5.1-0.5c0.9-0.2,1.6-0.9,1.8-1.8c0.1-0.5,2.2-11.2-3.5-16.9
+                              C55.6,40.4,55.4,40.3,55.3,40.2z M55.1,55.1c-2.6,0.3-6.6,0.3-9.6-1.2c2.2-2.2,6.1-6.2,8.3-8.3C55.3,48.4,55.3,52.5,55.1,55.1z" />
+                        <path d="M26.1,17.8c-4.6,0-8.3,3.7-8.3,8.3s3.7,8.3,8.3,8.3s8.3-3.7,8.3-8.3S30.7,17.8,26.1,17.8z M26.1,30c-2.1,0-3.8-1.7-3.8-3.8
+                              s1.7-3.8,3.8-3.8S30,24,30,26.1S28.2,30,26.1,30z" />
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+                <!-- Icon -->
+                <div class="px-5 pb-2">
+                  <header class="flex items-center mb-2 justify-center">
+                    <h3 class="text-center text-2xl text-primary font-bold">The sky is the limit</h3>
+                  </header>
+                  <!-- Price -->
+                  <div class="text-center text-gray-800 dark:text-white font-bold mb-4">
+                    <span class="text-2xl">$</span>
+                    <span class="text-3xl" x-text="selected ? '99.99' : '83.33'"></span>
+                    <span class="text-body-color font-medium text-sm" x-text="selected ? '/month' : '/month'"></span>
+                  </div>
+                </div>
+                <div class="px-5 pb-5">
+                  <!-- <div class="text-xs text-gray-800 font-semibold uppercase mb-4">What's included</div> -->
+                  <!-- List -->
+                  <ul>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Train unlimited custom chatbots</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Unlimited chatbot interactions</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from multiple documents (txt, pdf, docx, csv)</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from Youtube Videos</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Import data from Websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Collect Leads</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Manage Chatbot Content</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Human Assistance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Suggested Messages</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Chatbot integration on your websites</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized Greeting Message</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized Base Prompt</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Customized appearance</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">No Chatflux branding on embedded chatbots</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Make chatbots private or public</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">API access for integration with third-party tools</div>
+                    </li>
+                    <li class="flex items-center py-1">
+                      <svg class="w-3 h-3 flex-shrink-0 fill-current text-primary mr-2" viewBox="0 0 12 12">
+                        <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                      </svg>
+                      <div class="text-sm dark:text-white">Dedicated account manager and premium support</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="px-5 pt-2 pb-6">
+                  <!-- CTA -->
+                  
+                  {% if session.loggedin %}
+                  {% if account['plan_id'] == 4 %}
+                  <button class="dark:bg-black font-medium text-sm inline-flex items-center justify-center px-3 py-2 border border-transparent rounded leading-5 shadow-sm transition duration-150 ease-in-out border-gray-200 focus:outline-none focus-visible:ring-2 bg-gray-100 text-gray-400 w-full cursor-not-allowed flex items-center" disabled>
+                    <svg class="w-3 h-3 flex-shrink-0 fill-current mr-2" viewBox="0 0 12 12">
+                      <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
+                    </svg>
+                    <span>Current Plan</span>
+                  </button>
+                  {% else %}
+                  <button x-on:click="selected ? redirectToCheckout('4') : redirectToCheckout('4A')" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Upgrade</button>
+                  {% endif %}
+                  {% else %}
+                  <a href="/register" class="bg-primary font-medium text-md inline-flex items-center justify-center px-3 py-2 rounded leading-5 transition duration-150 ease-in-out hover:opacity-90 text-white transition-all hover:shadow-primary-hover text-white w-full">Subscribe</a>
+                  {% endif %}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Pricing end ===== -->
+        <!-- ===== Testimonials Start ===== -->
+        <section>
+          <div class="container pt-[100px]">
+    
+          <div class="-mx-4 max-w-c-1315 px-4 md:px-8 xl:px-0">
+            <!-- Section Title Start -->
+            <div class="flex justify-center -mx-4">
+              <div class="w-full px-4">
+                <div
+                  class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp"
+                  data-wow-delay=".2s"
+                >
+                  <h2
+                    class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5"
+                  >
+                    Reviews
+                  </h2>
+                  <p class="font-semibold text-base text-body-color">
+                    Here's the inside scoop! Listen to the buzz our clients are creating about us...
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Section Title End -->
+          </div>
+    
+          <div class="animate_top mx-auto max-w-c-1235 px-4 md:px-8 xl:px-0">
+            <!-- Slider main container -->
+            <div class="swiper testimonial-01 pb-22.5">
+              <!-- Additional required wrapper -->
+              <div class="swiper-wrapper pb-20 z-50">
+                <!-- Slides -->
+    
+                <div class="swiper-slide">
+                  
+                  <div class="shadow-container">
+    
+                    <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                      <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                        <div>
+                          <h4 class="text-black dark:text-white text-lg mb-1.5">Memo</h4>
+                          <p class="font-semibold text-base text-body-color">@Echo Hive</p>
+                        </div>
+                        <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-02.png') }}" alt="User" />
+                      </div>
+                      <p class="text-black dark:text-white">Chatflux is the easiest way to explore documents or a YouTube video. It has an API too! Awesome job team</p>
+                    </div>
+    
+                  </div>
+                </div>
+    
+                <div class="swiper-slide">
+                  
+                  <div class="shadow-container">
+    
+                    <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                      <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                        <div>
+                          <h4 class="text-black dark:text-white text-lg mb-1.5">Ian Mitchell</h4>
+                          <p class="font-semibold text-base text-body-color">IT Manager</p>
+                        </div>
+                        <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-03.png') }}" alt="User" />
+                      </div>
+                      <p class="text-black dark:text-white">Integration with Chatflux was a game changer - the results have been phenomenal!</p>
+                    </div>
+    
+                  </div>
+                </div>
+    
+    
+                <div class="swiper-slide">
+                  
+                  <div class="shadow-container">
+                    <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                      <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                        <div>
+                          <h4 class="text-black dark:text-white text-lg mb-1.5">Liam Robinson</h4>
+                          <p class="font-semibold text-base text-body-color">HOM @InnovateCorp</p>
+                        </div>
+                        
+                        <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-01.png') }}" alt="User" />
+                      </div>
+                    <p class="text-black dark:text-white">Creating our very own chatbot using Chatflux was both innovative and exciting.</p>
+                    </div>
+                  </div>
+    
+                </div>
+    
+              </div>
+              <!-- If we need pagination -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+        </section>
+        <!-- ===== Testimonials End ===== -->
+
+        
+
+    <!-- ===== FAQ start ===== -->
+    <section id="faq" class="pt-[100px] overflow-hidden">
+      <div class="container">
+        <div class="flex justify-center -mx-4">
+          <div class="w-full px-4">
+            <div class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp" data-wow-delay=".2s">
+              <h2 class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5"> Pricing FAQ </h2>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-4">
+          <div class="w-full lg:w-1/2 px-4">
+            <div class="mb-12 lg:mb-0 relative z-10">
+              <div class="bg-white dark:bg-dark border border-[#e4f2fe] rounded-2xl py-12 px-8 sm:p-12 md:py-14 lg:py-10 lg:px-8 xl:p-12 2xl:p-14 wow fadeInUp" data-wow-delay=".3s">
+                <div class="mb-12">
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> What do you mean by importing data from YouTube videos and websites? </h3>
+                  <p class="font-semibold text-base text-body-color"> Chatflux offers the ability to import data directly from YouTube videos and websites to train your chatbots. This means you can utilize video transcripts or web page content to train your chatbots. </p>
+                </div>
+                <div class="mb-12">
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> Can I integrate my chatbots in my websites? </h3>
+                  <p class="font-semibold text-base text-body-color"> Yes, to integrate a chatbot using Chatflux, all you need is a one-line script tag provided by Chatflux in the chatbot settings. Simply add this script tag to your website's html, and your custom chatbot will be seamlessly integrated, allowing your visitors to interact with it without any complex technical setup on your part. </p>
+                </div>
+                <div>
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> What is the significance of making chatbots private or public in Chatflux? </h3>
+                  <p class="font-semibold text-base text-body-color"> Chatflux lets you decide whether your chatbots should be private or public. Private chatbots are accessible only to you, ensuring confidential information stays secure. Public chatbots are accessible to anyone who visits your chatbot's link, enabling you to provide information and assistance to a wider audience. </p>
+                </div>
+              </div>
+              <div class="absolute -z-1 -left-16 bottom-4">
+                <svg width="170" height="198" viewBox="0 0 170 198" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="72.1069" cy="51.1106" r="1.72625" transform="rotate(-120 72.1069 51.1106)" fill="#5e81f7" />
+                  <circle cx="98.1196" cy="36.0928" r="1.72625" transform="rotate(-120 98.1196 36.0928)" fill="#5e81f7" />
+                  <circle cx="59.5491" cy="58.3611" r="1.72625" transform="rotate(-120 59.5491 58.3611)" fill="#5e81f7" />
+                  <circle cx="84.9638" cy="43.688" r="1.72625" transform="rotate(-120 84.9638 43.688)" fill="#5e81f7" />
+                  <circle cx="110.976" cy="28.6695" r="1.72625" transform="rotate(-120 110.976 28.6695)" fill="#5e81f7" />
+                  <circle cx="87.1254" cy="77.1236" r="1.72625" transform="rotate(-120 87.1254 77.1236)" fill="#5e81f7" />
+                  <circle cx="64.5115" cy="37.9551" r="1.72625" transform="rotate(-120 64.5115 37.9551)" fill="#5e81f7" />
+                  <circle cx="113.138" cy="62.1053" r="1.72625" transform="rotate(-120 113.138 62.1053)" fill="#5e81f7" />
+                  <circle cx="90.5241" cy="22.9371" r="1.72625" transform="rotate(-120 90.5241 22.9371)" fill="#5e81f7" />
+                  <circle cx="74.5676" cy="84.3741" r="1.72625" transform="rotate(-120 74.5676 84.3741)" fill="#5e81f7" />
+                  <circle cx="51.9537" cy="45.2054" r="1.72625" transform="rotate(-120 51.9537 45.2054)" fill="#5e81f7" />
+                  <circle cx="99.9822" cy="69.7005" r="1.72625" transform="rotate(-120 99.9822 69.7005)" fill="#5e81f7" />
+                  <circle cx="77.3682" cy="30.5323" r="1.72625" transform="rotate(-120 77.3682 30.5323)" fill="#5e81f7" />
+                  <circle cx="125.995" cy="54.6824" r="1.72625" transform="rotate(-120 125.995 54.6824)" fill="#5e81f7" />
+                  <circle cx="103.381" cy="15.514" r="1.72625" transform="rotate(-120 103.381 15.514)" fill="#5e81f7" />
+                  <circle cx="79.5299" cy="63.9678" r="1.72625" transform="rotate(-120 79.5299 63.9678)" fill="#5e81f7" />
+                  <circle cx="56.916" cy="24.7994" r="1.72625" transform="rotate(-120 56.916 24.7994)" fill="#5e81f7" />
+                  <circle cx="105.543" cy="48.9498" r="1.72625" transform="rotate(-120 105.543 48.9498)" fill="#5e81f7" />
+                  <circle cx="82.9287" cy="9.78106" r="1.72625" transform="rotate(-120 82.9287 9.78106)" fill="#5e81f7" />
+                  <circle cx="66.9722" cy="71.2183" r="1.72625" transform="rotate(-120 66.9722 71.2183)" fill="#5e81f7" />
+                  <circle cx="44.3583" cy="32.0499" r="1.72625" transform="rotate(-120 44.3583 32.0499)" fill="#5e81f7" />
+                  <circle cx="92.3868" cy="56.5452" r="1.72625" transform="rotate(-120 92.3868 56.5452)" fill="#5e81f7" />
+                  <circle cx="69.7728" cy="17.3768" r="1.72625" transform="rotate(-120 69.7728 17.3768)" fill="#5e81f7" />
+                  <circle cx="118.399" cy="41.5267" r="1.72625" transform="rotate(-120 118.399 41.5267)" fill="#5e81f7" />
+                  <circle cx="95.7854" cy="2.35821" r="1.72625" transform="rotate(-120 95.7854 2.35821)" fill="#5e81f7" />
+                  <defs>
+                    <radialGradient id="paint0_radial_100_226" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(53.6936 59) rotate(60) scale(124)">
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#FFEEFE" />
+                      <stop offset="0.993" stop-color="#F1C6EF" />
+                    </radialGradient>
+                    <radialGradient id="paint1_radial_100_226" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(64.6936 33.6936) rotate(90) scale(76)">
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#E4F2FE" />
+                      <stop offset="0.993" stop-color="#D2E2EF" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="w-full lg:w-1/2 px-4">
+            <div class="mb-12 lg:mb-0 relative z-10">
+              <div class="bg-white dark:bg-dark border border-[#e4f2fe] rounded-2xl py-12 px-8 sm:p-12 md:py-14 lg:py-10 lg:px-8 xl:p-12 2xl:p-14 wow fadeInUp" data-wow-delay=".4s">
+                <div class="mb-12">
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> Can I customize the appearance of my embedded chatbot with Chatflux? </h3>
+                  <p class="font-semibold text-base text-body-color"> Yes, The Sky is the limit plan allows you to customize the appearance of your embedded chatbot to match your website's design and branding. This ensures a cohesive look and feel, enhancing the overall user experience. </p>
+                </div>
+                <div class="mb-12">
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> How does the no Chatflux branding feature benefit my business? </h3>
+                  <p class="font-semibold text-base text-body-color"> The no Chatflux branding feature allows you to maintain a cohesive and professional appearance for your embedded chatbot. By removing any Chatflux branding, your chatbot becomes an integral part of your website, aligning with your brand identity and creating a seamless user experience for your visitors. </p>
+                </div>
+                <div>
+                  <h3 class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"> Can I monitor my chatbot's interactions and usage in Chatflux? </h3>
+                  <p class="font-semibold text-base text-body-color"> Yes, Chatflux provides insights and analytics on your chatbot's performance and usage. These metrics help you understand how your chatbot is performing to better serve your users and achieve your business goals. </p>
+                </div>
+              </div>
+              <div class="absolute -z-1 -right-16 -top-12">
+                <svg width="170" height="183" viewBox="0 0 170 183" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="95.3482" cy="146.68" r="1.72625" transform="rotate(-120 95.3482 146.68)" fill="#5e81f7" />
+                  <circle cx="121.361" cy="131.663" r="1.72625" transform="rotate(-120 121.361 131.663)" fill="#5e81f7" />
+                  <circle cx="82.7904" cy="153.931" r="1.72625" transform="rotate(-120 82.7904 153.931)" fill="#5e81f7" />
+                  <circle cx="108.205" cy="139.258" r="1.72625" transform="rotate(-120 108.205 139.258)" fill="#5e81f7" />
+                  <circle cx="134.218" cy="124.239" r="1.72625" transform="rotate(-120 134.218 124.239)" fill="#5e81f7" />
+                  <circle cx="110.367" cy="172.693" r="1.72625" transform="rotate(-120 110.367 172.693)" fill="#5e81f7" />
+                  <circle cx="87.7528" cy="133.525" r="1.72625" transform="rotate(-120 87.7528 133.525)" fill="#5e81f7" />
+                  <circle cx="136.379" cy="157.675" r="1.72625" transform="rotate(-120 136.379 157.675)" fill="#5e81f7" />
+                  <circle cx="113.765" cy="118.507" r="1.72625" transform="rotate(-120 113.765 118.507)" fill="#5e81f7" />
+                  <circle cx="97.8089" cy="179.944" r="1.72625" transform="rotate(-120 97.8089 179.944)" fill="#5e81f7" />
+                  <circle cx="75.195" cy="140.775" r="1.72625" transform="rotate(-120 75.195 140.775)" fill="#5e81f7" />
+                  <circle cx="123.223" cy="165.27" r="1.72625" transform="rotate(-120 123.223 165.27)" fill="#5e81f7" />
+                  <circle cx="100.61" cy="126.102" r="1.72625" transform="rotate(-120 100.61 126.102)" fill="#5e81f7" />
+                  <circle cx="149.236" cy="150.252" r="1.72625" transform="rotate(-120 149.236 150.252)" fill="#5e81f7" />
+                  <circle cx="126.622" cy="111.084" r="1.72625" transform="rotate(-120 126.622 111.084)" fill="#5e81f7" />
+                  <circle cx="102.771" cy="159.538" r="1.72625" transform="rotate(-120 102.771 159.538)" fill="#5e81f7" />
+                  <circle cx="80.1573" cy="120.369" r="1.72625" transform="rotate(-120 80.1573 120.369)" fill="#5e81f7" />
+                  <circle cx="128.784" cy="144.52" r="1.72625" transform="rotate(-120 128.784 144.52)" fill="#5e81f7" />
+                  <circle cx="106.17" cy="105.351" r="1.72625" transform="rotate(-120 106.17 105.351)" fill="#5e81f7" />
+                  <circle cx="90.2135" cy="166.788" r="1.72625" transform="rotate(-120 90.2135 166.788)" fill="#5e81f7" />
+                  <circle cx="67.5996" cy="127.62" r="1.72625" transform="rotate(-120 67.5996 127.62)" fill="#5e81f7" />
+                  <circle cx="115.628" cy="152.115" r="1.72625" transform="rotate(-120 115.628 152.115)" fill="#5e81f7" />
+                  <circle cx="93.0141" cy="112.947" r="1.72625" transform="rotate(-120 93.0141 112.947)" fill="#5e81f7" />
+                  <circle cx="141.641" cy="137.096" r="1.72625" transform="rotate(-120 141.641 137.096)" fill="#5e81f7" />
+                  <circle cx="119.027" cy="97.928" r="1.72625" transform="rotate(-120 119.027 97.928)" fill="#5e81f7" />
+                  <defs>
+                    <radialGradient id="paint0_radial_100_227" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(54 31.3066) rotate(60) scale(124)">
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#FFEEFE" />
+                      <stop offset="0.993" stop-color="#F1C6EF" />
+                    </radialGradient>
+                    <radialGradient id="paint1_radial_100_227" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(54 8) rotate(90) scale(76)">
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#E4F2FE" />
+                      <stop offset="0.993" stop-color="#D2E2EF" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== FAQ end ===== -->
+    <!-- ===== Footer start ===== -->
+    <footer id="footer">
+      
+      <div class="p-10  bg-white dark:bg-dark wow fadeInUp" data-wow-delay=".25s">
+        <p class="w-full text-center text-sm pb-2 inline-block text-body-color text-[#adadad]">
+          <a href="{{ url_for('refundpage') }}" class="text-primary hover:underline">
+            Refund Policy
+          </a>
+          &
+          <a href="{{ url_for('privacypage') }}" class="text-primary hover:underline">
+            Privacy Policy
+          </a>
+        </p>
+        <p class="text-center text-primary font-semibold text-body-color"> chatflux.io ©</p>
+        <p class="text-center text-base font-semibold text-body-color"> made by <a class="text-center text-primary font-bold text-body-color" href="mailto:aymane@chatflux.io">aymane</a> with 💙 </p>
+      </div>
+    </footer>
+    <!-- ===== Footer end ===== -->
+    <!-- ====== Back To Top Start -->
+    <a x-show="scrolledFromTop" href="javascript:void(0)" class="hover:shadow-signUp back-to-top fixed bottom-8 right-8 left-auto z-[999] flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-md transition">
+      <span class="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"></span>
+    </a>
+    <!-- ====== Back To Top End -->
+    <!-- ===== JS Files ====== -->
+    <script>
+        function redirectToCheckout(planId) {
+          
+          window.location.href = '/create-checkout-session/' + planId;
+          
+        }
+    </script>
+    <script>
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".menu-scroll");
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".scroll-menu");
+        const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (refElement.offsetTop <= scrollTopMinus && refElement.offsetTop + refElement.offsetHeight > scrollTopMinus) {
+            document.querySelector(".scroll-menu").classList.remove("text-primary");
+            currLink.classList.add("text-primary");
+          } else {
+            currLink.classList.remove("text-primary");
+          }
+        }
+      }
+      window.document.addEventListener("scroll", onScroll);
+    </script>
+    <script src="{{ url_for('static', filename='switcher.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='bundle.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      $(window).on('load', function() {
+        $('.spin-wrapper').fadeOut();
+      });
+    </script>
+  </body>
+</html>

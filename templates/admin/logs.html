@@ -1,0 +1,23 @@
+{% extends 'admin/layout.html' %}
+
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+<h2>Logs</h2>
+
+{% if msg: %}
+<div class="msg success">
+    <i class="fas fa-check-circle"></i>
+    <p>{{ msg }}</p>
+    <i class="fas fa-times"></i>
+</div>
+{% endif %}
+<div class="content-header links">
+    <a href="{{ url_for('archive_log_file') }}" onclick="return confirm('Are you sure you want to archive logs?')" >Archive Logs</a>
+    <a style="background: #e86a6a;" href="{{ url_for('reboot') }}"  onclick="return confirm('Are you sure you want to reboot chatflux.io?')">Reboot</a>
+</div>
+<div class="content-block" style="height: 70vh;">
+    <textarea disabled name="" id="" cols="30" rows="10" style="height: 100% ; width: 100%;">{{ logs }}</textarea>
+
+</div>
+{% endblock %}

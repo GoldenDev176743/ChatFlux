@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" class="scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatflux</title>
+    
+    <meta name="description" content="Craft and Integrate and deploy AI-powered chatbots quickly with Chatflux. Create AI chatbots from websites, youtube videos, documents, pdfs, txts easily in seconds. Convert casual scrollers into loyal customers with personalized interactions. No coding required.">
+    <meta name="keywords" content="chatbots integration, ai integrations, chatbot, chatbots, ai chatbot, ai chatbots, chatbot builder, chatbot platform, chatbot maker, chatbot software, chatbot for website, chatbot for website free, custom chatbots, ai chatbots, ai, gpt-4, gpt-4 custom, custom gpt-4">
+    <meta name="author" content="Chatflux.io">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" />
+    
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"><link href="{{ url_for('static', filename='style.css') }}?v=1.1.4" rel="stylesheet"></head>
+
+ 
+
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S67Y5MJGJ3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-S67Y5MJGJ3');
+  </script>
+
+      
+
+  <body
+    x-data="
+      {
+        scrolledFromTop: true
+      }
+    "
+    x-init="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = true"
+    @scroll.window="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = true"
+    class="bg-white dark:bg-dark"
+  >
+  
+ <!-- ===== Preloader start ===== -->
+ <div class="spin-wrapper h-screen flex justify-center items-center bg-primary"> 
+  <div class="text-white inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+    <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+  </div>
+</div>
+
+<!-- ===== Preloader end ===== -->
+
+
+
+    <!-- ===== Header start ===== -->
+    <header
+      x-data="
+        {
+          navbarOpen: false,
+          dropdownOpen: false
+        }
+      "
+      :class="scrolledFromTop ? 'bg-white dark:bg-dark bg-opacity-80 dark:bg-opacity-80 backdrop-blur-sm' : 'bg-white dark:bg-dark' "
+      class="fadeInUp sticky top-0 z-50 flex w-full items-center"
+      data-wow-delay=".2s"
+    >
+
+    <!-- ===== Promo Banner Start ===== -->
+    <!-- <a href="{{ url_for('create_checkout_session_promo') }}">
+      <div class="fixed w-full top-0 z-50 bg-black text-white font-semibold text-center py-1 items-center px-4">
+        🌟 Holiday Exclusive: 50% Off Our Best Value Plan! 🚀
+      </div>
+    </a> -->
+    <!-- ===== Promo Banner End ===== -->
+
+       
+      <div class="container">
+        <!-- <div class="container"> -->
+        <div class="relative -mx-4 flex items-center justify-between">
+          <div class="w-60 max-w-full px-4">
+            <a
+              href="/"
+              :class="scrolledFromTop ? 'py-5 lg:py-2' : 'py-7 lg:py-5' "
+              class="block w-full"
+            >
+              <img
+                src="{{ url_for('static', filename='src/images/logo/logo.svg') }}"
+                alt="logo"
+                class="w-full dark:hidden"
+              />
+              <img
+              src="{{ url_for('static', filename='src/images/logo/logo-white.svg') }}"
+              alt="logo"
+                class="hidden w-full dark:block"
+              />
+            </a>
+          </div>
+          <div class="flex w-full items-center justify-end px-4">
+            <div>
+              <button
+                @click="navbarOpen = !navbarOpen"
+                :class="navbarOpen && 'navbarTogglerActive' "
+                id="navbarToggler"
+                class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+              >
+                <span
+                  :class="navbarOpen && 'rotate-45 top-[7px]' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+                <span
+                  :class="navbarOpen && 'opacity-0' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+                <span
+                  :class="navbarOpen && 'top-[-8px] rotate-[135deg]' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+              </button>
+              <nav
+                :class="!navbarOpen && 'hidden' "
+                id="navbarCollapse"
+                class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-4 px-6 shadow dark:bg-black lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:shadow-none dark:lg:bg-transparent"
+              >
+                <ul class="blcok lg:flex">
+                  <li>
+                    <a
+                      href="/#showcase"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                    Showcase
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/#features"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                    Features
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/#usecases"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                    Use Cases
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('developers') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      API
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      href="/#faq"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      FAQ
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('pricing') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    {% if session.loggedin %}
+                    <a
+                      href="/mychatbots"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu lg:hidden text-base font-medium text-body-color hover:text-primary lg:ml-8 xl:ml-12"
+                    >
+                      Dashboard 
+                    </a>
+                    {% else %}
+                    <a
+                      href="/login"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu lg:hidden text-base font-medium text-body-color hover:text-primary lg:ml-8 xl:ml-12"
+                    >
+                      Try it 
+                    </a>
+                    {% endif %}
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+            <div class="hidden justify-end pr-16 sm:flex lg:pr-0 xl:pl-20">
+              {% if session.loggedin %}
+              <a
+                href="/mychatbots"
+                class="flex items-center justify-center rounded-lg bg-primary py-3 px-7 text-base font-medium text-white transition-all hover:shadow-primary-hover"
+              >
+                Dashboard
+              </a>
+              {% else %}
+              <a
+                href="login"
+                class="flex items-center justify-center rounded-lg bg-primary py-3 px-7 text-base font-medium text-white transition-all hover:shadow-primary-hover"
+              >
+              Try it 
+              </a>
+              {% endif %}
+              
+              <div>
+                <label
+                  for="darkToggler"
+                  class="bg-gray-2 dark:bg-dark-bg flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-black dark:text-white md:h-14 md:w-14"
+                >
+                  <input
+                    type="checkbox"
+                    name="darkToggler"
+                    id="darkToggler"
+                    class="sr-only"
+                    aria-label="darkToggler"
+                  />
+                  <svg
+                    viewBox="0 0 23 23"
+                    class="h-5 w-5 stroke-current dark:hidden md:h-6 md:w-6"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.55078 1.5C5.80078 1.5 1.30078 5.25 1.30078 11.25C1.30078 17.25 5.80078 21.75 11.8008 21.75C17.8008 21.75 21.5508 17.25 21.5508 13.5C13.3008 18.75 4.30078 9.75 9.55078 1.5Z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <svg
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="hidden h-5 w-5 dark:block md:h-6 md:w-6"
+                  >
+                    <mask id="path-1-inside-1_977:1934" fill="white">
+                      <path
+                        d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z"
+                      />
+                    </mask>
+                    <path
+                      d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z"
+                      fill="black"
+                      stroke="white"
+                      stroke-width="2"
+                      mask="url(#path-1-inside-1_977:1934)"
+                    />
+                  </svg>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ===== Header end ===== -->
+       
+
+    <!-- ===== Hero Start ===== -->
+    <section id="home">
+      <div
+        class="bg-gradient-to-l from-gradient-1 dark:from-[#262A56] dark:to-black rounded-[20px] py-16 mx-4 2xl:mx-[60px] pl-6 lg:pl-10"
+      >
+        <div class="container">
+          <div class="flex flex-wrap items-center -mx-4">
+            <div class="w-full lg:w-1/2 px-4">
+              <!-- <a href="https://www.producthunt.com/posts/gptify-io?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-gptify&#0045;io" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=388449&theme=light" alt="Gptify&#0046;io - Build&#0044;&#0032;customize&#0032;&#0038;&#0032;embed&#0032;AI&#0032;chatbots&#0032;easily | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+             -->
+              <div
+                class="mb-0 md:mb-14 lg:mb-0 max-w-[470px] "
+               
+              >
+                <h1
+                  class="font-semibold text-black dark:text-white text-4xl md:text-[45px] leading-tight md:leading-tight mb-8"
+                >
+                  
+                     <span class="font-extrabold">Your own <span class="text-primary">AI Chatbots</span> that turns Scrollers to <span class="text-primary">Loyal Customers</span></span>
+                </h1>
+                <p class="font-semibold text-base text-body-color mb-16">
+                  Craft your own AI-powered chatbot swiftly and <span class="text-primary">deploy it everywhere</span> in a snap. <span class="text-primary">Turn casual scrollers into loyal customers with Chatflux.io</span>
+                  <span class="text-primary">Try it</span> and join  the rethinking of business interactions.
+                
+                </p>
+                <div class="gap-2 lg:flex md:flex items-center ">
+                  
+                  <a
+                    href="{{ url_for('glogin') }}"
+                    class="dark:text-white mb-2 border-primary border-2 gap-2 whitespace-nowrap text-base font-bold text-primary text-center rounded-xl py-4 px-10 transition-all hover:shadow-primary-hover mr-9 flex items-center justify-center"
+                  >
+                  Sign up now
+                  
+                  <svg class="mr-2" width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.9892 10.1871C18.9892 9.36767 18.9246 8.76973 18.7847 8.14966H9.68848V11.848H15.0277C14.9201 12.767 14.3388 14.1512 13.047 15.0812L13.0289 15.205L15.905 17.4969L16.1042 17.5173C17.9342 15.7789 18.9892 13.221 18.9892 10.1871Z" fill="#4285F4" />
+                    <path d="M9.68813 19.9314C12.3039 19.9314 14.4999 19.0455 16.1039 17.5174L13.0467 15.0813C12.2286 15.6682 11.1306 16.0779 9.68813 16.0779C7.12612 16.0779 4.95165 14.3395 4.17651 11.9366L4.06289 11.9465L1.07231 14.3273L1.0332 14.4391C2.62638 17.6946 5.89889 19.9314 9.68813 19.9314Z" fill="#34A853" />
+                    <path d="M4.17667 11.9366C3.97215 11.3165 3.85378 10.6521 3.85378 9.96562C3.85378 9.27905 3.97215 8.6147 4.16591 7.99463L4.1605 7.86257L1.13246 5.44363L1.03339 5.49211C0.37677 6.84302 0 8.36005 0 9.96562C0 11.5712 0.37677 13.0881 1.03339 14.4391L4.17667 11.9366Z" fill="#FBBC05" />
+                    <path d="M9.68807 3.85336C11.5073 3.85336 12.7344 4.66168 13.4342 5.33718L16.1684 2.59107C14.4892 0.985496 12.3039 0 9.68807 0C5.89885 0 2.62637 2.23672 1.0332 5.49214L4.16573 7.99466C4.95162 5.59183 7.12608 3.85336 9.68807 3.85336Z" fill="#EB4335" />
+                  </svg>
+                  
+                  </a>
+
+                  <a
+                    href="#showcase"
+                    class="flex items-center font-bold text-base text-black  dark:text-white hover:text-primary dark:hover:text-primary group transition-all"
+                  >
+                    <span
+                      class="w-[60px] h-[60px] rounded-full inline-flex items-center justify-center bg-primary bg-opacity-10 text-primary mr-5 transition-all group-hover:bg-opacity-100 group-hover:text-white"
+                    >
+                      <svg
+                        width="15"
+                        height="18"
+                        viewBox="0 0 15 18"
+                        class="fill-current"
+                      >
+                        <path
+                          d="M15 9L-8.15666e-07 17.6603L-5.85622e-08 0.339746L15 9Z"
+                        />
+                      </svg>
+                    </span>
+                    Watch Demo
+                  </a>
+                </div>
+                <div>
+                  <p class="text-primary mt-3 text-center mb-2">Try it now for free! No credit card required</p>
+                </div>
+              </div>
+            </div>
+            <div class="overflow-y-hidden  w-full lg:w-1/2 px-4">
+              <div class="relative z-10 h-[532px] ">
+            
+            
+                <div class="container">
+                  <div class="flex justify-center -mx-4">
+                    <div class="w-full px-4">
+                      <div class="max-w-[510px] mx-auto text-center">
+            
+                        <p class="font-bold text-xl text-dark dark:text-white mb-1">
+                          This chatbot is trained on a document containing information about Chatflux.io
+                        </p>
+            
+                      </div>
+                    </div>
+                  </div>
+                  <div id="chbox"
+                    class="relative mx-auto flex h-[400px] md:h-[460px] lg:h-[460px] max-w-[770px] flex-col justify-between overflow-y-auto rounded-2xl border border-4 border-gradient-1 bg-white py-10 px-5 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded dark:border-dark dark:bg-black">
+                    <div class="mb-6 space-y-5" id="chatcont">
+            
+                      <div name="chatbot" class="flex flex-col items-start space-y-4">
+                        <div class="w-[90%] space-y-4">
+                          <div
+                            class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white">
+                            Hello & welcome to chatflux.io! How can I help you today?
+                          </div>
+                        </div>
+                      </div>
+            
+                    </div>
+                    <form id="chatbot-form" onsubmit="submitForm(event)">
+                      <div id="suggestedmsgs"
+                        class="mx-2 flex space-x-2 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-body-color text-center">
+                        <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+                          class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">
+                          What sources can be used to upload data into a chatbot?</button>
+                        <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+                          class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">Can
+                          I try it for FREE?</button>
+                        <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+                          class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">Any
+                          coding knowledge required?</button>
+                      </div>
+                      <div class="rounded-[20px] flex items-center justify-between space-x-4 mt-3">
+                        <input required value="Can I integrate my chatbot in my website?" type="text"
+                          placeholder="Enter your question"
+                          class="w-full rounded border border-gradient-1 bg-white py-3 px-5 outline-none ring-primary/60 transition-all duration-300 focus:ring-4 dark:border-white/10 dark:bg-dark dark:text-white" />
+            
+            
+                        <button id="sbmtbtn" class="rounded bg-primary py-3.5 px-5 text-white">
+                          <svg fill="currentColor" width="20" height="20" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+
+
+              
+            
+            
+                
+                <span
+                  class="absolute -z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[350px] w-full h-[350px] bg-white dark:bg-dark bg-opacity-25 dark:bg-opacity-25 shadow-shape-1 rounded-full"
+                >
+                </span>
+                <span
+                  class="absolute -z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[450px] w-full h-[450px] bg-white dark:bg-dark bg-opacity-25 dark:bg-opacity-25 shadow-shape-1 rounded-full"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Hero end ===== -->
+
+    <!-- ===== Video start ===== -->
+    <section class="py-20" id="showcase" >
+      <div class="container wow fadeInUp"
+      data-wow-delay=".3s">
+      <div class="flex justify-center -mx-4">
+        <div class="w-full px-4">
+          <div
+            class="max-w-[510px] mx-auto text-center mb-10 wow fadeInUp"
+            data-wow-delay=".2s" 
+          >
+            <h2
+              class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white "
+            >
+              Quick Demo
+            </h2>
+          </div>
+        </div>
+      </div>
+        <div
+       class="relative mx-auto flex h-full w-full max-w-[770px] flex-col justify-between overflow-y-auto rounded-2xl border border-4 border-gradient-1 bg-white shadow-faq scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded dark:border-dark dark:bg-black"
+        >
+        <video class= "aspect-video w-full shadow-lg" autoplay loop controls muted>
+          <source
+            src="{{ url_for('static', filename='demov2.mp4') }}"
+            type="video/mp4" />
+        </video>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Video end ===== -->
+
+    <!-- ===== Chatbot start ===== -->
+    <!-- <section id="demo">
+      <div class="container" >
+        <div class="flex justify-center -mx-4">
+        <div class="w-full px-4">
+          <div
+            class="max-w-[510px] mx-auto text-center  mb-5 wow fadeInUp"
+            data-wow-delay=".2s"
+          >
+          
+
+            <h2
+              class="font-extrabold text-2xl sm:text-3xl text-black dark:text-white mb-5"
+            >
+              Chatbot explaining Chatflux.io
+            </h2>
+            <p class="font-semibold text-base text-body-color">
+              This chatbot is trained on a document containing information about Chatflux.io
+            </p>
+            
+          </div>
+        </div>
+      </div>
+        <div
+         id="chbox" class="relative mx-auto flex h-[530px] w-full max-w-[770px] flex-col justify-between overflow-y-auto rounded-2xl border border-4 border-gradient-1 bg-white py-10 px-5 shadow-faq scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded dark:border-dark dark:bg-black sm:p-12"
+        >
+        <div class="mb-6 space-y-5" id="chatcont">
+
+          <div name="chatbot" class="flex flex-col items-start space-y-4">
+            <div class="w-[90%] space-y-4">
+              <div
+                class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white"
+              >
+                 Hello ! How can I help you today?
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <form id="chatbot-form" onsubmit="submitForm(event)">
+          <div id="suggestedmsgs" class="mx-2 flex space-x-2 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-body-color text-center">
+            <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+              class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">
+              What sources can be used to upload data into a chatbot?</button>
+             <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+              class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">Can I try it for FREE?</button>
+              <button type="button" onclick="simulateInputAndSubmit(encodeURI(this.innerText))"
+              class="mb-1 dark:border-dark whitespace-nowrap text-base text-body-color rounded py-3 px-5 transition-all hover:shadow-primary-hover border border-gradient-1">Any
+              coding knowledge required?</button>
+            </div>
+          <div class="rounded-[20px] flex items-center justify-between space-x-4 mt-3">
+            <input required value="Can I integrate my chatbot in my website?"
+              type="text"
+              placeholder="Enter your question"
+              class="w-full rounded border border-gradient-1 bg-white py-3 px-5 outline-none ring-primary/60 transition-all duration-300 focus:ring-4 dark:border-white/10 dark:bg-dark dark:text-white"
+              />
+
+
+              <button  id="sbmtbtn" class="rounded bg-primary py-3.5 px-5 text-white">
+                <svg
+                  fill="currentColor"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section> -->
+    <!-- ===== Chatbot end ===== -->
+   
+    <!-- ===== Features Tabs Start ===== -->
+    <section class="pt-[100px] pb-20 relative wow fadeInUp" data-wow-delay="0.4s" x-data="{ featuresTab: 'tabOne' }">
+      <div class="container">
+
+        <div class="-mx-4 max-w-c-1315 px-4 md:px-8 xl:px-0">
+          <!-- Section Title Start -->
+          <div class="flex justify-center -mx-4">
+              <div class="w-full px-4">
+                  <div
+                      class="max-w-[510px] mx-auto text-center mb-10 wow fadeInUp"
+                      data-wow-delay=".2s"
+                  >
+                      <h2
+                          class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5"
+                      >
+                      <span class="text-primary">Chatfluency:</span> The New Standard
+                      </h2>
+                      <p class="font-semibold text-base text-body-color">
+                          Capture, Integrate, Manage - the trifecta of effective chatbot success! Seamlessly blend into every platform, make every interaction count, and handle your data with finesse. It's time to rev up your engagement!
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <!-- Section Title End -->
+      </div>
+      
+      
+      
+      
+        <div class="mx-auto max-w-c-1390 px-4 px-8 2xl:px-0">
+          <div class="absolute top-0 -z-1">
+            <img class="dark:hidden" src="{{ url_for('static', filename='src/images/shape/shape-dotted-light.svg') }}" alt="Dotted Shape" />
+            <img class="hidden dark:block" src="{{ url_for('static', filename='src/images/shape/shape-dotted-dark.svg') }}" alt="Dotted Shape" />
+          </div>
+
+          <!-- Tab Menues Start -->
+          <div
+            class="animate_top border border-gradient-1 dark:border-white/10 dark:bg-black shadow-primary-hover bg-white rounded-[10px] flex flex-wrap items-center justify-center gap-4 mb-16 xl:mb-22"
+          >
+          <div
+          class="group relative cursor-pointer w-full md:w-auto border-b last:border-0 md:border-0 border-stroke dark:border-white/10 flex items-center gap-4 py-2 xl:py-5 px-6 xl:px-13.5"
+          :class="{ 'active before:w-full before:h-1 before:bg-primary before:absolute before:bottom-0 before:left-0 before:rounded-tl-[4px] before:rounded-tr-[4px]': featuresTab === 'tabOne' }"
+          @mouseover="featuresTab = 'tabOne'"
+        >
+          <div class=" rounded-full bg-primary bg-opacity-5 group-hover:bg-opacity-100 w-12 h-12 border border-gradient-1 dark:border-white/10 flex items-center justify-center">
+            
+              <svg class="fill-current  p-2  flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all" width="52" height="52" version="1.1" id="lni_lni-target" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                 y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+              <path d="M60,29.8h-5.9c-1-10.8-9.4-19.5-19.9-20.6V4c0-1.2-1-2.3-2.3-2.3c-1.2,0-2.3,1-2.3,2.3v5.2c-10.5,1.1-18.9,9.7-19.9,20.6H4
+                c-1.2,0-2.3,1-2.3,2.3c0,1.2,1,2.3,2.3,2.3h5.9c1,10.8,9.4,19.5,19.9,20.6V60c0,1.2,1,2.3,2.3,2.3c1.2,0,2.3-1,2.3-2.3v-5.2
+                c10.5-1.1,18.9-9.7,19.9-20.6H60c1.2,0,2.3-1,2.3-2.3C62.3,30.8,61.2,29.8,60,29.8z M49.6,29.8h-6.2c-0.9-4.8-4.5-8.6-9.2-9.5v-6.5
+                C42.3,14.8,48.6,21.4,49.6,29.8z M32,39.5C32,39.5,32,39.5,32,39.5C32,39.5,32,39.5,32,39.5c-4,0-7.2-3.4-7.2-7.5c0,0,0,0,0,0
+                s0,0,0,0c0-4.1,3.2-7.4,7.1-7.5c0,0,0,0,0,0s0,0,0,0c3.9,0,7.1,3.4,7.1,7.5c0,0,0,0,0,0s0,0,0,0C39.1,36.1,35.9,39.4,32,39.5z
+                 M29.8,13.7v6.5c-4.6,0.9-8.3,4.7-9.2,9.5h-6.2C15.4,21.4,21.7,14.8,29.8,13.7z M14.4,34.3h6.2c0.9,4.8,4.5,8.6,9.2,9.5v6.5
+                C21.7,49.2,15.4,42.6,14.4,34.3z M34.3,50.3v-6.5c4.6-0.9,8.3-4.7,9.2-9.5h6.2C48.6,42.6,42.3,49.2,34.3,50.3z"/>
+              </svg>
+          </div>
+              <div class="lg:w-auto md:w-3/5">
+                <h5 class="text-black dark:text-white font-medium group-hover:text-primary">Capture Leads Effectively</h5>
+              </div>
+            </div>
+
+            <div
+              class="group relative cursor-pointer w-full md:w-auto border-b last:border-0 md:border-0 border-stroke dark:border-white/10 flex items-center gap-4 py-2 xl:py-5 px-6 xl:px-13.5"
+              :class="{ 'active before:w-full before:h-1 before:bg-primary before:absolute before:bottom-0 before:left-0 before:rounded-tl-[4px] before:rounded-tr-[4px]': featuresTab === 'tabTwo' }"
+              @mouseover="featuresTab = 'tabTwo'"
+            >
+              <div class=" rounded-full bg-primary bg-opacity-5 group-hover:bg-opacity-100 w-12 h-12 border border-gradient-1 dark:border-white/10 flex items-center justify-center">
+                
+                <svg class="fill-current p-2  flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all" width="52" height="52" version="1.1" id="lni_lni-pagination" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                    y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                  <g>
+                    <path d="M61.4,30L51,19.5c-0.9-0.9-2.3-0.9-3.2,0c-0.9,0.9-0.9,2.3,0,3.2l9.3,9.3l-9.3,9.3c-0.9,0.9-0.9,2.3,0,3.2
+                      c0.4,0.4,1,0.7,1.6,0.7c0.6,0,1.2-0.2,1.6-0.7L61.4,34C62.5,32.9,62.5,31.1,61.4,30z"/>
+                    <path d="M16.2,19.5c-0.9-0.9-2.3-0.9-3.2,0L2.6,30c-1.1,1.1-1.1,2.9,0,4.1L13,44.5c0.4,0.4,1,0.7,1.6,0.7c0.6,0,1.1-0.2,1.6-0.7
+                      c0.9-0.9,0.9-2.3,0-3.2L6.9,32l9.3-9.3C17.1,21.8,17.1,20.3,16.2,19.5z"/>
+                    <path d="M21.9,29.3c-1.5,0-2.7,1.2-2.7,2.7s1.2,2.7,2.7,2.7s2.7-1.2,2.7-2.7S23.4,29.3,21.9,29.3z"/>
+                    <circle cx="32.3" cy="32" r="2.7"/>
+                    <path d="M42.9,29.3c-1.5,0-2.7,1.2-2.7,2.7s1.2,2.7,2.7,2.7c1.5,0,2.7-1.2,2.7-2.7S44.4,29.3,42.9,29.3z"/>
+                  </g>
+                  </svg>
+
+
+
+              </div>
+              <div class="lg:w-auto md:w-3/5">
+                <h5 class="text-black dark:text-white font-medium group-hover:text-primary">Integrate Your Chatbot Everywhere</h5>
+              </div>
+            </div>
+
+            <div
+            class="group relative cursor-pointer w-full md:w-auto border-b last:border-0 md:border-0 border-stroke dark:border-white/10 flex items-center gap-4 py-2 xl:py-5 px-6 xl:px-13.5"
+            :class="{ 'active before:w-full before:h-1 before:bg-primary before:absolute before:bottom-0 before:left-0 before:rounded-tl-[4px] before:rounded-tr-[4px]': featuresTab === 'tabThree' }"
+            @mouseover="featuresTab = 'tabThree'"
+          >
+            <div class=" rounded-full bg-primary bg-opacity-5 group-hover:bg-opacity-100 w-12 h-12 border border-gradient-1 dark:border-white/10 flex items-center justify-center">
+
+              <svg class="fill-current p-2.5  flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all" width="52" height="52" version="1.1" id="lni_lni-files" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                  y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                <path d="M56,4.4H34.2c-3.4,0-6.3,2.8-6.3,6.3v7.1H8c-3.4,0-6.3,2.8-6.3,6.3v19.2c0,1.2,0.5,2.4,1.4,3.3L15,58.3
+                  c0.9,0.9,2.1,1.4,3.3,1.4h11.5c3.4,0,6.2-2.8,6.2-6.3V39.9l5.1,5.1c0.9,0.9,2.1,1.4,3.3,1.4H56c3.4,0,6.3-2.8,6.3-6.3V10.6
+                  C62.3,7.2,59.4,4.4,56,4.4z M9.4,46.3h5.5c0.1,0,0.2,0.1,0.2,0.2V52L9.4,46.3z M31.6,53.4c0,1-0.8,1.8-1.7,1.8H19.6v-8.6
+                  c0-2.6-2.1-4.7-4.7-4.7H6.3V23.9c0-1,0.8-1.8,1.8-1.8h23.4c0.1,0,0.2,0.1,0.2,0.2V53.4z M36.1,33.5V33h5c0.1,0,0.2,0.1,0.2,0.2v5.5
+                  L36.1,33.5z M57.8,40.1c0,1-0.8,1.8-1.8,1.8H45.7v-8.6c0-2.6-2.1-4.7-4.7-4.7h-5v-6.2c0-2.2-1.6-4.1-3.6-4.5v-7.2
+                  c0-1,0.8-1.8,1.8-1.8H56c1,0,1.8,0.8,1.8,1.8V40.1z"/>
+                </svg>
+            </div>
+              <div class="lg:w-auto md:w-3/5">
+                <h5 class="text-black dark:text-white font-medium group-hover:text-primary">Manage Your Chatbot Data</h5>
+              </div>
+            </div>
+          </div>
+          <!-- Tab Menues End -->
+
+          <!-- Tab Content Start -->
+          <div class="animate_top mx-auto max-w-c-1154">
+            <div x-show="featuresTab === 'tabOne'">
+              <div class="lg:flex items-center gap-8 lg:gap-19">
+                <div class="md:w-1/2 mb-8 lg:mb-0"> 
+                  <h2 class="text-black dark:text-white text-3xl xl:text-sectiontitle2 font-bold mb-7">Catch the Leads That Matter - Seamlessly!</h2>
+                  <p class="mb-5 font-semibold text-base text-body-color">With Chatflux.io's enhanced lead capture feature, never let a potential client slip away unnoticed. Your chatbot now not only converses, but it also collects valuable lead information effectively, powering your growth engine.</p>
+                  <p class="w-11/12 font-semibold text-base dark:text-white">Our system is designed to ensure you don't miss a beat when it comes to potential customers. Turn conversations into conversions with our state-of-the-art AI. Start building lasting relationships from the very first interaction!</p>
+                </div>
+                <div class="space-y-5 md:w-1/2"
+                >
+                <div class="flex flex-col items-start space-y-4" name="chatbot">
+                  <div class="w-[90%] space-y-4">
+                    
+                  <!-- <img src="/uploads/1_278f831a-3c08-403d-9177-0d8d5ebfabd7-logo.png" alt="Chatbot" class="h-10 w-10 rounded-full mr-3 mt-1">
+                   -->
+                    <div class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white">
+                      <p>The latest blockbuster is "Stellar Horizons". Would you like to book tickets?</p>
+      
+                    </div>
+                  </div>
+                </div>
+                  <div class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white">
+                    <form>
+                      <label for="email" class="font-semibold text-base text-black dark:text-white mb-3 block">
+                        Enter your email:
+                      </label>
+                      <div class="flex items-center space-x-4">
+                        <input id="email" type="email" placeholder="john@company.com" class="font-semibold text-sm text-body-color py-[14px] px-5 rounded-lg border border-gradient-1 dark:border-dark bg-transparent dark:bg-black outline-none placeholder-body-color focus-visible:shadow-none focus:border-primary">
+                        <button type="button" class="font-bold text-base text-white bg-primary rounded py-3 px-5 text-center hover:shadow-primary-hover">
+                          <svg fill="currentColor" width="20" height="20" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z"></path>
+                     </svg>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div x-show="featuresTab === 'tabTwo'">
+              <div class="lg:flex items-center gap-8 lg:gap-19">
+                <div class="md:w-1/2 mb-8 lg:mb-0"> 
+                  <h2 class="text-black dark:text-white text-3xl xl:text-sectiontitle2 font-bold mb-7">Effortless Integration - A Single Line of Code Away!</h2>
+                  <p class="mb-5 font-semibold text-base text-body-color">Get ready to say hello to hassle-free chatbot integration with Chatflux.io! With our simplified solution, you can now integrate your chatbot into your website or WordPress using just a single line of code.</p>
+                  <p class="w-11/12 font-semibold text-base dark:text-white">Say goodbye to complex integration processes! All you need is a one-line code, and you're set to offer your customers an unmatched interactive experience. Empower your website today and witness your customer engagement grow!</p>
+                </div>
+                <div class=" md:w-1/2">
+                  <div class="mb-4 bg-gray-800 shadow-md rounded-lg overflow-hidden relative">
+                    <button class="copy-code-button absolute top-2 right-2 text-xs text-white bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded flex items-center">
+                      <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                      Copy Code
+                    </button>
+                    <div class="copy-code-success absolute top-2 right-2 text-xs text-white bg-green-500 py-1 px-2 rounded flex items-center opacity-0 transition duration-300" style="pointer-events: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        Copied!
+                    </div>
+
+                    <div id="header-buttons" class="py-3 px-4 flex">
+                        <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                        <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                        <div class="rounded-full w-3 h-3 bg-green-500"></div>
+                    </div>
+                    
+                    <div id="code-area" class="text-left py-3 px-4 mt-1 text-white text-sm">
+                      <div class="mb-2">
+                        <span class="text-blue-400">&lt;script</span> <span class="text-red-500">src</span><span class="text-green-400">=</span><span class="text-blue-400">"https://cdn.jsdelivr.net/gh/Gptify/Gptify@v4/embedv3.min.js"</span> <span class="text-red-500">data-chat-id</span><span class="text-green-400">=</span><span class="text-blue-400">"1_e1e6c4dd-a743-4b81-b6a3-8b984632ea20"</span> <span class="text-red-500">data-bg-color</span><span class="text-green-400">=</span><span class="text-blue-400">""</span><span class="text-blue-400">&gt;</span> <span class="text-green-400">// You can put your color code in data-bg-color to change the chatbubble's color</span> <span class="text-blue-400">&lt;/script&gt;</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div x-show="featuresTab === 'tabThree'">
+              <div class="lg:flex items-center gap-8 lg:gap-19">
+                <div class="md:w-1/2 mb-8 lg:mb-0"> 
+                  <h2 class="text-black dark:text-white text-3xl xl:text-sectiontitle2 font-bold mb-7">Gain Complete Control Over Your Chatbot Data.</h2>
+                  <p class="mb-5 font-semibold text-base text-body-color">With Chatflux.io, you can efficiently manage, update, or delete your chatbot's data, ensuring your users always experience the most relevant interactions.</p>
+                  <p class="w-11/12 font-semibold text-base dark:text-white">Our sophisticated yet user-friendly interface grants you the power to shape your AI companion's knowledge, ensuring your chatbot stays up-to-date with your evolving business needs. Dive in and start managing your chatbot's universe!</p>
+                </div>
+                <div class=" md:w-1/2">
+                  
+              <div class="text-center overflow-y-auto max-h-[170px] align-middle inline-block min-w-0 w-full rounded-lg border-2 border-gradient-1 bg-white shadow-faq dark:border-black dark:bg-dark relative scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded">
+                                          
+                <table class="w-full table-auto overflow-hidden border-2 border-gradient-1 dark:border-dark">
+                    <thead class="bg-gradient-1 dark:bg-dark text-dark dark:text-white">
+                        <tr>
+                            <th class="px-4 py-2">Source</th>
+                            <th class="px-4 py-2">Date Stored</th>
+                            <th class="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                            <tr class="rounded-lg dark:bg-black text-dark dark:text-white dark:border-dark border-b border-gradient-1">
+                            
+                              <td class="px-4 py-2">www.chatflux.io</td>
+                              <td class="px-4 py-2">2023-07-23</td>
+                                <td class="px-2 py-2">
+                                  <a class="inline-block px-4 py-2  text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                                      Delete
+                                  </a>
+                                </td>
+                            </tr>
+                        
+                            <tr class="rounded-lg dark:bg-black text-dark dark:text-white dark:border-dark border-b border-gradient-1">
+                            
+                              <td class="px-4 py-2">Chatflux.io.pdf</td>
+                              <td class="px-4 py-2">2023-07-26</td>
+                                <td class="px-2 py-2">
+                                  <a class="inline-block px-4 py-2  text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                                      Delete
+                                  </a>
+                                </td>
+                            </tr>
+                            
+                            <tr class="rounded-lg dark:bg-black text-dark dark:text-white dark:border-dark border-b border-gradient-1">
+                            
+                              <td class="px-4 py-2">My New Video</td>
+                              <td class="px-4 py-2">2023-08-02</td>
+                                <td class="px-2 py-2">
+                                  <a class="inline-block px-4 py-2  text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                                      Delete
+                                  </a>
+                                </td>
+                            </tr>
+                        
+                    </tbody>
+                </table>
+
+              </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab Content End -->
+        </div>
+
+      </div>
+    </section>
+    <!-- ===== Features Tabs End ===== -->
+
+    <!-- ===== Source 1 Start ===== -->
+    <div class="max-w-c-1315 px-4 md:px-8 xl:px-0">
+      <!-- Section Title Start -->
+      <div class="flex justify-center px-4 sm:px-6">
+          <div class="w-full px-4">
+              <div class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp" data-wow-delay=".2s">
+                  <h2 class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5">
+                    Where <span class="text-primary">Every Format</span> Becomes a Conversation
+                  </h2>
+                  <p class="font-semibold text-base text-body-color">
+                      Dive into a universe of information with Chatflux. From PDFs to videos, and websites in-between, our platform transforms every format into interactive conversations. Get ready to redefine engagement!
+                  </p>
+              </div>
+          </div>
+      </div>
+      <!-- Section Title End -->
+  </div>
+
+    <section class="pb-20 lg:pb-25 xl:pb-30 overflow-hidden">
+      <div class="container max-w-screen-lg mx-auto px-4 sm:px-6">
+        <div class="flex flex-wrap lg:flex-nowrap items-center gap-8 lg:gap-32.5 ">
+          <div class="animate_left w-full md:w-1/2 wow fadeInRight" data-wow-delay=".4s">
+            <img src="{{ url_for('static', filename='src/images/about/about-light-01.svg') }}" alt="About" class="dark:hidden" />
+            <img src="{{ url_for('static', filename='src/images/about/about-dark-01.svg') }}" alt="About" class="hidden dark:block" />
+          </div>
+          <div class="animate_right w-full md:w-1/2 wow fadeInRight" data-wow-delay=".4s">
+
+            <h4 class="text-primary font-medium uppercase mb-4">Website Wizardry</h4>
+            <h2 class="text-4xl font-bold text-black dark:text-white mb-6">
+              Chatbots Generated Straight from Your Website
+            </h2>
+            <p class="mb-4 text-gray-700 dark:text-white">Tap into the power of your website with our magical tool! By simply plugging in your URL, watch as we conjure up a personalized, interactive chatbot. It's like breathing life into your webpage—immersing and engaging your visitors like never before!</p>
+            <a href="/pricing" class="flex items-center text-primary font-bold mt-7.5">
+              Unleash the Magic
+              <svg class="fill-current text-primary py-4" width="52" height="52" version="1.1" id="lni_lni-arrow-right" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+           <path d="M57.6,30.4l-20.7-21c-0.9-0.9-2.3-0.9-3.2,0c-0.9,0.9-0.9,2.3,0,3.2l16.8,17.1H8c-1.2,0-2.2,1-2.2,2.2s1,2.3,2.2,2.3h42.7
+             l-17,17.3c-0.9,0.9-0.9,2.3,0,3.2c0.4,0.4,1,0.6,1.6,0.6c0.6,0,1.2-0.2,1.6-0.7l20.7-21C58.5,32.7,58.5,31.3,57.6,30.4z"/>
+           </svg>
+          </a>
+
+          
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Source 1 End ===== -->
+
+    <!-- ===== Source 2 Start ===== -->
+    <section class="pb-20 lg:pb-25 xl:pb-30 overflow-hidden">
+      <div class="container max-w-screen-lg mx-auto px-4 sm:px-6">
+        <div class="flex flex-wrap lg:flex-nowrap items-center gap-8 lg:gap-32.5">
+          <div class="animate_left w-full md:w-1/2  wow fadeInLeft" data-wow-delay=".4s">
+            <h4 class="text-primary font-medium uppercase mb-4">Document Alchemy</h4>
+            <h2 class="text-4xl font-bold text-black dark:text-white mb-6">
+               Transform Your Documents into Interactive Chatbots
+            </h2>
+            <p class="mb-4 text-gray-700 dark:text-white">Imagine a world where your PDFs, CSVs, DOCXs, or TXT files are no longer static. Picture them transformed into dynamic, responsive chatbots ready to communicate your content. With us, turn your documents into interactive powerhouses!</p>
+            <a href="pricing" class="flex items-center text-primary font-bold mt-7.5">
+               Ignite the Transformation
+            <svg class="fill-current text-primary py-4" width="52" height="52" version="1.1" id="lni_lni-arrow-right" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+              <path d="M57.6,30.4l-20.7-21c-0.9-0.9-2.3-0.9-3.2,0c-0.9,0.9-0.9,2.3,0,3.2l16.8,17.1H8c-1.2,0-2.2,1-2.2,2.2s1,2.3,2.2,2.3h42.7
+                l-17,17.3c-0.9,0.9-0.9,2.3,0,3.2c0.4,0.4,1,0.6,1.6,0.6c0.6,0,1.2-0.2,1.6-0.7l20.7-21C58.5,32.7,58.5,31.3,57.6,30.4z"/>
+              </svg>
+              
+            </a>
+          </div>
+          <div class="animate_right w-full md:w-1/2 wow fadeInLeft" data-wow-delay=".4s">
+            <img src="{{ url_for('static', filename='src/images/about/about-light-03.svg') }}" alt="About" class="dark:hidden" />
+            <img src="{{ url_for('static', filename='src/images/about/about-dark-03.svg') }}" alt="About" class="hidden dark:block" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Source 2 End ===== -->
+
+    <!-- ===== Source 3 Start ===== -->
+    <section class="pb-20 lg:pb-25 xl:pb-30 overflow-hidden">
+      <div class="container max-w-screen-lg mx-auto px-4 sm:px-6">
+        <div class="flex flex-wrap lg:flex-nowrap items-center gap-8 lg:gap-32.5 ">
+          <div class="animate_left w-full md:w-1/2 wow fadeInRight" data-wow-delay=".4s">
+            
+            <img src="{{ url_for('static', filename='src/images/about/about-light-02.svg') }}" alt="About" class="dark:hidden" />
+            <img src="{{ url_for('static', filename='src/images/about/about-dark-02.svg') }}" alt="About" class="hidden dark:block" />
+          </div>
+          <div class="animate_right w-full md:w-1/2 lg:w-1/2 wow fadeInRight" data-wow-delay=".4s">
+            <h4 class="text-primary font-medium uppercase mb-4">Video Whisperer</h4>
+            <h2 class="text-4xl font-bold text-black dark:text-white mb-6">
+              Craft Chatbots from Your YouTube Videos
+            </h2>
+            <p class="mb-4 text-gray-700 dark:text-white">Ready to revolutionize your YouTube content? Allow our system to harvest the essence of your videos, creating an engaging chatbot that speaks the language of your content. Amplify your video impact, creating interactive experiences with your audience!</p>
+            <a href="pricing" class="flex items-center text-primary font-bold mt-7.5">
+              Spark the Revolution
+              <svg class="fill-current text-primary py-4" width="52" height="52" version="1.1" id="lni_lni-arrow-right" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+              <path d="M57.6,30.4l-20.7-21c-0.9-0.9-2.3-0.9-3.2,0c-0.9,0.9-0.9,2.3,0,3.2l16.8,17.1H8c-1.2,0-2.2,1-2.2,2.2s1,2.3,2.2,2.3h42.7
+                l-17,17.3c-0.9,0.9-0.9,2.3,0,3.2c0.4,0.4,1,0.6,1.6,0.6c0.6,0,1.2-0.2,1.6-0.7l20.7-21C58.5,32.7,58.5,31.3,57.6,30.4z"/>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Source 3 End ===== -->
+
+    <!-- ===== Features old start ===== -->
+    <section id="features" class="pt-[100px]">
+      <div class="container">
+        <div class="flex justify-center -mx-4">
+          <div class="w-full px-4">
+            <div
+              class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <h2
+                class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-10"
+              >
+                Features
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center -mx-4">
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+              <svg class="fill-current" width="45" height="45"  viewBox="0 0 64 64" id="icon" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32,1.8c-11.7,0-20.9,5.5-20.9,12.4v35.6c0,6.9,9.4,12.4,20.8,12.4c11.5,0,20.9-5.6,20.9-12.4V14.2
+                    C52.9,7.2,43.7,1.8,32,1.8z M32,6.3c9.6,0,16.4,4.2,16.4,7.9c0,3.8-6.7,7.9-16.4,7.9s-16.4-4.2-16.4-7.9C15.6,10.4,22.4,6.3,32,6.3z
+                    M32,57.8c-9.4,0-16.3-4.2-16.3-7.9V46c3.8,2.8,9.6,4.5,16.3,4.5c6.7,0,12.6-1.8,16.4-4.5v3.9C48.4,53.6,41.4,57.8,32,57.8z M32,46
+                    c-9.6,0-16.3-4-16.3-7.6v-4.6c3.9,2.8,10,4.5,16.3,4.5c6.6,0,12.5-1.7,16.4-4.5v4.6C48.4,42,41.6,46,32,46z M45.8,30.1
+                    c-3.1,2.3-8.2,3.7-13.8,3.7c-5.5,0-10.7-1.4-13.8-3.7c-1.2-0.8-2.5-2.2-2.5-3.9V22c3.8,2.8,9.7,4.6,16.4,4.6
+                    c6.7,0,12.6-1.8,16.4-4.6v4.2C48.4,27.8,47,29.2,45.8,30.1z"/>
+              </svg>
+              
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Diverse Source Formats
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+              Train your AI chatbot with a variety of knowledge source formats, including DOCX, TXT, PDF, CSV, YouTube videos, and websites, ensuring a well-rounded and knowledgeable chatbot for an exceptional user experience
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".25s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+              
+                <svg width="42"
+                height="43" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  class="fill-current">
+                <g>
+                  <path d="M19.6,14.1c-0.9-0.8-2.4-0.7-3.2,0.2L2.6,29.9c-1.1,1.2-1.1,3.1,0,4.3l13.9,15.6c0.4,0.5,1.1,0.8,1.7,0.8
+                    c0.5,0,1.1-0.2,1.5-0.6c0.9-0.8,1-2.3,0.2-3.2L6.7,32l13.1-14.7C20.7,16.3,20.6,14.9,19.6,14.1z"/>
+                  <path d="M61.4,29.9L47.5,14.3c-0.8-0.9-2.2-1-3.2-0.2s-1,2.2-0.2,3.2L57.3,32L44.2,46.7c-0.8,0.9-0.7,2.3,0.2,3.2
+                    c0.4,0.4,1,0.6,1.5,0.6c0.6,0,1.2-0.3,1.7-0.8l13.9-15.6C62.5,32.9,62.5,31.1,61.4,29.9z"/>
+                  <path d="M37.9,14.4c-1.2-0.4-2.5,0.2-2.8,1.4L24.7,46.7c-0.4,1.2,0.2,2.5,1.4,2.8c0.2,0.1,0.5,0.1,0.7,0.1c0.9,0,1.8-0.6,2.1-1.5
+                    l10.3-30.9C39.7,16.1,39.1,14.8,37.9,14.4z"/>
+                </g>
+                </svg>
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              One-Click Integration
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+              Effortlessly incorporate your chatbot into your website with Chatflux.io's simple embedding feature. Just paste a single line of script, and your AI chatbot is ready to engage with your audience
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".3s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+                
+              <svg width="42"
+              height="43" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  class="fill-current">
+              <path d="M54.9,9.4h-0.3V8c0-3.4-2.8-6.2-6.2-6.2H20.7c-3.4,0-6.2,2.8-6.2,6.2v1.4H11c-2.3,0-4.2,1.9-4.2,4.2v14
+                c0,2.3,1.9,4.2,4.2,4.2h26.4V35c-2.9,0.5-5.1,3.1-5.1,6.1V56c0,3.4,2.8,6.2,6.2,6.2h2.2c3.4,0,6.2-2.8,6.2-6.2V41.1
+                c0-3-2.2-5.6-5.1-6.1v-3.6c0-2.3-1.9-4.2-4.2-4.2H11.3V13.9h3.1v1.4c0,3.4,2.8,6.2,6.2,6.2h27.6c3.4,0,6.2-2.8,6.2-6.2v-1.4h0.3
+                c1.2,0,2.2-1,2.2-2.2S56.2,9.4,54.9,9.4z M42.5,41.1V56c0,1-0.8,1.8-1.8,1.8h-2.2c-1,0-1.8-0.8-1.8-1.8V41.1c0-1,0.8-1.8,1.8-1.8
+                h2.2C41.7,39.3,42.5,40.1,42.5,41.1z M50.1,15.3c0,1-0.8,1.8-1.8,1.8H20.7c-1,0-1.8-0.8-1.8-1.8V8c0-1,0.8-1.8,1.8-1.8h27.6
+                c1,0,1.8,0.8,1.8,1.8V15.3z"/>
+              </svg>
+                
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Customizable Appearence
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Personalize your chatbot's look and feel with Chatflux.io's customizable appearance options. Tailor your chatbot to reflect your brand's identity, creating a consistent and immersive user experience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Features old end ===== -->
+    
+    <!-- ===== Usecases start ===== -->
+    <section id="usecases" class="pt-[100px]">
+      <div class="container">
+        <div class="flex justify-center -mx-4">
+          <div class="w-full px-4">
+            <div
+              class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <h2
+                class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-10"
+              >
+                Use Cases
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center -mx-4">
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+             <svg class="fill-current" width="45" height="45"  viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;}</style></defs><title>finance</title><rect x="2" y="28" width="28" height="2"></rect><path d="M27,11a1,1,0,0,0,1-1V7a1,1,0,0,0-.66-.94l-11-4a1,1,0,0,0-.68,0l-11,4A1,1,0,0,0,4,7v3a1,1,0,0,0,1,1H6V24H4v2H28V24H26V11ZM6,7.7,16,4.06,26,7.7V9H6ZM18,24H14V11h4ZM8,11h4V24H8ZM24,24H20V11h4Z" transform="translate(0 0)"></path><rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32"></rect></g></svg>
+             
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Legal and Finance
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Create chatbots that provide instant responses to legal and financial queries, improving client satisfaction and reducing response times.
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".25s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+              
+                <svg width="42"
+                height="43" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  class="fill-current"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>support</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="support"  class="fill-current" transform="translate(42.666667, 42.666667)"> <path d="M379.734355,174.506667 C373.121022,106.666667 333.014355,-2.13162821e-14 209.067688,-2.13162821e-14 C85.1210217,-2.13162821e-14 45.014355,106.666667 38.4010217,174.506667 C15.2012632,183.311569 -0.101643453,205.585799 0.000508304259,230.4 L0.000508304259,260.266667 C0.000508304259,293.256475 26.7445463,320 59.734355,320 C92.7241638,320 119.467688,293.256475 119.467688,260.266667 L119.467688,230.4 C119.360431,206.121456 104.619564,184.304973 82.134355,175.146667 C86.4010217,135.893333 107.307688,42.6666667 209.067688,42.6666667 C310.827688,42.6666667 331.521022,135.893333 335.787688,175.146667 C313.347976,184.324806 298.68156,206.155851 298.667688,230.4 L298.667688,260.266667 C298.760356,283.199651 311.928618,304.070103 332.587688,314.026667 C323.627688,330.88 300.801022,353.706667 244.694355,360.533333 C233.478863,343.50282 211.780225,336.789048 192.906491,344.509658 C174.032757,352.230268 163.260418,372.226826 167.196286,392.235189 C171.132153,412.243552 188.675885,426.666667 209.067688,426.666667 C225.181549,426.577424 239.870491,417.417465 247.041022,402.986667 C338.561022,392.533333 367.787688,345.386667 376.961022,317.653333 C401.778455,309.61433 418.468885,286.351502 418.134355,260.266667 L418.134355,230.4 C418.23702,205.585799 402.934114,183.311569 379.734355,174.506667 Z M76.8010217,260.266667 C76.8010217,269.692326 69.1600148,277.333333 59.734355,277.333333 C50.3086953,277.333333 42.6676884,269.692326 42.6676884,260.266667 L42.6676884,230.4 C42.6676884,224.302667 45.9205765,218.668499 51.2010216,215.619833 C56.4814667,212.571166 62.9872434,212.571166 68.2676885,215.619833 C73.5481336,218.668499 76.8010217,224.302667 76.8010217,230.4 L76.8010217,260.266667 Z M341.334355,230.4 C341.334355,220.97434 348.975362,213.333333 358.401022,213.333333 C367.826681,213.333333 375.467688,220.97434 375.467688,230.4 L375.467688,260.266667 C375.467688,269.692326 367.826681,277.333333 358.401022,277.333333 C348.975362,277.333333 341.334355,269.692326 341.334355,260.266667 L341.334355,230.4 Z"> </path> </g> </g> </g></svg>
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Customer Support
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Businesses can train AI chatbots to provide instant answers to customer queries, reduce response times, and enhance customer satisfaction.
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".3s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+                
+                <svg width="42"
+                height="43"
+                class="fill-current" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 247.065 247.065" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M160.551,36.935c-0.614-1.892-1.956-3.462-3.727-4.365c-1.774-0.904-3.831-1.065-5.724-0.45l-31.376,10.196 c-3.939,1.28-6.096,5.511-4.815,9.45l1.568,4.828l-79.811,58.625L5.183,125.448c-1.892,0.615-3.462,1.956-4.365,3.728 c-0.903,1.772-1.065,3.831-0.45,5.723l19.129,58.862c1.03,3.169,3.97,5.184,7.131,5.184c0.769,0,1.55-0.119,2.32-0.369 l31.478-10.229l16.173,0.085c3.248,15.336,16.888,26.88,33.176,26.88c16.164,0,29.714-11.371,33.095-26.531l16.587,0.087 l1.568,4.829c0.614,1.892,1.955,3.462,3.728,4.365c1.064,0.542,2.232,0.817,3.405,0.817c0.78,0,1.563-0.122,2.317-0.367 l31.377-10.195c3.939-1.28,6.096-5.511,4.816-9.45L160.551,36.935z M31.444,181.992l-14.492-44.597l18.364-5.967l14.49,44.597 L31.444,181.992z M109.774,200.312c-7.912,0-14.694-4.887-17.513-11.797l34.958,0.184 C124.356,195.514,117.617,200.312,109.774,200.312z M64.714,173.369l-7.888-24.277l-7.888-24.277l72.419-53.194l22.209,68.349 l11.006,33.873L64.714,173.369z M172.972,181.929l-0.921-2.833c-0.001-0.005-0.002-0.011-0.004-0.017l-19.815-60.983l-20.74-63.833 l17.111-5.561l41.48,127.665L172.972,181.929z"></path> <path d="M185.807,73.393c1.092,0.556,2.254,0.819,3.4,0.819c2.73,0,5.363-1.496,6.688-4.096l13.461-26.41 c1.882-3.69,0.415-8.207-3.275-10.088c-3.69-1.88-8.207-0.415-10.088,3.276l-13.461,26.41 C180.65,66.995,182.117,71.512,185.807,73.393z"></path> <path d="M242.176,144.712l-26.414-13.455c-3.691-1.879-8.207-0.412-10.087,3.279c-1.881,3.691-0.412,8.207,3.278,10.087 l26.414,13.455c1.091,0.555,2.253,0.818,3.398,0.818c2.73,0,5.364-1.497,6.689-4.097 C247.335,151.109,245.867,146.593,242.176,144.712z"></path> <path d="M204.242,101.204c1.03,3.169,3.97,5.184,7.131,5.184c0.769,0,1.55-0.119,2.32-0.369l28.188-9.16 c3.938-1.28,6.095-5.511,4.814-9.451c-1.28-3.94-5.511-6.092-9.451-4.815l-28.188,9.16 C205.118,93.034,202.962,97.265,204.242,101.204z"></path> </g> </g></svg>
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Sales and Marketing
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Train chatbots that offer personalized product recommendations and engage customers in conversations that drive sales.
+
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+              <svg class="fill-current" width="38" height="39"    version="1.1" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <metadata> <sfw xmlns="&amp;ns_sfw;"> <slices> </slices> <slicesourcebounds width="505" height="984" bottomleftorigin="true" x="0" y="-552"> </slicesourcebounds> </sfw> </metadata> <g> <g> <g> <path d="M12,24c-0.2,0-0.4-0.1-0.5-0.2c-0.1,0-3-1.8-10.5-1.8c-0.6,0-1-0.4-1-1V1c0-0.6,0.4-1,1-1c6.4,0,9.8,1.3,11,1.9 C13.2,1.3,16.6,0,23,0c0.6,0,1,0.4,1,1v20c0,0.6-0.4,1-1,1c-7.5,0-10.4,1.8-10.5,1.8C12.4,23.9,12.2,24,12,24z M2,20 c5.8,0.1,8.8,1.3,10,1.9c1.2-0.6,4.2-1.7,10-1.9V2c-6.8,0.2-9.4,1.8-9.5,1.8c-0.3,0.2-0.8,0.2-1.1,0c0,0-2.7-1.7-9.4-1.8V20z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1V3c0-0.6,0.4-1,1-1s1,0.4,1,1v20C13,23.6,12.6,24,12,24z"></path> </g> </g> <g> <g> <path d="M1,22c-0.6,0-1-0.4-1-1V5c0-0.6,0.4-1,1-1s1,0.4,1,1v16C2,21.6,1.6,22,1,22z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1V7c0-0.6,0.4-1,1-1s1,0.4,1,1v16C13,23.6,12.6,24,12,24z"></path> </g> </g> <g> <g> <path d="M1,22c-0.6,0-1-0.4-1-1V8c0-0.6,0.4-1,1-1s1,0.4,1,1v13C2,21.6,1.6,22,1,22z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1V10c0-0.6,0.4-1,1-1s1,0.4,1,1v13C13,23.6,12.6,24,12,24z"></path> </g> </g> <g> <g> <path d="M1,22c-0.6,0-1-0.4-1-1V11c0-0.6,0.4-1,1-1s1,0.4,1,1v10C2,21.6,1.6,22,1,22z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1V13c0-0.6,0.4-1,1-1s1,0.4,1,1v10C13,23.6,12.6,24,12,24z"></path> </g> </g> <g> <g> <path d="M1,22c-0.6,0-1-0.4-1-1v-7c0-0.6,0.4-1,1-1s1,0.4,1,1v7C2,21.6,1.6,22,1,22z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1v-7c0-0.6,0.4-1,1-1s1,0.4,1,1v7C13,23.6,12.6,24,12,24z"></path> </g> </g> <g> <g> <path d="M1,22c-0.6,0-1-0.4-1-1v-4c0-0.6,0.4-1,1-1s1,0.4,1,1v4C2,21.6,1.6,22,1,22z"></path> </g> </g> <g> <g> <path d="M12,24c-0.6,0-1-0.4-1-1v-4c0-0.6,0.4-1,1-1s1,0.4,1,1v4C13,23.6,12.6,24,12,24z"></path> </g> </g> </g> </g></svg>
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Education and Training
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Educational institutions can create interactive study materials and quizzes for students, while businesses can train chatbots to provide employee training materials.   </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".25s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+                
+                <svg width="42"
+                height="43"
+                class="fill-current" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 231.523 231.523" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M107.415,145.798c0.399,3.858,3.656,6.73,7.451,6.73c0.258,0,0.518-0.013,0.78-0.04c4.12-0.426,7.115-4.111,6.689-8.231 l-3.459-33.468c-0.426-4.12-4.113-7.111-8.231-6.689c-4.12,0.426-7.115,4.111-6.689,8.231L107.415,145.798z"></path> <path d="M154.351,152.488c0.262,0.027,0.522,0.04,0.78,0.04c3.796,0,7.052-2.872,7.451-6.73l3.458-33.468 c0.426-4.121-2.569-7.806-6.689-8.231c-4.123-0.421-7.806,2.57-8.232,6.689l-3.458,33.468 C147.235,148.377,150.23,152.062,154.351,152.488z"></path> <path d="M96.278,185.088c-12.801,0-23.215,10.414-23.215,23.215c0,12.804,10.414,23.221,23.215,23.221 c12.801,0,23.216-10.417,23.216-23.221C119.494,195.502,109.079,185.088,96.278,185.088z M96.278,216.523 c-4.53,0-8.215-3.688-8.215-8.221c0-4.53,3.685-8.215,8.215-8.215c4.53,0,8.216,3.685,8.216,8.215 C104.494,212.835,100.808,216.523,96.278,216.523z"></path> <path d="M173.719,185.088c-12.801,0-23.216,10.414-23.216,23.215c0,12.804,10.414,23.221,23.216,23.221 c12.802,0,23.218-10.417,23.218-23.221C196.937,195.502,186.521,185.088,173.719,185.088z M173.719,216.523 c-4.53,0-8.216-3.688-8.216-8.221c0-4.53,3.686-8.215,8.216-8.215c4.531,0,8.218,3.685,8.218,8.215 C181.937,212.835,178.251,216.523,173.719,216.523z"></path> <path d="M218.58,79.08c-1.42-1.837-3.611-2.913-5.933-2.913H63.152l-6.278-24.141c-0.86-3.305-3.844-5.612-7.259-5.612H18.876 c-4.142,0-7.5,3.358-7.5,7.5s3.358,7.5,7.5,7.5h24.94l6.227,23.946c0.031,0.134,0.066,0.267,0.104,0.398l23.157,89.046 c0.86,3.305,3.844,5.612,7.259,5.612h108.874c3.415,0,6.399-2.307,7.259-5.612l23.21-89.25C220.49,83.309,220,80.918,218.58,79.08z M183.638,165.418H86.362l-19.309-74.25h135.895L183.638,165.418z"></path> <path d="M105.556,52.851c1.464,1.463,3.383,2.195,5.302,2.195c1.92,0,3.84-0.733,5.305-2.198c2.928-2.93,2.927-7.679-0.003-10.607 L92.573,18.665c-2.93-2.928-7.678-2.927-10.607,0.002c-2.928,2.93-2.927,7.679,0.002,10.607L105.556,52.851z"></path> <path d="M159.174,55.045c1.92,0,3.841-0.733,5.306-2.199l23.552-23.573c2.928-2.93,2.925-7.679-0.005-10.606 c-2.93-2.928-7.679-2.925-10.606,0.005l-23.552,23.573c-2.928,2.93-2.925,7.679,0.005,10.607 C155.338,54.314,157.256,55.045,159.174,55.045z"></path> <path d="M135.006,48.311c0.001,0,0.001,0,0.002,0c4.141,0,7.499-3.357,7.5-7.498l0.008-33.311c0.001-4.142-3.356-7.501-7.498-7.502 c-0.001,0-0.001,0-0.001,0c-4.142,0-7.5,3.357-7.501,7.498l-0.008,33.311C127.507,44.951,130.864,48.31,135.006,48.311z"></path> </g> </g></svg>
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+                E-commerce
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+                Train chatbots that assist customers with their purchase decisions and provide product recommendations.
+              </p>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+            <div
+              class="mb-12 mx-auto max-w-[310px] text-center group wow fadeInUp"
+              data-wow-delay=".3s"
+            >
+              <div
+                class="w-20 h-20 mx-auto rounded-3xl bg-primary bg-opacity-5 flex items-center justify-center text-primary group-hover:bg-opacity-100 group-hover:text-white transition-all mb-5"
+              >
+              <svg class="fill-current" width="42"
+              height="43" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier" ><title></title><path  class="fill-current"  class="cls-1" d="M22.82,20.55l-.63-.18a7.3,7.3,0,0,1-.9-.29,1.51,1.51,0,0,1-1-1.46c2.84-3,2.8-5.67,2.74-8.47,0-.38,0-.76,0-1.15a7.1,7.1,0,0,0-7-7A7.1,7.1,0,0,0,9,9c0,.39,0,.77,0,1.15-.06,2.8-.1,5.45,2.74,8.47a1.53,1.53,0,0,1-1.06,1.48c-.28.11-.58.19-.86.27l-.63.18C5.61,21.74,2,25,2,29a1,1,0,0,0,2,0c0-3,3-5.61,5.82-6.55.16-.06.33-.1.52-.15A9.6,9.6,0,0,0,11.42,22a3.4,3.4,0,0,0,2-2,6,6,0,0,0,.83.34l-1,1a1,1,0,0,0-.18,1.16L14,24.14,13,28.8a1,1,0,0,0,2,.4l1-5a1.36,1.36,0,0,0,0-.2,1.36,1.36,0,0,0,0,.2l1,5a1,1,0,0,0,1,.8l.2,0A1,1,0,0,0,19,28.8l-.93-4.66.84-1.69a1,1,0,0,0-.18-1.16l-1-1a5.14,5.14,0,0,0,.84-.35,3.42,3.42,0,0,0,2,2,9.62,9.62,0,0,0,1.15.38c.18.05.36.09.52.15C25,23.39,28,26,28,29a1,1,0,0,0,2,0C30,25,26.39,21.74,22.82,20.55ZM11,10.18C11,9.8,11,9.4,11,9A5,5,0,0,1,21,9c0,.4,0,.8,0,1.18,0,2.68.09,4.8-2.47,7.36a3.58,3.58,0,0,1-5.08,0C10.9,15,10.94,12.86,11,10.18Zm5.12,13.37A1,1,0,0,0,16,24a1,1,0,0,0-.11-.45l-.67-1.35.78-.79.78.79Z">
+
+              </path></g>
+              </svg>
+            
+              </div>
+              <h3
+                class="font-bold text-xl sm:text-2xl md:text-xl lg:text-2xl text-black dark:text-white mb-4"
+              >
+              Human Resources
+              </h3>
+              <p class="font-semibold text-base text-body-color">
+              Create chatbots that assist with onboarding new employees, answering HR-related questions, and providing training materials.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Usecases end ===== -->
+
+    <!-- ===== Testimonials Start ===== -->
+    <section>
+      <div class="container">
+
+      <div class="-mx-4 max-w-c-1315 px-4 md:px-8 xl:px-0">
+        <!-- Section Title Start -->
+        <div class="flex justify-center -mx-4">
+          <div class="w-full px-4">
+            <div
+              class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <h2
+                class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5"
+              >
+                Reviews
+              </h2>
+              <p class="font-semibold text-base text-body-color">
+                Here's the inside scoop! Listen to the buzz our clients are creating about us...
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Section Title End -->
+      </div>
+
+      <div class="animate_top mx-auto max-w-c-1235 px-4 md:px-8 xl:px-0">
+        <!-- Slider main container -->
+        <div class="swiper testimonial-01 pb-22.5">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper pb-20 z-50">
+            <!-- Slides -->
+
+            <div class="swiper-slide">
+              
+              <div class="shadow-container">
+
+                <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                  <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                    <div>
+                      <h4 class="text-black dark:text-white text-lg mb-1.5">Memo</h4>
+                      <p class="font-semibold text-base text-body-color">@Echo Hive</p>
+                    </div>
+                    <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-02.png') }}" alt="User" />
+                  </div>
+                  <p class="text-black dark:text-white">Chatflux is the easiest way to explore documents or a YouTube video. It has an API too! Awesome job team</p>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              
+              <div class="shadow-container">
+
+                <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                  <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                    <div>
+                      <h4 class="text-black dark:text-white text-lg mb-1.5">Ian Mitchell</h4>
+                      <p class="font-semibold text-base text-body-color">IT Manager</p>
+                    </div>
+                    <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-03.png') }}" alt="User" />
+                  </div>
+                  <p class="text-black dark:text-white">Integration with Chatflux was a game changer - the results have been phenomenal!</p>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="swiper-slide">
+              
+              <div class="shadow-container">
+                <div class="bg-white rounded-lg shadow-primary-hover dark:bg-black dark:border dark:border-white/10 p-9 pt-8">
+                  <div class="flex justify-between border-b border-stroke dark:border-white/10 pb-6 mb-8">
+                    <div>
+                      <h4 class="text-black dark:text-white text-lg mb-1.5">Liam Robinson</h4>
+                      <p class="font-semibold text-base text-body-color">HOM @InnovateCorp</p>
+                    </div>
+                    
+                    <img class="max-h-[60px]" src="{{ url_for('static', filename='src/images/user/user-01.png') }}" alt="User" />
+                  </div>
+                <p class="text-black dark:text-white">Creating our very own chatbot using Chatflux was both innovative and exciting.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- If we need pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+    </section>
+    <!-- ===== Testimonials End ===== -->
+
+    <!-- ===== FAQ start ===== -->
+    <section id="faq" class="pt-[100px] overflow-hidden">
+      <div class="container">
+        <div class="flex justify-center -mx-4">
+          <div class="w-full px-4">
+            <div
+              class="max-w-[510px] mx-auto text-center mb-[70px] wow fadeInUp"
+              data-wow-delay=".2s"
+            >
+              <h2
+                class="font-extrabold text-3xl sm:text-4xl text-black dark:text-white mb-5"
+              >
+                Frequently Asked Questions
+              </h2>
+             
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap -mx-4">
+          <div class="w-full lg:w-1/2 px-4">
+            <div class="mb-12 lg:mb-0 relative z-10">
+              <div
+                class="bg-white dark:bg-dark border border-[#e4f2fe] rounded-2xl py-12 px-8 sm:p-12 md:py-14 lg:py-10 lg:px-8 xl:p-12 2xl:p-14 wow fadeInUp"
+                data-wow-delay=".3s"
+              >
+              <div class="mb-12">
+                <h3
+                  class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                >
+                Do I need programming skills to use Chatflux.io?
+                </h3>
+                <p class="font-semibold text-base text-body-color">
+                  No, Chatflux.io is designed to be user-friendly and does not require any coding skills.
+                </p>
+              </div>
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                What types of documents can I use to create a chatbot?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    You can use any document with text, such as a PDF, text should be OCRable.
+                  </p>
+                </div>
+                
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  How does the chatbot learn from my document?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    Chatflux.io uses advanced natural language processing (NLP) algorithms to analyze the text in your document and identify key information.
+                  </p>
+                </div>
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  Is it possible to share the chatbot I created with others?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    Absolutely! By default, any chatbot you create is set to private, but you can easily change the settings to make it public and share it with anyone you want.
+
+                  </p>
+                </div>
+              </div>
+
+              <div class="absolute -z-1 -left-16 bottom-4">
+                <svg
+                  width="170"
+                  height="198"
+                  viewBox="0 0 170 198"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  
+                  <circle
+                    cx="72.1069"
+                    cy="51.1106"
+                    r="1.72625"
+                    transform="rotate(-120 72.1069 51.1106)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="98.1196"
+                    cy="36.0928"
+                    r="1.72625"
+                    transform="rotate(-120 98.1196 36.0928)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="59.5491"
+                    cy="58.3611"
+                    r="1.72625"
+                    transform="rotate(-120 59.5491 58.3611)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="84.9638"
+                    cy="43.688"
+                    r="1.72625"
+                    transform="rotate(-120 84.9638 43.688)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="110.976"
+                    cy="28.6695"
+                    r="1.72625"
+                    transform="rotate(-120 110.976 28.6695)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="87.1254"
+                    cy="77.1236"
+                    r="1.72625"
+                    transform="rotate(-120 87.1254 77.1236)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="64.5115"
+                    cy="37.9551"
+                    r="1.72625"
+                    transform="rotate(-120 64.5115 37.9551)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="113.138"
+                    cy="62.1053"
+                    r="1.72625"
+                    transform="rotate(-120 113.138 62.1053)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="90.5241"
+                    cy="22.9371"
+                    r="1.72625"
+                    transform="rotate(-120 90.5241 22.9371)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="74.5676"
+                    cy="84.3741"
+                    r="1.72625"
+                    transform="rotate(-120 74.5676 84.3741)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="51.9537"
+                    cy="45.2054"
+                    r="1.72625"
+                    transform="rotate(-120 51.9537 45.2054)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="99.9822"
+                    cy="69.7005"
+                    r="1.72625"
+                    transform="rotate(-120 99.9822 69.7005)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="77.3682"
+                    cy="30.5323"
+                    r="1.72625"
+                    transform="rotate(-120 77.3682 30.5323)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="125.995"
+                    cy="54.6824"
+                    r="1.72625"
+                    transform="rotate(-120 125.995 54.6824)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="103.381"
+                    cy="15.514"
+                    r="1.72625"
+                    transform="rotate(-120 103.381 15.514)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="79.5299"
+                    cy="63.9678"
+                    r="1.72625"
+                    transform="rotate(-120 79.5299 63.9678)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="56.916"
+                    cy="24.7994"
+                    r="1.72625"
+                    transform="rotate(-120 56.916 24.7994)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="105.543"
+                    cy="48.9498"
+                    r="1.72625"
+                    transform="rotate(-120 105.543 48.9498)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="82.9287"
+                    cy="9.78106"
+                    r="1.72625"
+                    transform="rotate(-120 82.9287 9.78106)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="66.9722"
+                    cy="71.2183"
+                    r="1.72625"
+                    transform="rotate(-120 66.9722 71.2183)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="44.3583"
+                    cy="32.0499"
+                    r="1.72625"
+                    transform="rotate(-120 44.3583 32.0499)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="92.3868"
+                    cy="56.5452"
+                    r="1.72625"
+                    transform="rotate(-120 92.3868 56.5452)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="69.7728"
+                    cy="17.3768"
+                    r="1.72625"
+                    transform="rotate(-120 69.7728 17.3768)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="118.399"
+                    cy="41.5267"
+                    r="1.72625"
+                    transform="rotate(-120 118.399 41.5267)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="95.7854"
+                    cy="2.35821"
+                    r="1.72625"
+                    transform="rotate(-120 95.7854 2.35821)"
+                    fill="#5e81f7"
+                  />
+                  <defs>
+                    <radialGradient
+                      id="paint0_radial_100_226"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(53.6936 59) rotate(60) scale(124)"
+                    >
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#FFEEFE" />
+                      <stop offset="0.993" stop-color="#F1C6EF" />
+                    </radialGradient>
+                    <radialGradient
+                      id="paint1_radial_100_226"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(64.6936 33.6936) rotate(90) scale(76)"
+                    >
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#E4F2FE" />
+                      <stop offset="0.993" stop-color="#D2E2EF" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="w-full lg:w-1/2 px-4">
+            <div class="mb-12 lg:mb-0 relative z-10">
+              <div
+                class="bg-white dark:bg-dark border border-[#e4f2fe] rounded-2xl py-12 px-8 sm:p-12 md:py-14 lg:py-10 lg:px-8 xl:p-12 2xl:p-14 wow fadeInUp"
+                data-wow-delay=".4s"
+              >
+                
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  Can I integrate the chatbot with my website or other platforms?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    Yes, Chatflux.io provides easy websites integration, allowing you to reach your audience where they are.
+                  </p>
+                </div>
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  Can Chatflux support multiple languages?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                  Yes! Chatflux is designed to accommodate a variety of languages, including English, French, Spanish, Arabic, Italian, Dutch, and many more. The bot will try to answer in the language of your question, even if the document is in a different language.
+                  </p>
+                </div>
+                
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  Where is my data stored?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    Your document's content is hosted on secure AWS servers, but Chatflux.io does not store the document itself anywhere, ensuring the highest level of security and privacy for your data.
+                  </p>
+                </div>
+                <div class="mb-12">
+                  <h3
+                    class="font-bold text-xl sm:text-2xl lg:text-xl xl:text-2xl text-black dark:text-white mb-4"
+                  >
+                  Is it possible to customize my chatbot's responses and behavior?
+                  </h3>
+                  <p class="font-semibold text-base text-body-color">
+                    Absolutely! With Chatflux.io, you can easily edit the base prompt and personalize your chatbot's name, tone, and even language preferences. For example, you can instruct your chatbot to respond only in a specific language or to provide more detailed information on a particular topic. The possibilities are endless!
+                  </p>
+                </div>
+              </div>
+
+              <div class="absolute -z-1 -right-16 -top-12">
+                <svg
+                  width="170"
+                  height="183"
+                  viewBox="0 0 170 183"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  
+                  <circle
+                    cx="95.3482"
+                    cy="146.68"
+                    r="1.72625"
+                    transform="rotate(-120 95.3482 146.68)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="121.361"
+                    cy="131.663"
+                    r="1.72625"
+                    transform="rotate(-120 121.361 131.663)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="82.7904"
+                    cy="153.931"
+                    r="1.72625"
+                    transform="rotate(-120 82.7904 153.931)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="108.205"
+                    cy="139.258"
+                    r="1.72625"
+                    transform="rotate(-120 108.205 139.258)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="134.218"
+                    cy="124.239"
+                    r="1.72625"
+                    transform="rotate(-120 134.218 124.239)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="110.367"
+                    cy="172.693"
+                    r="1.72625"
+                    transform="rotate(-120 110.367 172.693)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="87.7528"
+                    cy="133.525"
+                    r="1.72625"
+                    transform="rotate(-120 87.7528 133.525)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="136.379"
+                    cy="157.675"
+                    r="1.72625"
+                    transform="rotate(-120 136.379 157.675)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="113.765"
+                    cy="118.507"
+                    r="1.72625"
+                    transform="rotate(-120 113.765 118.507)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="97.8089"
+                    cy="179.944"
+                    r="1.72625"
+                    transform="rotate(-120 97.8089 179.944)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="75.195"
+                    cy="140.775"
+                    r="1.72625"
+                    transform="rotate(-120 75.195 140.775)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="123.223"
+                    cy="165.27"
+                    r="1.72625"
+                    transform="rotate(-120 123.223 165.27)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="100.61"
+                    cy="126.102"
+                    r="1.72625"
+                    transform="rotate(-120 100.61 126.102)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="149.236"
+                    cy="150.252"
+                    r="1.72625"
+                    transform="rotate(-120 149.236 150.252)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="126.622"
+                    cy="111.084"
+                    r="1.72625"
+                    transform="rotate(-120 126.622 111.084)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="102.771"
+                    cy="159.538"
+                    r="1.72625"
+                    transform="rotate(-120 102.771 159.538)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="80.1573"
+                    cy="120.369"
+                    r="1.72625"
+                    transform="rotate(-120 80.1573 120.369)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="128.784"
+                    cy="144.52"
+                    r="1.72625"
+                    transform="rotate(-120 128.784 144.52)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="106.17"
+                    cy="105.351"
+                    r="1.72625"
+                    transform="rotate(-120 106.17 105.351)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="90.2135"
+                    cy="166.788"
+                    r="1.72625"
+                    transform="rotate(-120 90.2135 166.788)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="67.5996"
+                    cy="127.62"
+                    r="1.72625"
+                    transform="rotate(-120 67.5996 127.62)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="115.628"
+                    cy="152.115"
+                    r="1.72625"
+                    transform="rotate(-120 115.628 152.115)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="93.0141"
+                    cy="112.947"
+                    r="1.72625"
+                    transform="rotate(-120 93.0141 112.947)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="141.641"
+                    cy="137.096"
+                    r="1.72625"
+                    transform="rotate(-120 141.641 137.096)"
+                    fill="#5e81f7"
+                  />
+                  <circle
+                    cx="119.027"
+                    cy="97.928"
+                    r="1.72625"
+                    transform="rotate(-120 119.027 97.928)"
+                    fill="#5e81f7"
+                  />
+                  <defs>
+                    <radialGradient
+                      id="paint0_radial_100_227"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(54 31.3066) rotate(60) scale(124)"
+                    >
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#FFEEFE" />
+                      <stop offset="0.993" stop-color="#F1C6EF" />
+                    </radialGradient>
+                    <radialGradient
+                      id="paint1_radial_100_227"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(54 8) rotate(90) scale(76)"
+                    >
+                      <stop stop-color="white" />
+                      <stop offset="0.569" stop-color="#E4F2FE" />
+                      <stop offset="0.993" stop-color="#D2E2EF" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== FAQ end ===== -->
+  
+    <!-- ===== Footer start ===== -->
+    <footer id="footer">
+      <div class="p-10 wow fadeInUp bg-white dark:bg-dark" data-wow-delay=".25s">
+        <p class="text-center text-primary font-semibold text-body-color">
+            chatflux.io ©</p>
+          <p class="text-center text-base font-semibold text-body-color">
+         made by <a class="text-center text-primary font-bold text-body-color" href="mailto:aymane@chatflux.io">aymane</a> with 💙
+        </p>
+        <div class="flex justify-center mt-2 ">
+          <a add a target="_blank" href="https://www.linkedin.com/in/aymanekamal/">
+            <svg class="text-primary fill-current mr-1" width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M58.5016 1H5.60156C3.10156 1 1.10156 3 1.10156 5.5V58.5C1.10156 60.9 3.10156 63 5.60156 63H58.3016C60.8016 63 62.8016 61 62.8016 58.5V5.4C63.0016 3 61.0016 1 58.5016 1ZM19.4016 53.7H10.3016V24.2H19.4016V53.7ZM14.8016 20.1C11.8016 20.1 9.50156 17.7 9.50156 14.8C9.50156 11.9 11.9016 9.5 14.8016 9.5C17.7016 9.5 20.1016 11.9 20.1016 14.8C20.1016 17.7 17.9016 20.1 14.8016 20.1ZM53.9016 53.7H44.8016V39.4C44.8016 36 44.7016 31.5 40.0016 31.5C35.2016 31.5 34.5016 35.3 34.5016 39.1V53.7H25.4016V24.2H34.3016V28.3H34.4016C35.7016 25.9 38.6016 23.5 43.1016 23.5C52.4016 23.5 54.1016 29.5 54.1016 37.7V53.7H53.9016Z"/></svg> 
+          </a>
+          <a add a target="_blank" href="https://discordapp.com/users/1084158398779633684">
+            <svg class="text-primary fill-current" width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_412_53)"><path d="M54.2141 11.2742C50.0713 9.33582 45.6415 7.92712 41.0104 7.125C40.4416 8.1533 39.7772 9.53637 39.319 10.6366C34.396 9.89625 29.5182 9.89625 24.6858 10.6366C24.2277 9.53637 23.5481 8.1533 22.9743 7.125C18.3382 7.92712 13.9033 9.341 9.76051 11.2844C1.40438 23.9116 -0.86083 36.2252 0.271778 48.3639C5.814 52.5027 11.1851 55.0169 16.4655 56.6621C17.7693 54.8678 18.9321 52.9603 19.9338 50.9501C18.026 50.2251 16.1987 49.3306 14.4722 48.292C14.9302 47.9526 15.3783 47.5979 15.8111 47.2328C26.3419 52.1583 37.7837 52.1583 48.1886 47.2328C48.6266 47.5979 49.0745 47.9526 49.5276 48.292C47.7959 49.3356 45.9637 50.2302 44.0559 50.9552C45.0576 52.9603 46.2154 54.873 47.5242 56.6672C52.8097 55.022 58.1858 52.5079 63.728 48.3639C65.0569 34.292 61.4578 22.0916 54.2141 11.2742ZM21.3685 40.8987C18.2073 40.8987 15.6148 37.9475 15.6148 34.3537C15.6148 30.7599 18.1519 27.8036 21.3685 27.8036C24.5851 27.8036 27.1775 30.7547 27.1221 34.3537C27.1271 37.9475 24.5851 40.8987 21.3685 40.8987ZM42.6313 40.8987C39.4701 40.8987 36.8776 37.9475 36.8776 34.3537C36.8776 30.7599 39.4147 27.8036 42.6313 27.8036C45.8479 27.8036 48.4403 30.7547 48.385 34.3537C48.385 37.9475 45.8479 40.8987 42.6313 40.8987Z"/></g><defs><clipPath id="clip0_412_53"><rect width="64" height="64" fill="white"/></clipPath></defs>
+            </svg>
+          </a>
+          </div>
+
+          
+         
+      </div>
+    </footer>
+    <!-- ===== Footer end ===== -->
+
+    <!-- ====== Back To Top Start -->
+    <a
+      x-show="scrolledFromTop"
+      href="javascript:void(0)"
+      class="flex items-center justify-center bg-primary text-white w-10 h-10 rounded-lg fixed bottom-8 right-8 left-auto z-[999] hover:shadow-signUp transition back-to-top shadow-md"
+    >
+      <span
+        class="w-3 h-3 border-t border-l border-white rotate-45 mt-[6px]"
+      ></span>
+    </a>
+    <!-- ====== Back To Top End -->
+
+    <!-- ===== JS Files ====== -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    function simulateInputAndSubmit(encodedMessage) {
+      
+      const message = decodeURI(encodedMessage);
+
+      const inputElement = document.querySelector('input[required]');
+      const buttonElement = document.getElementById('sbmtbtn');
+
+      if (inputElement && buttonElement) {
+      inputElement.value = message;
+      buttonElement.click();
+      }
+    }
+    </script>
+    <script>
+      marked.setOptions({
+        highlight: function(code, lang) {
+          return hljs.highlightAuto(code, [lang]).value;
+        }
+      });
+    </script>
+    <script>
+      // API GET ANSWER
+      async function submitForm(event) {
+        event.preventDefault();
+        
+        const chatcont = document.getElementById('chatcont');
+        const form = document.getElementById('chatbot-form');
+        const input = form.querySelector('input[type="text"]');
+        const message = input.value;
+        const submitButton = document.getElementById('sbmtbtn'); 
+        const chatWindow = document.querySelector('#chbox');
+  
+  function scrollToBottom() {
+    chatWindow.scrollTop = chatWindow.scrollHeight - chatWindow.clientHeight;
+  }
+      
+      // update chat interface with user input and answer
+            const userDiv = document.createElement('div');
+            userDiv.classList.add('ml-auto', 'flex', 'w-[90%]', 'flex-col', 'items-end');
+            userDiv.setAttribute('name', 'user');
+            userDiv.innerHTML = `
+              <div class="inline-block rounded-lg rounded-br-none border border-gradient-1 bg-white py-3 px-4 text-base text-body-color dark:border-white/10 dark:bg-dark dark:text-white/80">
+                ${message}
+              </div>
+            `;
+      
+        // show loading div
+        const loadingDiv = document.createElement('div');
+        loadingDiv.classList.add('animate-pulse', 'space-y-2');
+        loadingDiv.setAttribute('name', 'loading');
+        loadingDiv.innerHTML = `
+          <div class="h-2 w-full rounded bg-gradient-1 dark:bg-dark"></div>
+          <div class="h-2 w-full rounded bg-gradient-1 dark:bg-dark"></div>
+        `;
+      
+        chatcont.appendChild(userDiv);
+        chatcont.appendChild(loadingDiv);
+        scrollToBottom();
+        
+      
+        if (!message) {
+          return;
+        }
+      submitButton.disabled = true;
+      submitButton.classList.add('cursor-not-allowed');
+      
+  var current_url = window.location.href;
+  current_url = current_url.replace(/\/$/, "");
+  var chat_id = current_url.substr(current_url.lastIndexOf("/") + 1);
+  
+  
+        
+  input.value = '';
+        const data = {
+          message: message,
+          chatid: '1_e1e6c4dd-a743-4b81-b6a3-8b984632ea20'
+        };
+  
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+      
+        const result = await response.json();
+        const notmarked = result.answer;
+        let answer = marked.parse(notmarked);
+        submitButton.disabled = false;
+        submitButton.classList.remove('cursor-not-allowed');
+      
+         // chatbot
+         const chatbotDiv = document.createElement('div');
+            chatbotDiv.classList.add('flex', 'flex-col', 'items-start', 'space-y-4');
+            chatbotDiv.setAttribute('name', 'chatbot');
+            chatbotDiv.innerHTML = `
+              <div class="w-[90%] space-y-4">
+                <div class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white">
+                  ${answer}
+                </div>
+              </div>
+            `;
+            chatcont.removeChild(loadingDiv);
+            chatcont.appendChild(chatbotDiv);
+        // remove loading div
+        scrollToBottom();
+      }
+        </script>
+        <script src="/static/embed.js?v1.4.1" data-chat-id="1_e1e6c4dd-a743-4b81-b6a3-8b984632ea20" data-bg-color=""> // You can put your color code in data-bg-color to change the chatbubble's color </script>
+    <script>
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".menu-scroll");
+
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".scroll-menu");
+        const scrollPos =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document
+              .querySelector(".scroll-menu")
+              .classList.remove("text-primary");
+            currLink.classList.add("text-primary");
+          } else {
+            currLink.classList.remove("text-primary");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      $(window).on('load', function(){      
+        $('.spin-wrapper').fadeOut();
+        });
+    </script>
+<script src="{{ url_for('static', filename='switcher.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='bundle.js') }}"></script>
+
+
+</html>

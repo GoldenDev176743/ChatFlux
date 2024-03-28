@@ -1,0 +1,32 @@
+name: Deploy Flask App 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Prepare deployment information
+      - name: Prepare Deployment Data
+        run: |
+          echo "DEPLOYMENT_TIME=$(date +"%Y-%m-%d %T")" >> $GITHUB_ENV
+          echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      # SSH into the VPS and Deploy
+      - name: SSH into the VPS and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            source myprojectenv/bin/activate
+            cd ../var/www/app/
+            ./deploy.sh
+          
+

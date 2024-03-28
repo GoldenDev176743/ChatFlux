@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://gptify.io/static/style.css" />
+    <title>Chatbot</title>
+  </head>
+  <body>
+
+
+    <section id="chatbot-container">
+        <div
+        id="chbox" class="h-screen relative flex flex-col justify-between overflow-y-auto rounded-2xl border border-4 border-gradient-1 bg-white py-5 px-5 shadow-faq scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded dark:border-dark dark:bg-black sm:p-6"
+        >
+       <div class="mb-6 space-y-5" id="chatcont">
+    
+         <div name="chatbot" class="flex flex-col items-start space-y-4">
+           <div class="w-[90%] space-y-4">
+             <div
+               class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white"
+             >
+               Hey there! I am an AI Assistant, How can I help you ?
+             </div>
+           </div>
+         </div>
+    
+       </div>
+       
+       <form id="chatbot-form" onsubmit="submitForm(event)">
+        
+        <p class="text-center text-xs py-1 text-body-color">Powered By <a target="_blank" class="text-primary" href="https://gptify.io">Gptify.io</a></p>
+       
+        <div class="rounded-[20px] shadow-award flex items-center justify-between space-x-4">
+            <input required
+             type="text"
+             placeholder="Enter your question"
+             class="w-full rounded border border-gradient-1 bg-white py-3 px-5 outline-none ring-primary/60 transition-all duration-300 focus:ring-4 dark:border-white/10 dark:bg-dark dark:text-white"
+             />
+             <button type="submit" class="rounded bg-primary py-3.5 px-5 text-white">
+               <svg
+                 fill="currentColor"
+                 width="20"
+                 height="20"
+                 viewBox="0 0 64 64"
+                 xmlns="http://www.w3.org/2000/svg"
+               >
+                 <path
+                   d="M62.8012 10.8004L53.4012 54.8004C52.7012 57.9004 50.9012 58.6004 48.3012 57.2004L34.2012 46.8004L27.3012 53.4004C26.6012 54.1004 25.9012 54.8004 24.3012 54.8004L25.4012 40.3004L51.7012 16.4004C52.8012 15.3004 51.4012 14.9004 50.0012 15.8004L17.3012 36.4004L3.2012 32.1004C0.1012 31.1004 0.1012 29.0004 3.9012 27.6004L58.7012 6.3004C61.4012 5.5004 63.7012 6.9004 62.8012 10.8004Z"
+                 />
+               </svg>
+             </button>
+           </div>
+         </form>
+       </div>
+    </section>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const chatId = urlParams.get("chatId");
+
+
+      // API GET ANSWER
+    async function submitForm(event) {
+      event.preventDefault();
+      
+      const chatcont = document.getElementById('chatcont');
+      const form = document.getElementById('chatbot-form');
+      const input = form.querySelector('input[type="text"]');
+      const message = input.value;
+      const chatWindow = document.querySelector('#chbox');
+
+    function scrollToBottom() {
+      chatWindow.scrollTop = chatWindow.scrollHeight - chatWindow.clientHeight;
+    }
+    
+    // update chat interface with user input and answer
+          const userDiv = document.createElement('div');
+          userDiv.classList.add('ml-auto', 'flex', 'w-[90%]', 'flex-col', 'items-end');
+          userDiv.setAttribute('name', 'user');
+          userDiv.innerHTML = `
+            <div class="inline-block rounded-lg rounded-br-none border border-gradient-1 bg-white py-3 px-4 text-base text-body-color dark:border-white/10 dark:bg-dark dark:text-white/80">
+              ${message}
+            </div>
+          `;
+    
+      // show loading div
+      const loadingDiv = document.createElement('div');
+      loadingDiv.classList.add('animate-pulse', 'space-y-2');
+      loadingDiv.setAttribute('name', 'loading');
+      loadingDiv.innerHTML = `
+        <div class="h-2 w-full rounded bg-gradient-1 dark:bg-dark"></div>
+        <div class="h-2 w-full rounded bg-gradient-1 dark:bg-dark"></div>
+      `;
+    
+      chatcont.appendChild(userDiv);
+      chatcont.appendChild(loadingDiv);
+      scrollToBottom();
+      
+    
+      if (!message) {
+        return;
+      }
+ 
+      input.value = '';
+      const data = {
+        message: message,
+        chatid: chatId
+      };
+
+      const response = await fetch('/api/v1/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+    
+      const result = await response.json();
+      const answer = result.answer;
+
+    
+       // chatbot
+       const chatbotDiv = document.createElement('div');
+          chatbotDiv.classList.add('flex', 'flex-col', 'items-start', 'space-y-4');
+          chatbotDiv.setAttribute('name', 'chatbot');
+          chatbotDiv.innerHTML = `
+            <div class="w-[90%] space-y-4">
+              <div class="inline-block rounded-lg rounded-tl-none border border-gradient-1 bg-white py-3 px-4 text-base text-dark dark:border-white/10 dark:bg-dark dark:text-white">
+                ${answer}
+              </div>
+            </div>
+          `;
+          chatcont.removeChild(loadingDiv);
+          chatcont.appendChild(chatbotDiv);
+      // remove loading div
+      scrollToBottom();
+    }
+
+  
+    </script>
+
+
+  </body>
+</html>

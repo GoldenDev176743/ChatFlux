@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" class="scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded">
+  <head> 
+    <link href="https://unpkg.com/@simonwep/pickr/dist/themes/classic.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatflux</title>
+    <style>
+      @media (max-width: 600px) {
+        .my-div {
+          padding: 7%;
+        }
+      }
+    </style>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"><link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"></head>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-S67Y5MJGJ3"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-S67Y5MJGJ3');
+      </script>
+      
+      <body
+    x-data="
+      {
+        scrolledFromTop: false
+      }
+    "
+    x-init="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = false"
+    @scroll.window="window.pageYOffset >= 50 ? scrolledFromTop = true : scrolledFromTop = false"
+    class="bg-white dark:bg-dark"
+  >
+ <!-- ===== Preloader start ===== -->
+ <div class="spin-wrapper h-screen flex justify-center items-center bg-primary"> 
+  <div class="text-white inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+    <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+  </div>
+</div>
+
+<!-- ===== Preloader end ===== -->
+
+
+    <!-- ===== Header start ===== -->
+    <header
+      x-data="
+        {
+          navbarOpen: false,
+          dropdownOpen: false
+        }
+      "
+      :class="scrolledFromTop ? 'bg-white dark:bg-dark bg-opacity-80 dark:bg-opacity-80 backdrop-blur-sm' : 'bg-white dark:bg-dark' "
+      class="sticky top-0 z-50 flex w-full items-center"
+      
+    >
+      <div class="container">
+        <div class="relative -mx-4 flex items-center justify-between">
+          <div class="w-60 max-w-full px-4">
+            <a
+              href="/"
+              :class="scrolledFromTop ? 'py-5 lg:py-2' : 'py-7 lg:py-5' "
+              class="block w-full"
+            >
+            <img
+            src="{{ url_for('static', filename='src/images/logo/logo.svg') }}"
+            alt="logo"
+            class="w-full dark:hidden"
+          />
+          <img
+            src="{{ url_for('static', filename='src/images/logo/logo-white.svg') }}"
+            alt="logo"
+            class="hidden w-full dark:block"
+          />
+            </a>
+          </div>
+          <div class="flex w-full items-center px-4">
+            <div>
+              <button
+                @click="navbarOpen = !navbarOpen"
+                :class="navbarOpen && 'navbarTogglerActive' "
+                id="navbarToggler"
+                class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+              >
+                <span
+                  :class="navbarOpen && 'rotate-45 top-[7px]' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+                <span
+                  :class="navbarOpen && 'opacity-0' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+                <span
+                  :class="navbarOpen && 'top-[-8px] rotate-[135deg]' "
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"
+                ></span>
+              </button>
+              <nav
+                :class="!navbarOpen && 'hidden' "
+                id="navbarCollapse"
+                class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-4 px-6 shadow dark:bg-black lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:shadow-none dark:lg:bg-transparent"
+              >
+                <ul class="blcok lg:flex">
+                  <li>
+                    <a
+                      href="{{ url_for('mychatbots') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      My Chatbots
+                    </a>
+                  </li>
+                  <li class="relative group submenu-item">
+                    <a
+                      href="javascript:void(0)"
+                      @click="dropdownOpen = !dropdownOpen"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="text-base text-body-color group-hover:text-primary lg:inline-flex lg:pl-0 lg:pr-4 flex lg:ml-10 xl:ml-12 relative after:absolute after:w-2 after:h-2 after:border-b-2 after:border-r-2 after:border-current after:rotate-45 lg:after:right-0 after:right-1 after:top-1/2 after:translate-y-[-50%] after:mt-[-2px]"
+                    >
+                    Create a Chatbot
+                    </a>
+                    <div
+                    
+                      :class="dropdownOpen ? 'block' : 'hidden lg:block ' "
+                      class="submenu relative lg:absolute lg:w-[250px] top-full lg:top-[115%] left-0 rounded-lg lg:shadow-lg lg:p-4 lg:opacity-0 lg:invisible group-hover:opacity-100 lg:group-hover:visible lg:group-hover:top-full bg-white dark:bg-black transition-[top] duration-300"
+                    >
+                      <a
+                        href="{{ url_for('create') }}"
+                        class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"
+                      >
+                        From Document
+                      </a>
+
+                      <a
+                      href="{{ url_for('urlcreate') }}"
+                        class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"
+                      >
+                        From Website
+                      </a>
+                      <a
+                      href="{{ url_for('youtubecreate') }}"
+                        class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"
+                      >
+                        From Youtube Video
+                      </a>
+                      <a
+                      href="{{ url_for('fromtext') }}"
+                        class="block text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary py-[10px] lg:px-4"
+                      >
+                        From Plain text
+                      </a>
+                    </div>
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('profile') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      My Account
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('developers') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      API
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="mailto:aymane@chatflux.io"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      Contact
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a
+                      href="{{ url_for('logout') }}"
+                      :class="scrolledFromTop ? 'py-2 lg:py-6' : 'py-2 lg:py-8' "
+                      class="scroll-menu flex text-base font-medium text-body-color hover:text-primary lg:ml-8 lg:inline-flex xl:ml-12"
+                    >
+                      Log out →
+                    </a>
+                  </li>
+
+                  
+                </ul>
+              </nav>
+            </div>
+
+            {% if role == 'Admin' %}
+            <div>
+              <a href="{{ url_for('admin') }}">
+                <svg height="56px" width="82px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle style="fill:#5e81f7;" cx="256" cy="256" r="256"></circle> <path style="fill:#044b9b;" d="M294.996,509.049c105.746-16.162,190.195-97.028,211.687-200.923l-110.485-112.63l-11.102,12.448 l-99.711-98.695l-86.776,137.052l-47.94-47.937l-31.799,16.649l81.846,82.198l-64.445,53.646L294.996,509.049z"></path> <path style="fill:#001846;" d="M368.635,256c0-3.798-0.19-7.551-0.56-11.252c-0.498-4.994,1.431-9.923,5.277-13.148l19.778-16.586 c5.585-4.684,7.001-12.705,3.356-19.018l-18.279-31.658c-3.646-6.313-11.298-9.097-18.148-6.603l-24.254,8.835 c-4.722,1.72-9.961,0.922-14.039-2.015c-6.072-4.375-12.597-8.159-19.49-11.271c-4.57-2.064-7.866-6.197-8.737-11.136l-4.47-25.398 c-1.264-7.18-7.501-12.416-14.793-12.416h-36.555c-7.29,0-13.527,5.235-14.793,12.416l-4.47,25.398 c-0.869,4.939-4.165,9.073-8.737,11.136c-6.894,3.112-13.419,6.896-19.49,11.271c-4.077,2.938-9.316,3.736-14.039,2.015 l-24.254-8.835c-6.851-2.496-14.503,0.288-18.148,6.603l-18.279,31.658c-3.646,6.313-2.231,14.334,3.356,19.018l19.778,16.586 c3.846,3.225,5.775,8.152,5.277,13.148c-0.369,3.701-0.56,7.454-0.56,11.252c0,3.825,0.193,7.606,0.567,11.331 c0.503,5.008-1.434,9.947-5.298,13.174l-19.732,16.484c-5.603,4.68-7.028,12.714-3.379,19.037l18.254,31.616 c3.651,6.323,11.319,9.106,18.175,6.592l24.142-8.847c4.732-1.734,9.987-0.938,14.074,2.012c6.111,4.41,12.681,8.223,19.625,11.35 c4.584,2.065,7.887,6.215,8.749,11.167l4.405,25.305c1.252,7.194,7.496,12.443,14.796,12.443h36.507 c7.301,0,13.545-5.251,14.796-12.443l4.405-25.305c0.862-4.953,4.165-9.102,8.749-11.167c6.946-3.129,13.515-6.94,19.625-11.35 c4.086-2.95,9.342-3.746,14.074-2.012l24.142,8.847c6.856,2.512,14.524-0.269,18.175-6.592l18.254-31.616 c3.651-6.323,2.226-14.355-3.379-19.037l-19.732-16.484c-3.862-3.227-5.799-8.166-5.298-13.174 C368.442,263.606,368.635,259.825,368.635,256z"></path> <path style="fill:#001846;" d="M237.096,407.666h37.81c8.447,0,15.294-6.847,15.294-15.294v-75.186c0-1.203-0.976-2.181-2.181-2.181 h-64.038c-1.203,0-2.181,0.976-2.181,2.181v75.186C221.801,400.818,228.649,407.666,237.096,407.666z"></path> <path style="fill:#5e81f7;" d="M290.637,183.637v68.532l-34.944,13.712l-34.942-13.712v-68.218 c-24.51,12.75-41.262,38.362-41.262,67.901c0,42.256,34.256,76.51,76.51,76.51c42.256,0,76.51-34.256,76.51-76.51 C332.51,222.068,315.48,196.277,290.637,183.637z"></path> </g></svg></label>
+              </a>
+            </div>
+            {% endif %}
+            
+            <div class="hidden justify-end pr-16 sm:flex lg:pr-0 xl:pl-20">
+              <div>
+                <label
+                  for="darkToggler"
+                  class="bg-gray-2 dark:bg-dark-bg flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-black dark:text-white md:h-14 md:w-14"
+                >
+                  <input
+                    type="checkbox"
+                    name="darkToggler"
+                    id="darkToggler"
+                    class="sr-only"
+                    aria-label="darkToggler"
+                  />
+                  <svg
+                    viewBox="0 0 23 23"
+                    class="h-5 w-5 stroke-current dark:hidden md:h-6 md:w-6"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.55078 1.5C5.80078 1.5 1.30078 5.25 1.30078 11.25C1.30078 17.25 5.80078 21.75 11.8008 21.75C17.8008 21.75 21.5508 17.25 21.5508 13.5C13.3008 18.75 4.30078 9.75 9.55078 1.5Z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <svg
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="hidden h-5 w-5 dark:block md:h-6 md:w-6"
+                  >
+                    <mask id="path-1-inside-1_977:1934" fill="white">
+                      <path
+                        d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z"
+                      />
+                    </mask>
+                    <path
+                      d="M12.0508 16.5C10.8573 16.5 9.71271 16.0259 8.8688 15.182C8.02489 14.3381 7.55078 13.1935 7.55078 12C7.55078 10.8065 8.02489 9.66193 8.8688 8.81802C9.71271 7.97411 10.8573 7.5 12.0508 7.5C13.2443 7.5 14.3888 7.97411 15.2328 8.81802C16.0767 9.66193 16.5508 10.8065 16.5508 12C16.5508 13.1935 16.0767 14.3381 15.2328 15.182C14.3888 16.0259 13.2443 16.5 12.0508 16.5ZM12.0508 18C13.6421 18 15.1682 17.3679 16.2934 16.2426C17.4186 15.1174 18.0508 13.5913 18.0508 12C18.0508 10.4087 17.4186 8.88258 16.2934 7.75736C15.1682 6.63214 13.6421 6 12.0508 6C10.4595 6 8.93336 6.63214 7.80814 7.75736C6.68292 8.88258 6.05078 10.4087 6.05078 12C6.05078 13.5913 6.68292 15.1174 7.80814 16.2426C8.93336 17.3679 10.4595 18 12.0508 18ZM12.0508 0C12.2497 0 12.4405 0.0790176 12.5811 0.21967C12.7218 0.360322 12.8008 0.551088 12.8008 0.75V3.75C12.8008 3.94891 12.7218 4.13968 12.5811 4.28033C12.4405 4.42098 12.2497 4.5 12.0508 4.5C11.8519 4.5 11.6611 4.42098 11.5205 4.28033C11.3798 4.13968 11.3008 3.94891 11.3008 3.75V0.75C11.3008 0.551088 11.3798 0.360322 11.5205 0.21967C11.6611 0.0790176 11.8519 0 12.0508 0V0ZM12.0508 19.5C12.2497 19.5 12.4405 19.579 12.5811 19.7197C12.7218 19.8603 12.8008 20.0511 12.8008 20.25V23.25C12.8008 23.4489 12.7218 23.6397 12.5811 23.7803C12.4405 23.921 12.2497 24 12.0508 24C11.8519 24 11.6611 23.921 11.5205 23.7803C11.3798 23.6397 11.3008 23.4489 11.3008 23.25V20.25C11.3008 20.0511 11.3798 19.8603 11.5205 19.7197C11.6611 19.579 11.8519 19.5 12.0508 19.5ZM24.0508 12C24.0508 12.1989 23.9718 12.3897 23.8311 12.5303C23.6905 12.671 23.4997 12.75 23.3008 12.75H20.3008C20.1019 12.75 19.9111 12.671 19.7705 12.5303C19.6298 12.3897 19.5508 12.1989 19.5508 12C19.5508 11.8011 19.6298 11.6103 19.7705 11.4697C19.9111 11.329 20.1019 11.25 20.3008 11.25H23.3008C23.4997 11.25 23.6905 11.329 23.8311 11.4697C23.9718 11.6103 24.0508 11.8011 24.0508 12ZM4.55078 12C4.55078 12.1989 4.47176 12.3897 4.33111 12.5303C4.19046 12.671 3.99969 12.75 3.80078 12.75H0.800781C0.601869 12.75 0.411103 12.671 0.270451 12.5303C0.129799 12.3897 0.0507813 12.1989 0.0507812 12C0.0507813 11.8011 0.129799 11.6103 0.270451 11.4697C0.411103 11.329 0.601869 11.25 0.800781 11.25H3.80078C3.99969 11.25 4.19046 11.329 4.33111 11.4697C4.47176 11.6103 4.55078 11.8011 4.55078 12ZM20.5363 3.5145C20.6769 3.65515 20.7559 3.84588 20.7559 4.04475C20.7559 4.24362 20.6769 4.43435 20.5363 4.575L18.4153 6.6975C18.3455 6.76713 18.2628 6.82235 18.1717 6.86C18.0806 6.89765 17.983 6.91699 17.8845 6.91692C17.6855 6.91678 17.4947 6.83758 17.354 6.69675C17.2844 6.62702 17.2292 6.54425 17.1915 6.45318C17.1539 6.36211 17.1345 6.26452 17.1346 6.16597C17.1348 5.96695 17.214 5.77613 17.3548 5.6355L19.4758 3.5145C19.6164 3.3739 19.8072 3.29491 20.006 3.29491C20.2049 3.29491 20.3956 3.3739 20.5363 3.5145ZM6.74678 17.304C6.88738 17.4446 6.96637 17.6354 6.96637 17.8342C6.96637 18.0331 6.88738 18.2239 6.74678 18.3645L4.62578 20.4855C4.48433 20.6221 4.29488 20.6977 4.09823 20.696C3.90158 20.6943 3.71347 20.6154 3.57442 20.4764C3.43536 20.3373 3.35648 20.1492 3.35478 19.9526C3.35307 19.7559 3.42866 19.5665 3.56528 19.425L5.68628 17.304C5.82693 17.1634 6.01766 17.0844 6.21653 17.0844C6.4154 17.0844 6.60614 17.1634 6.74678 17.304ZM20.5363 20.4855C20.3956 20.6261 20.2049 20.7051 20.006 20.7051C19.8072 20.7051 19.6164 20.6261 19.4758 20.4855L17.3548 18.3645C17.2182 18.223 17.1426 18.0336 17.1443 17.8369C17.146 17.6403 17.2249 17.4522 17.3639 17.3131C17.503 17.1741 17.6911 17.0952 17.8877 17.0935C18.0844 17.0918 18.2738 17.1674 18.4153 17.304L20.5363 19.425C20.6769 19.5656 20.7559 19.7564 20.7559 19.9552C20.7559 20.1541 20.6769 20.3449 20.5363 20.4855ZM6.74678 6.6975C6.60614 6.8381 6.4154 6.91709 6.21653 6.91709C6.01766 6.91709 5.82693 6.8381 5.68628 6.6975L3.56528 4.575C3.49365 4.50582 3.43651 4.42306 3.39721 4.33155C3.3579 4.24005 3.33721 4.14164 3.33634 4.04205C3.33548 3.94247 3.35445 3.84371 3.39216 3.75153C3.42988 3.65936 3.48557 3.57562 3.55598 3.5052C3.6264 3.43478 3.71014 3.37909 3.80232 3.34138C3.89449 3.30367 3.99325 3.2847 4.09283 3.28556C4.19242 3.28643 4.29083 3.30712 4.38233 3.34642C4.47384 3.38573 4.5566 3.44287 4.62578 3.5145L6.74678 5.6355C6.81663 5.70517 6.87204 5.78793 6.90985 5.87905C6.94766 5.97017 6.96712 6.06785 6.96712 6.1665C6.96712 6.26515 6.94766 6.36283 6.90985 6.45395C6.87204 6.54507 6.81663 6.62783 6.74678 6.6975Z"
+                      fill="black"
+                      stroke="white"
+                      stroke-width="2"
+                      mask="url(#path-1-inside-1_977:1934)"
+                    />
+                  </svg>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ===== Header end ===== -->
+    <div id="error-alert2" class="hidden transition duration-300">
+      <div class=" opacity-90 fixed top-28 w-[90%] left-0 right-0 mx-auto max-w-[500px] rounded-lg z-[100] mx-auto rounded-lg bg-[#FFF0F0] p-4" role="alert">
+          <p class="flex items-center text-sm font-medium text-[#BC1C21]">
+          <span class="pr-3">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="10" r="10" fill="#BC1C21"></circle>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0002 5.54922C7.54253 5.54922 5.5502 7.54155 5.5502 9.99922C5.5502 12.4569 7.54253 14.4492 10.0002 14.4492C12.4579 14.4492 14.4502 12.4569 14.4502 9.99922C14.4502 7.54155 12.4579 5.54922 10.0002 5.54922ZM4.4502 9.99922C4.4502 6.93404 6.93502 4.44922 10.0002 4.44922C13.0654 4.44922 15.5502 6.93404 15.5502 9.99922C15.5502 13.0644 13.0654 15.5492 10.0002 15.5492C6.93502 15.5492 4.4502 13.0644 4.4502 9.99922Z" fill="white"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0002 7.44922C10.304 7.44922 10.5502 7.69546 10.5502 7.99922V9.99922C10.5502 10.303 10.304 10.5492 10.0002 10.5492C9.69644 10.5492 9.4502 10.303 9.4502 9.99922V7.99922C9.4502 7.69546 9.69644 7.44922 10.0002 7.44922Z" fill="white"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.4502 11.9992C9.4502 11.6955 9.69644 11.4492 10.0002 11.4492H10.0052C10.309 11.4492 10.5552 11.6955 10.5552 11.9992C10.5552 12.303 10.309 12.5492 10.0052 12.5492H10.0002C9.69644 12.5492 9.4502 12.303 9.4502 11.9992Z" fill="white"></path>
+              </svg>
+          </span>
+          An error occured. Please retry later...
+          </p>
+      </div>
+  </div>
+  
+  <div id="success-alert2" class="hidden transition duration-300">
+    <div class=" opacity-90 fixed top-28 w-[90%] left-0 right-0 mx-auto max-w-[500px] rounded-lg z-[100] mx-auto rounded-lg bg-[#C4F9E2] p-4" role="alert">
+      <p class="flex items-center text-sm font-medium text-[#004434]">
+         <span class="pr-3">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <circle cx="10" cy="10" r="10" fill="#00B078"></circle>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1203 6.78954C14.3865 7.05581 14.3865 7.48751 14.1203 7.75378L9.12026 12.7538C8.85399 13.02 8.42229 13.02 8.15602 12.7538L5.88329 10.4811C5.61703 10.2148 5.61703 9.78308 5.88329 9.51682C6.14956 9.25055 6.58126 9.25055 6.84753 9.51682L8.63814 11.3074L13.156 6.78954C13.4223 6.52328 13.854 6.52328 14.1203 6.78954Z" fill="white"></path>
+            </svg>
+         </span>
+         Settings has been updated successfully. Refreshing the page now...
+      </p>
+    </div>
+  </div>
+
+    <div id="error-alert" class="hidden transition duration-300">
+      <div class=" opacity-90 fixed top-28 w-[90%] left-0 right-0 mx-auto max-w-[500px] rounded-lg z-[100] mx-auto rounded-lg bg-[#FFF0F0] p-4" role="alert">
+          <p class="flex items-center text-sm font-medium text-[#BC1C21]">
+          <span class="pr-3">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="10" r="10" fill="#BC1C21"></circle>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0002 5.54922C7.54253 5.54922 5.5502 7.54155 5.5502 9.99922C5.5502 12.4569 7.54253 14.4492 10.0002 14.4492C12.4579 14.4492 14.4502 12.4569 14.4502 9.99922C14.4502 7.54155 12.4579 5.54922 10.0002 5.54922ZM4.4502 9.99922C4.4502 6.93404 6.93502 4.44922 10.0002 4.44922C13.0654 4.44922 15.5502 6.93404 15.5502 9.99922C15.5502 13.0644 13.0654 15.5492 10.0002 15.5492C6.93502 15.5492 4.4502 13.0644 4.4502 9.99922Z" fill="white"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0002 7.44922C10.304 7.44922 10.5502 7.69546 10.5502 7.99922V9.99922C10.5502 10.303 10.304 10.5492 10.0002 10.5492C9.69644 10.5492 9.4502 10.303 9.4502 9.99922V7.99922C9.4502 7.69546 9.69644 7.44922 10.0002 7.44922Z" fill="white"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.4502 11.9992C9.4502 11.6955 9.69644 11.4492 10.0002 11.4492H10.0052C10.309 11.4492 10.5552 11.6955 10.5552 11.9992C10.5552 12.303 10.309 12.5492 10.0052 12.5492H10.0002C9.69644 12.5492 9.4502 12.303 9.4502 11.9992Z" fill="white"></path>
+              </svg>
+          </span>
+          Your plan does not support this feature. Please consider upgrading to unlock this feature.
+          </p>
+      </div>
+  </div>
+
+  <div id="success-alert" class="hidden transition duration-300">
+    <div class=" opacity-90 fixed top-28 w-[90%] left-0 right-0 mx-auto max-w-[500px] rounded-lg z-[100] mx-auto rounded-lg bg-[#C4F9E2] p-4" role="alert">
+      <p class="flex items-center text-sm font-medium text-[#004434]">
+         <span class="pr-3">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <circle cx="10" cy="10" r="10" fill="#00B078"></circle>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1203 6.78954C14.3865 7.05581 14.3865 7.48751 14.1203 7.75378L9.12026 12.7538C8.85399 13.02 8.42229 13.02 8.15602 12.7538L5.88329 10.4811C5.61703 10.2148 5.61703 9.78308 5.88329 9.51682C6.14956 9.25055 6.58126 9.25055 6.84753 9.51682L8.63814 11.3074L13.156 6.78954C13.4223 6.52328 13.854 6.52328 14.1203 6.78954Z" fill="white"></path>
+            </svg>
+         </span>
+         Settings has been updated successfully.
+      </p>
+    </div>
+  </div>
+    <!-- ===== Mybots start ===== -->
+    
+    {% set tutorial_type = 'none' %}  {# Default to none #}
+    {% if chatbots|length == 0 %}
+        {% set tutorial_type = 'zero' %}
+    {% elif chatbots|length == 1 %}
+        {% set tutorial_type = 'one' %}
+    {% endif %}
+
+    <section id="mybots" class="pt-10">
+      <div class="container">
+        <div class="justify-center flex flex-wrap -mx-4">
+          <div class="w-full md:w-1/2 lg:w-1/2 px-4">
+
+                  <div class="-mb-2 py-4 flex flex-wrap flex-grow justify-between items-center">
+                    <h1 class="text-3xl font-bold leading-tight text-gray-900 dark:text-white">My Chatbots</h1>
+                      
+                    <div class="flex items-center py-2">
+                    
+                          <div class="text-center">
+                            <div
+                              x-data="
+                            {
+                              dropdownOpen: false
+                            }
+                            "
+                              @click.outside="dropdownOpen = false"
+                              class="relative inline-block text-left"
+                            >
+                              <button
+                              {% if tutorial_type == 'zero' %}
+                              
+                              data-intro="Ready to build your chatbot? Click here and let's roll!"
+                              {% endif %}
+                              
+                                @click="dropdownOpen = !dropdownOpen"
+                                 
+                                class="inline-block px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-indigo-500 focus:outline-none focus:shadow-outline">
+                                Create new chatbot
+                              </button>
+                              <div
+                              id="dropdownsources"
+                              {% if tutorial_type == 'zero' %}
+                              data-intro="Pick your bot's brainpower source. What's it gonna be?"
+                              {% endif %}
+                                :class="dropdownOpen ? 'top-full opacity-100 visible' : 'top-[110%] invisible opacity-0' "
+                                class="border-light shadow-lg absolute left-0 dark:bg-black dark:border-gray-600 z-40 mt-2 w-full rounded border-[.5px] bg-white transition-all py-2"
+                              >
+                                <a
+                                href="{{ url_for('create') }}"
+                                class="text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary block py-2 px-3"
+                                >
+                                  From Document
+                                </a>
+                                <a
+                                href="{{ url_for('urlcreate') }}"
+                                class="text-sm text-body-color dark:text-white dark:hover:text-primary rounded hover:text-primary block py-2 px-3"
+                                >
+                                  From Website
+                                </a>
+                                <a
+                                href="{{ url_for('youtubecreate') }}"
+                                class="text-sm text-body-color inline-block dark:text-white dark:hover:text-primary rounded hover:text-primary block py-2 px-3"
+                                >
+                                From Youtube Video
+                                </a>
+                                <a
+                                href="{{ url_for('fromtext') }}"
+                                class="text-sm text-body-color inline-block dark:text-white dark:hover:text-primary rounded hover:text-primary block py-2 px-3"
+                                >
+                                From Plain text
+                                </a>
+                                
+                                
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                    </div>
+
+
+                   
+                    <div class="align-middle inline-block min-w-0 w-full rounded-lg border-2 border-gradient-1 bg-white shadow-faq dark:border-black dark:bg-dark relative">
+                      <table class="w-full table-auto" style="table-layout: fixed;">
+                          <tbody class="bg-white dark:bg-black rounded-lg">    
+                          
+
+                          {% for chatbot in chatbots %}
+                          {% if chatbot['ready_status'] == 1 %}
+
+                          <tr class="items-center flex border-2 dark:border-black border-gradient-1">
+                            <td class="flex-grow px-6 py-4 truncate rounded-lg">
+                                <div class="text-xl leading-5 text-gray-900 dark:text-white truncate">
+                                {{ chatbot['document_name'] }}
+                              </div>
+                            </td>
+                            
+                           
+
+                            <td class="px-2 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                              <a 
+                              href="../chatbot/{{ chatbot['chat_id'] }}"
+                                class="inline-block px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-indigo-500 focus:outline-none focus:shadow-outline">
+                                Chat
+                              </a>
+                            </td>
+
+                            <td class="px-2 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                              <a
+                              
+                              @click="navigateToImproveQA('{{ chatbot['chat_id'] }}')"
+                                href="javascript:void(0)" class="inline-block px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-indigo-500 focus:outline-none focus:shadow-outline relative">
+                                  Improve QA
+
+                                  <span class="absolute inline-flex items-center justify-center z-10 px-2 h-5 text-xs font-bold leading-none text-white bg-red-500 rounded-full -top-3 -right-3 ">New</span>
+                                  <span class="absolute inline-flex items-center justify-center px-4 py-2 text-xs font-bold leading-none text-white bg-red-500 rounded-full -right-2 animate-ping " style="top:-0.6rem"></span>
+                                            
+                              </a>
+                            </td>
+
+                        
+                            <td x-data="{modalOpen: false}" class="px-2 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                              <a
+                              id="settings-button-{{ chatbot['chat_id'] }}"
+                              {% if tutorial_type == 'one' %}
+                              data-intro="Here's where the magic happens. Click to explore your bot's settings and features"
+                              {% endif %}
+                              
+                              @click="modalOpen = true" href="javascript:void(0)" class="inline-block px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-indigo-500 focus:outline-none focus:shadow-outline relative">
+                                  Settings  
+                              </a>
+
+
+                              <div id="modal" style="display:none;" x-show="modalOpen" x-transition class="fixed top-0 left-0 flex h-full min-h-screen w-full items-center justify-center  bg-gray-600 dark:bg-dark bg-opacity-80 dark:bg-opacity-80 backdrop-blur-sm px-4 py-5 z-50 ">
+                                <div class="w-full max-w-[570px] h-[85vh] rounded-[20px] bg-white dark:bg-black py-12 px-8 text-center md:px-[70px]">
+
+           
+                                    <div id="contennt">
+                                        <div id="header-buttons" class="relative flex items-center">
+                                            <h3 class="text-dark dark:text-white text-xl font-bold sm:text-2xl mx-auto">
+                                                Chatbot Settings
+                                            </h3>
+                                            <button
+                                              @click="modalOpen = false"
+                                              type="button"
+                                              class="absolute right-0 pb-2 text-gray-400 box-content rounded-none border-none hover:no-underline hover:text-primary focus:text-primary focus:shadow-none focus:outline-none"
+                                            >
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="1.5"
+                                                stroke="currentColor"
+                                                class="h-6 w-6"
+                                              >
+                                                <path
+                                                  stroke-linecap="round"
+                                                  stroke-linejoin="round"
+                                                  d="M6 18L18 6M6 6l12 12"
+                                                />
+                                              </svg>
+                                            </button>
+                                        </div>
+                                        <span class="bg-primary mx-auto inline-block h-1 w-[90px] rounded"></span>
+                            
+                                        <!-- Tab navigation -->
+                                        <div class="flex justify-center my-3">
+                                          <button {% if tutorial_type == 'one' %} data-intro="Name your bot, choose its visibility, and set a catchy greeting!" {% endif %} id="general-tab-{{ chatbot['chat_id'] }}" class="px-2 py-2 font-semibold text-primary border-b-2 border-primary" @click="switchTab('general', '{{ chatbot['chat_id'] }}')">General</button>
+                                          <button {% if tutorial_type == 'one' %} data-intro="Check out the slick integrations – just a line of code and your bot's live on any website. Stay tuned, more seamless integrations are dropping soon..." {% endif %} id="appearance-tab-{{ chatbot['chat_id'] }}" class="px-2 py-2 font-semibold text-body-color border-b-2 border-radius-xl border-transparent" @click="switchTab('appearance', '{{ chatbot['chat_id'] }}')">Integration</button>
+                                          <button {% if tutorial_type == 'one' %} data-intro="Tweak the tech! Set custom prompts, collect leads, and add human assistance when needed" {% endif %} id="update-tab-{{ chatbot['chat_id'] }}" class="px-2 py-2 font-semibold text-body-color border-b-2 border-radius-xl border-transparent" @click="switchTab('update', '{{ chatbot['chat_id'] }}')">Advanced</button>
+                                          <button {% if tutorial_type == 'one' %} data-intro="Keep it fresh and engaging. Add or remove content to ensure accuracy and relevance" {% endif %} id="analytics-tab-{{ chatbot['chat_id'] }}" class="px-2 py-2 font-semibold text-body-color border-b-2 border-radius-xl border-transparent" @click="switchTab('analytics', '{{ chatbot['chat_id'] }}')">Content</button>
+                                          <button {% if tutorial_type == 'one' %} data-intro="Last but not least, give your bot a unique look. Customize visuals to make it stand out" {% endif %} id="display-tab-{{ chatbot['chat_id'] }}" class="px-2 py-2 font-semibold text-body-color border-b-2 border-radius-xl border-transparent" @click="switchTab('display', '{{ chatbot['chat_id'] }}')">Display</button>
+                                        </div>
+                                      
+                            
+                                        <!-- Tab content -->
+                                        <div id="general-content-{{ chatbot['chat_id'] }}" class="tab-content overflow-auto h-[55vh] px-2 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded">
+
+                                          <p class="text-primary text-xl font-semibold">Interaction Count: <span class="text-dark dark:text-white">{{ chatbot['interaction_count']|default(0) }}</span></p>
+                                        
+                                            
+                                            <!-- Privat/public -->
+                                                
+                                            <div x-data="{ chatId: '{{ chatbot['chat_id'] }}', selected: {{ chatbot['public'] }} == 0, toggleChatbotState: toggleChatbotState }" x-init="() => { $watch('selected', (value) => toggleChatbotState(value, chatId)); }" class="w-full rounded h-auto m-auto flex flex-col py-4 rounded-xl">
+                                                
+                                                <div class="relative w-full rounded-md border h-10 p-1 bg-gray-200 dark:bg-dark dark:border-dark">
+                                                   <div class="relative w-full h-full flex items-center">
+                                                     <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                       <button>Make me Private</button>
+                                                     </div>
+                                                     <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                       <button>Make me Public</button>
+                                                     </div>
+                                                   </div>
+                                                   <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }"
+                                                       x-text="selected ? 'I\'m a private Chatbot' : 'I\'m a public Chatbot'"
+                                                       class="bg-white dark:bg-primary shadow text-sm flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute"></span>
+                                                 </div>
+                                               </div>
+
+                                                <!-- Change Chatbot Name -->
+                                                <div class="flex flex-col mb-4">
+                                                  <label for="chatbot-name" class="text-dark dark:text-white text-base font-bold mb-1">Change Chatbot Name</label>
+                                                  <div class="flex items-center">
+                                                      <input data-chatbot-id="{{ chatbot['chat_id'] }}" type="text" value="{{ chatbot['document_name'] }}" id="chatbot-name-{{ chatbot['chat_id'] }}" class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                                      <button onclick="saveChatbotNameOnClick(this)" class="ml-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                                          Save
+                                                      </button>
+                                                  </div>
+                                                </div>
+
+                                               <!-- Model Name -->
+                                          
+                                               <div class="flex items-center justify-between">
+                                                    
+                                                <div x-data="{ chatId: '{{ chatbot['chat_id'] }}', selected: {{ chatbot['gpt4'] }} == 1, toggleGPTModel: toggleGPTModel }" x-init="() => { $watch('selected', (value) => toggleGPTModel(value, chatId)); }" class="w-full rounded h-auto m-auto flex py-4 rounded-xl">
+                                                      
+                                                  <div class="relative w-full rounded-md border h-10 p-1 bg-gray-200 dark:bg-dark dark:border-dark">
+                                                          <div class="relative w-full h-full flex items-center">
+                                                              <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                                  <button>Switch to GPT-4</button>
+                                                              </div>
+                                                              <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                                  <button>Switch to GPT-3.5 Turbo</button>
+                                                              </div>
+                                                          </div>
+                                                          <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }"
+                                                              x-text="selected ? 'GPT-4 Enabled' : 'GPT-3.5 Turbo Enabled'"
+                                                              class="bg-white dark:bg-primary shadow text-sm flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute">
+                                                          </span>
+                                                    </div>
+
+                                                    <div class="relative">
+                                                        <button class="info-btn flex items-center justify-center rounded-full bg-primary hover:bg-indigo-500 text-white font-bold p-1 m-2 w-6 h-6">
+                                                            i
+                                                        </button>
+                                                        <div class="z-[999] info-msg fixed w-64 p-2 bg-white border shadow-md rounded-md opacity-0 transition duration-500">
+                                                            <p>1 message using GPT-4 is equal to 25 GPT-3.5-turbo messages, i.e., it costs 25 message credits.</p>
+                                                            <p>Unlimited plans are allowed up to 1000 monthly GPT-4 interactions.</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            
+
+
+                                              <!-- Edit Chatbot Greeting Message -->
+                                            <div class="flex flex-col items-center mb-4">
+                                              <label for="chatbot-greeting" class="text-dark dark:text-white text-base font-bold mb-1">Edit Chatbot Greeting Message</label>
+                                              <textarea data-chatbot-id="{{ chatbot['chat_id'] }}" id="chatbot-greeting-{{ chatbot['chat_id'] }}" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">{{ chatbot['custom_greeting']|default('Hey there! I am an AI Assistant, How can I help you ?', true) }}</textarea>
+
+                                              <button onclick="savegreeting(this)" class="mt-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                                  Save
+                                              </button>
+                                          </div>
+                                              
+                                              
+                                              
+                                            
+                                        </div>
+                            
+                                        <div id="appearance-content-{{ chatbot['chat_id'] }}" class="tab-content overflow-auto h-[55vh] px-2 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded" style="display: none;">
+                                            <!-- Integration Settings -->
+
+                                            <!-- Embed -->
+                                            <p class="text-dark dark:text-white pb-3 text-base font-bold">Embed the Chatbot Easily on your site using this script</p>
+
+                                            <div class="mb-4 bg-gray-800 shadow-md rounded-lg overflow-hidden relative">
+                                                <button class="copy-code-button absolute top-2 right-2 text-xs text-white bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded flex items-center">
+                                                  <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                                  Copy Code
+                                                </button>
+                                                <div class="copy-code-success absolute top-2 right-2 text-xs text-white bg-green-500 py-1 px-2 rounded flex items-center opacity-0 transition duration-300" style="pointer-events: none;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                    </svg>
+                                                    Copied!
+                                                </div>
+
+                                                <div id="header-buttons" class="py-3 px-4 flex">
+                                                    <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                                                    <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                                                    <div class="rounded-full w-3 h-3 bg-green-500"></div>
+                                                </div>
+                                                
+                                                <div id="code-area" class="text-left py-3 px-4 mt-1 text-white text-sm">
+                                                  <div class="mb-2">
+                                                    <span class="text-blue-400">&lt;script</span> <span class="text-red-500">src</span><span class="text-green-400">=</span><span class="text-blue-400">"https://cdn.jsdelivr.net/gh/Gptify/Gptify@v4/embedv3.min.js"</span> <span class="text-red-500">data-chat-id</span><span class="text-green-400">=</span><span class="text-blue-400">"{{ chatbot['chat_id'] }}"</span> <span class="text-red-500">data-bg-color</span><span class="text-green-400">=</span><span class="text-blue-400">""</span><span class="text-blue-400">&gt;</span> <span class="text-green-400">// You can put your color code in data-bg-color to change the chatbubble's color</span> <span class="text-blue-400">&lt;/script&gt;</span>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                             <!-- iframe -->
+                                             
+                                            <p class="text-dark dark:text-white pb-3 text-base font-bold">Integrated the Chatbot Iframe on your site using this code</p>
+
+                                            <div class="mb-4 bg-gray-800 shadow-md rounded-lg overflow-hidden relative">
+                                                <button class="iframe-copy-code-button absolute top-2 right-2 text-xs text-white bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded flex items-center">
+                                                  <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                                  Copy Code
+                                                </button>
+                                                <div class="iframe-copy-code-success absolute top-2 right-2 text-xs text-white bg-green-500 py-1 px-2 rounded flex items-center opacity-0 transition duration-300" style="pointer-events: none;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                    </svg>
+                                                    Copied!
+                                                </div>
+
+                                                <div id="header-buttons" class="py-3 px-4 flex">
+                                                    <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                                                    <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                                                    <div class="rounded-full w-3 h-3 bg-green-500"></div>
+                                                </div>
+                                                
+                                                <div id="iframe-code-area" class="text-left py-3 px-4 mt-1 text-white text-sm">
+                                                  <div class="mb-2">
+                                                    <span class="text-blue-400">&lt;iframe</span> <span class="text-red-500">src</span><span class="text-green-400">=</span><span class="text-blue-400">"https://chatflux.io/chatbot-iframe?chatId={{ chatbot['chat_id'] }}"</span> <span class="text-red-500">width</span><span class="text-green-400">=</span><span class="text-blue-400">"100%"</span> <span class="text-red-500">height</span><span class="text-green-400">=</span><span class="text-blue-400">"100%"</span> <span class="text-red-500">frameborder</span><span class="text-green-400">=</span><span class="text-blue-400">"0"</span><span class="text-blue-400">&gt;&lt;/iframe&gt;</span>
+                                                </div>
+                                                </div>
+                                            </div>
+
+
+                                              {% if chatbot['public'] == 0 %}
+                                              <p class="chatbot-item block w-full font-medium mb-1 text-center text-body-color text-sm" >To share your chatbot, it needs to be set to public.</p>
+                                              {% endif %}
+                                              <p class="text-dark dark:text-white text-base font-bold">Share Your AI Chatbot on Social Media</p>
+
+                                              <!-- component -->
+                                              <div class="my-4">
+                                                <div class="flex justify-center space-x-4 my-4">
+                                                  <!--FACEBOOK ICON-->
+                                                  <button
+                                                    data-network="Facebook"
+                                                    data-id="{{ chatbot['chat_id'] }}"
+                                                    class="border dark:border-primary hover:bg-[#1877f2] w-12 h-12 fill-[#1877f2] hover:fill-white border-blue-200 rounded-full flex items-center justify-center shadow-xl hover:shadow-blue-500/50 cursor-pointer {% if chatbot['public'] == 0 %}cursor-not-allowed{% endif %}" {% if chatbot['public'] == 0 %} disabled title="The chatbot is private. Make it public to share."{% endif %}
+                                                  >
+                                                  <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="24"
+                                                  height="24"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z"
+                                                  ></path>
+                                                </svg>
+                                                  </button>
+                                                  <!--TWITTER ICON-->
+                                                  <button
+                                                    data-network="Twitter"
+                                                    data-id="{{ chatbot['chat_id'] }}"
+                                                    class="border dark:border-primary hover:bg-[#1d9bf0] w-12 h-12 fill-[#1d9bf0] hover:fill-white border-blue-200 rounded-full flex items-center justify-center shadow-xl hover:shadow-sky-500/50 cursor-pointer {% if chatbot['public'] == 0 %}cursor-not-allowed{% endif %}" {% if chatbot['public'] == 0 %} disabled  title="The chatbot is private. Make it public to share."{% endif %}
+                                                  >
+                                                  <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="24"
+                                                  height="24"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    d="M19.633 7.997c.013.175.013.349.013.523 0 5.325-4.053 11.461-11.46 11.461-2.282 0-4.402-.661-6.186-1.809.324.037.636.05.973.05a8.07 8.07 0 0 0 5.001-1.721 4.036 4.036 0 0 1-3.767-2.793c.249.037.499.062.761.062.361 0 .724-.05 1.061-.137a4.027 4.027 0 0 1-3.23-3.953v-.05c.537.299 1.16.486 1.82.511a4.022 4.022 0 0 1-1.796-3.354c0-.748.199-1.434.548-2.032a11.457 11.457 0 0 0 8.306 4.215c-.062-.3-.1-.611-.1-.923a4.026 4.026 0 0 1 4.028-4.028c1.16 0 2.207.486 2.943 1.272a7.957 7.957 0 0 0 2.556-.973 4.02 4.02 0 0 1-1.771 2.22 8.073 8.073 0 0 0 2.319-.624 8.645 8.645 0 0 1-2.019 2.083z"
+                                                  ></path>
+                                                </svg>
+                                                  </button>
+                                                  <!--WHATSAPP ICON-->
+                                                  <button
+                                                    data-network="WhatsApp"
+                                                    data-id="{{ chatbot['chat_id'] }}"
+                                                    class="border dark:border-primary hover:bg-[#25D366] w-12 h-12 fill-[#25D366] hover:fill-white border-green-200 rounded-full flex items-center justify-center shadow-xl hover:shadow-green-500/50 cursor-pointer {% if chatbot['public'] == 0 %}cursor-not-allowed{% endif %}" {% if chatbot['public'] == 0 %} disabled title="The chatbot is private. Make it public to share."{% endif %}
+                                                  >
+                                                  <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="24"
+                                                  height="24"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    fill-rule="evenodd"
+                                                    clip-rule="evenodd"
+                                                    d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461a7.413 7.413 0 0 1 5.275 2.188 7.42 7.42 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112s-.58.729-.711.879-.262.168-.486.056-.947-.349-1.804-1.113c-.667-.595-1.117-1.329-1.248-1.554s-.014-.346.099-.458c.101-.1.224-.262.336-.393.112-.131.149-.224.224-.374s.038-.281-.019-.393c-.056-.113-.505-1.217-.692-1.666-.181-.435-.366-.377-.504-.383a9.65 9.65 0 0 0-.429-.008.826.826 0 0 0-.599.28c-.206.225-.785.767-.785 1.871s.804 2.171.916 2.321c.112.15 1.582 2.415 3.832 3.387.536.231.954.369 1.279.473.537.171 1.026.146 1.413.089.431-.064 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.067-.056-.094-.207-.151-.43-.263"
+                                                  ></path>
+                                                </svg>
+                                              </button>
+                                                  <!--TELEGRAM ICON-->
+                                                  <button
+                                                    data-network="Telegram"
+                                                    data-id="{{ chatbot['chat_id'] }}"
+                                                    class="border dark:border-primary hover:bg-[#229ED9] w-12 h-12 fill-[#229ED9] hover:fill-white border-sky-200 rounded-full flex items-center justify-center shadow-xl hover:shadow-sky-500/50 cursor-pointer {% if chatbot['public'] == 0 %}cursor-not-allowed{% endif %}" {% if chatbot['public'] == 0 %} disabled  title="The chatbot is private. Make it public to share."{% endif %}
+                                                  >
+                                                  <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="24"
+                                                  height="24"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"
+                                                  ></path>
+                                                </svg>
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            <!-- Copy Link -->
+                                            <div class="w-full items-center text-center pb-4">
+                                              <button 
+                                                  id="shareButton" chatbotid="{{ chatbot['chat_id'] }}"
+                                                  class="px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none {% if chatbot['public'] == 0 %}cursor-not-allowed{% endif %}" {% if chatbot['public'] == 0 %} disabled title="The chatbot is private. Make it public to share."{% endif %}>
+                                                  Copy Chatbot Link
+                                              </button>
+                                             
+                                            </div>
+                                            
+                                               
+                                        </div>
+
+                                        <div id="update-content-{{ chatbot['chat_id'] }}" class="tab-content overflow-auto h-[55vh] px-2 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded" style="display: none;">
+                                          <!-- Advanced Settings -->
+                                          
+                                          <p class="text-primary text-xl font-semibold">Leads Collected: <span class="text-dark dark:text-white">{{ chatbot['email_count']|default(0) }}</span></p>
+                                        
+                                        <div x-data="{ chatId: '{{ chatbot['chat_id'] }}', selected: {{ chatbot['collect_emails'] }} == 1, toggleCollectEmails: toggleCollectEmails }" x-init="() => { $watch('selected', (value) => toggleCollectEmails(value, chatId)); }" class="w-full rounded h-auto m-auto flex flex-col py-3 rounded-xl">
+              
+                                          <div class="relative w-full rounded-md border h-10 p-1 bg-gray-200 dark:bg-dark dark:border-dark">
+                                          <div class="relative w-full h-full flex items-center">
+                                              <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                              <button>Start collecting leads</button>
+                                              </div>
+                                              <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                              <button>Stop collecting leads</button>
+                                              </div>
+                                          </div>
+                                          <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }"
+                                              x-text="selected ? 'Lead Collection Enabled' : 'Lead Collection Disabled'"
+                                              class="bg-white dark:bg-primary shadow text-sm flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute">
+                                            </span>
+                                          </div>
+                                        </div>
+                                      
+
+                                        <a href="/export_emails/{{chatbot['chat_id']}}" class="inline-flex text-center justify-center items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                        <svg class="fill-current mr-4" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-4,4A1,1,0,1,0,8.71,7.71ZM21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/></svg>
+                                        Export Leads
+                                        </a>
+
+                                          <div x-data="{ chatId: '{{ chatbot['chat_id'] }}', selected: {{ chatbot['human_assistance'] }} == 1, toggleHumanAssistance: toggleHumanAssistance }" x-init="() => { $watch('selected', (value) => toggleHumanAssistance(value, chatId)); }" class="w-full rounded h-auto m-auto flex flex-col py-4 rounded-xl">
+                                            <div class="relative w-full rounded-md border h-10 p-1 bg-gray-200 dark:bg-dark dark:border-dark">
+                                              <div class="relative w-full h-full flex items-center">
+                                                <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                  <button>Enable Human Help</button>
+                                                </div>
+                                                <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                                  <button>Disable Human Help</button>
+                                                </div>
+                                              </div>
+                                              <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }"
+                                                x-text="selected ? 'Human Help Enabled' : 'Human Help Disabled'"
+                                                class="bg-white dark:bg-primary shadow text-sm flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute">
+                                              </span>
+                                            </div>
+                                          </div>
+
+                                          
+
+                                          <!-- Edit Base Prompt -->
+                                          <div class="flex flex-col items-center jus mb-4">
+                                              <label for="base-prompt" class="text-dark dark:text-white text-base font-bold mb-1">Edit Base Prompt</label>
+                                              <textarea data-chatbot-id="{{ chatbot['chat_id'] }}" id="base-prompt-{{ chatbot['chat_id'] }}" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">{{ chatbot['custom_prompt_base']|default('Your name is "AI Assistant".\nYou will provide me with answers from the given info. If the answer is not included, say "Hmm, I\'m not sure this information exists in the content. Maybe try to rephrase the question or clarify your request..." or translate it to the language you got the question in.\nDon\'t try to make up an answer.', true) }}</textarea>
+                                              <button onclick="saveprompt(this)" class="mt-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                                  Save
+                                              </button>
+                                          </div>
+
+                                          
+                                          
+                                            <!-- delete start -->
+                                            <div x-data="{ openDelete: false }" class="chatbot-item block w-full font-medium mt-3 text-center text-body-color text-sm" data-chatbot-id="{{ chatbot['chat_id'] }}">
+                                                                
+                                              <button @click="openDelete = true">
+                                                Delete Chatbot
+                                              </button>
+                                              <!-- modal -->
+                                              <div id="modal2" x-show="openDelete" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+                                                  x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+                                                  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                                  class=" relative inset-0 bg-gray-600 bg-opacity-75 transition-opacity">
+                                              </div>
+
+                                              <div x-show="openDelete" class="fixed top-0 left-0 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-90 px-4 py-5">
+                                                  <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+
+                                                      <div x-show="openDelete" x-transition:enter="ease-out duration-300"
+                                                          x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                                          x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                                                          x-transition:leave="ease-in duration-200"
+                                                          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                                                          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
+                                                          class="my-auto relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+                                                          @click.away="openDelete = false">
+                                                          <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                                                              <!-- Icon -->
+                                                              <span class="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                                                              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                                              </svg>
+                                                              </span>
+                                                              <!-- End Icon -->
+
+                                                              <h3 class="mb-2 text-2xl font-bold text-gray-800">
+                                                                  Delete Chatbot
+                                                              </h3>
+                                                              <p class="text-gray-500">
+                                                                Are you absolutely, positively, 100% sure you want to delete your chatbot? Once it's gone, it's gone, like a magic trick without a rabbit.
+                                                              </p>
+
+                                                              <div class="mt-6 flex justify-center gap-x-4">
+                                                                  
+                                                                  <button class="delete-chatbot-btn py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                                                                    Delete Chatbot
+                                                                  </button>
+                                                                  <button @click="openDelete = false" type="button" class="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm">
+                                                                    Cancel
+                                                                  </button>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+
+                                                  </div>
+                                              </div>
+                                              <!-- end modal -->
+                                          </div>
+
+                                          <!-- delete end -->
+
+
+
+
+                                      </div>
+
+                                      <!-- analytics tab content -->
+
+                                      <div id="analytics-content-{{ chatbot['chat_id'] }}" class="tab-content overflow-auto h-[55vh] px-2 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded" style="display: none;">
+
+                                        {% if chatbot['pickle_file_name'] == '' %}
+                                        <!-- separator -->
+                                        <div class="my-2 flex items-center px-3">
+                                          <hr class="w-full rounded border-primary border-[1.5px]" />
+                                          <p class="text-dark dark:text-white text-base font-bold mx-3 whitespace-nowrap">Improve Chatbot Answers</p>
+                                          <hr class="w-full rounded border-primary border-[1.5px]" />
+                                        </div>
+
+                                        <form id="form-{{ chatbot['chat_id'] }}" class="flex flex-col items-start">
+
+                                          <div class="mb-1 flex items-center w-full px-5 gap-2">
+                                            <label for="question" class="dark:text-white text-sm font-bold">Question:</label>
+                                            <textarea required name="question" type="text" rows="1"
+                                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                                          </div>
+                                        
+                                          <div class="mb-2 flex w-full px-5 gap-2 items-center">
+                                            <label for="answer" class="dark:text-white font-bold">Answer:</label>
+                                            <textarea required name="answer" type="text" rows="1"
+                                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                                          </div>
+
+                                          <div class="items-center justify-center flex w-full">
+                                            <button
+                                              id="improve-chatbot-{{ chatbot['chat_id'] }}" 
+                                              data-chatbot-id="{{ chatbot['chat_id'] }}" 
+                                              onclick="improveQAButton(event)"
+                                              type="submit"
+                                              class="ml-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                              Improve Chatbot
+                                            </button>
+                                          </div>
+
+                                        </form>
+
+
+                                        
+                                        <!-- separator end -->
+                                        <div class="my-3 flex items-center px-3">
+                                          <hr class="w-full rounded border-primary border-[1.5px]" />
+                                        </div>
+                                        {% else %}
+                                        {% endif %}
+
+
+                                        {% if chatbot['metadata'] is defined and chatbot['metadata']['files'] is defined and chatbot['metadata']['files'] %}
+                                        <!-- table of files start -->
+                                        <div class="flex flex-col mt-4 items-center justify-center">
+                                          <label for="chatbot-files" class="text-dark dark:text-white text-base font-bold mb-2">Current Chatbot Content</label>
+                                          <div class="overflow-y-auto max-h-[160px] align-middle inline-block min-w-0 w-full rounded-lg border-2 border-gradient-1 bg-white shadow-faq dark:border-black dark:bg-dark relative scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded" >
+                                          
+                                            <table class="w-full table-auto overflow-hidden border-2 border-gradient-1 dark:border-dark">
+                                                <thead class="bg-gradient-1 dark:bg-dark text-dark dark:text-white">
+                                                    <tr>
+                                                        <th class="px-4 py-2">Source</th>
+                                                        <th class="px-4 py-2">Date Stored</th>
+                                                        <th class="px-4 py-2">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+                                                    <!-- Here is a list of your files data and display the filename and date stored -->
+                                                    {% for file in chatbot['metadata']['files'] %}
+                                                        <tr class="rounded-lg dark:bg-black text-dark dark:text-white dark:border-dark border-b border-gradient-1">
+                                                        
+                                                            <td class="px-4 py-2">{{ file['file_name'] }}</td>
+                                                            <td class="px-4 py-2">{{ file['created_at'] }}</td>
+                                                            <td class="px-2 py-2">
+                                                              <button onclick="deleteFile('{{ chatbot['chat_id'] }}', '{{ file['file_name'].replace("'", "\\'") }}')"         
+                                                                  class="inline-block px-4 py-2  text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                                                                  Delete
+                                                              </button>
+                                                              
+                                                              
+                                                                    
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+
+                                          </div>
+                                      </div>
+                                      {% else %}
+                                      {% endif %}
+
+                                      <!-- add more content section -->
+                                      {% if chatbot['pickle_file_name'] == '' %}
+                                         
+
+                                      <!-- Embed -->
+                                      <div class="">
+                                        <p class="text-dark dark:text-white text-base font-bold mt-2">Add more content to the chatbot</p>
+
+                                        <div class="w-full h-full items-center text-center my-2">
+                                            <button onclick="redirectTo('{{ chatbot['chat_id'] }}', 'document')" class="w-full px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                            Add From Document
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="w-full h-full items-center text-center my-2">
+                                            <button onclick="redirectTo('{{ chatbot['chat_id'] }}', 'youtube')"   class="w-full px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                                Add From Youtube Video
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="w-full h-full items-center text-center my-2">
+                                            <button onclick="redirectTo('{{ chatbot['chat_id'] }}', 'website')"   class="w-full px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                                Add From Website
+                                            </button>
+                                        </div>
+
+                                        <div class="w-full h-full items-center text-center my-2">
+                                          <button onclick="redirectTo('{{ chatbot['chat_id'] }}', 'text')"   class="w-full px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                              Add From Plain text
+                                          </button>
+                                        </div>
+                                        
+                                      </div>
+                                        {% else %}
+                                        {% endif %}
+
+
+                                      </div>
+
+
+
+
+                                      <div id="display-content-{{ chatbot['chat_id'] }}" class="tab-content overflow-auto h-[55vh] px-2 scrollbar-thin scrollbar-track-gradient-1 scrollbar-thumb-body-color scrollbar-track-rounded scrollbar-thumb-rounded" style="display: none;">
+                                        
+                                     <!-- loading styles -->
+                                     <div class="flex flex-col items-center justify-center my-2" data-chatbot-id="{{ chatbot['chat_id'] }}">
+                                       <p class="text-dark dark:text-white text-base font-bold mr-3 mb-1">Loading Styles</p>
+                                       <div class="flex items-center space-x-10">
+                                           <!-- Loading Style 1 -->
+                                           <div>
+                                               <input type="radio" id="loading-style-1-{{ chatbot['chat_id'] }}" name="loading-style-{{ chatbot['chat_id'] }}" {% if chatbot['loading_style'] == 1 %}checked{% endif %}>
+                                               <label for="loading-style-1-{{ chatbot['chat_id'] }}" class="text-dark dark:text-white">Style 1</label>
+                                               <div class="animate-pulse space-y-2 mt-2">
+                                                   <div class="h-2 w-full rounded bg-primary dark:bg-dark"></div>
+                                                   <div class="h-2 w-full rounded bg-primary dark:bg-dark"></div>
+                                               </div>
+                                           </div>
+
+                                           <!-- Loading Style 2 -->
+                                           <div>
+                                               <input type="radio" id="loading-style-2-{{ chatbot['chat_id'] }}" name="loading-style-{{ chatbot['chat_id'] }}" {% if chatbot['loading_style'] == 2 %}checked{% endif %}>
+                                               <label for="loading-style-2-{{ chatbot['chat_id'] }}" class="text-dark dark:text-white">Style 2</label>
+                                               <div class="flex items-center justify-center">
+                                                   <div style="border-top-color:transparent" class="w-8 h-8 border-4 border-primary rounded-full animate-spin"></div>
+                                                   <p class="ml-2 text-dark dark:text-white font-bold">Thinking...</p>
+                                               </div>
+                                           </div>
+
+                                           <!-- Loading Style 3 -->
+                                           <div>
+                                               <input type="radio" id="loading-style-3-{{ chatbot['chat_id'] }}" name="loading-style-{{ chatbot['chat_id'] }}" {% if chatbot['loading_style'] == 3 %}checked{% endif %}>
+                                               <label for="loading-style-3-{{ chatbot['chat_id'] }}" class="text-dark dark:text-white">Style 3</label>
+                                               <div class="flex items-center justify-center p-2 min-w-screen">
+                                                   <div class="flex space-x-2 animate-pulse">
+                                                       <div class="w-3 h-3 bg-primary rounded-full"></div>
+                                                       <div class="w-3 h-3 bg-primary rounded-full"></div>
+                                                       <div class="w-3 h-3 bg-primary rounded-full"></div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                     </div>
+
+                                   
+                                     
+                                     <!-- Profile Picture -->
+                                     <div class="justify-center flex flex-row items-center mt-4 mb-2">
+                                       <input type="checkbox" id="profile-pic-toggle-{{ chatbot['chat_id'] }}" class="mr-2" onchange="document.getElementById('profile-pic-upload-{{ chatbot['chat_id'] }}').disabled = !this.checked; this.checked ? document.getElementById('profile-pic-upload-{{ chatbot['chat_id'] }}').classList.remove('cursor-not-allowed') : document.getElementById('profile-pic-upload-{{ chatbot['chat_id'] }}').classList.add('cursor-not-allowed'); toggleProfile(this.checked, '{{ chatbot['chat_id'] }}')"  {{'checked' if chatbot['profile_pic_enabled'] else ''}}>
+                                       <button id="profile-pic-upload-{{ chatbot['chat_id'] }}" class="whitespace-nowrap ml-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline {{'cursor-not-allowed' if not chatbot['profile_pic_enabled'] else ''}}" {{'disabled' if not chatbot['profile_pic_enabled'] else ''}}>
+                                               Upload Profile Picture
+                                           </button>
+
+                                           <img 
+                                             id="profile-pic-display-{{ chatbot['chat_id'] }}"
+                                             src="{% if chatbot['profile_pic_enabled'] and chatbot['profile_pic'] %}../{{ chatbot['profile_pic'] }}{% else %}{{ url_for('static', filename='src/images/logo/logo.png') }}{% endif %}" 
+                                             alt="Chatbot" 
+                                             class="h-10 w-10 rounded-full mx-2"
+                                         />
+                                       
+                                     </div>
+                                 
+                                     <p class="text-dark dark:text-white text-base font-bold mr-3 mb-1">Suggested Messages</p>
+                                     <p class="chatbot-item block w-full font-medium mb-1 text-center text-body-color text-sm">Separate them by ,</p>
+                                     <textarea id="suggested-messages-{{ chatbot['chat_id'] }}" data-chat-id="{{ chatbot['chat_id'] }}" rows="1" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Hello,What's ...">{{ chatbot['suggested_messages'] or ''}}</textarea>
+                                 
+                                     
+                                     <!-- separator -->
+                                    <div class="my-3 flex items-center px-3">
+                                      <hr class="w-full rounded border-primary border-[1.5px]" />
+                                      <span class="whitespace-nowrap mx-3 text-primary">Visible on Embedded Chatbots</span>
+                                      <hr class="w-full rounded border-primary border-[1.5px]" />
+                                    </div>
+                                    
+                                     <!-- Chatbubble Placement -->
+                                     <div x-data="{ chatId: '{{ chatbot['chat_id'] }}', selected: {{ chatbot['chat_bubble_placement'] }} == 1, toggleChatBubblePlacement: toggleChatBubblePlacement }" x-init="() => { $watch('selected', (value) => toggleChatBubblePlacement(value, chatId)); }" class="my-2 w-full rounded h-auto m-auto flex flex-col rounded-xl">
+                                         <div class="relative w-full rounded-md border h-10 p-1 bg-gray-200 dark:bg-dark dark:border-dark">
+                                         <div class="relative w-full h-full flex items-center">
+                                             <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                             <button>Chatbubble Placement: Left</button>
+                                             </div>
+                                             <div @click="selected=!selected" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                                             <button>Chatbubble Placement: Right</button>
+                                             </div>
+                                         </div>
+                                         <span :class="{ 'left-1/2 -ml-1 text-primary dark:text-white':!selected, 'left-1 text-primary dark:text-white font-semibold':selected }"
+                                             x-text="selected ? 'Left' : 'Right'"
+                                             class="bg-white dark:bg-primary shadow text-sm flex items-center justify-center w-1/2 rounded h-[1.88rem] transition-all duration-150 ease-linear top-[4px] absolute"></span>
+                                         </div>
+                                     </div>
+                                    
+
+                                    <!-- Header -->
+                                 <div class="flex flex-row items-center mb-2">
+                                   <input type="checkbox" id="header-toggle-{{ chatbot['chat_id'] }}" class="mr-2" onchange="toggleHeaderInput(this.checked, 'header-name-{{ chatbot['chat_id'] }}', 'save-button-{{ chatbot['chat_id'] }}'); toggleHeader(this.checked, '{{ chatbot['chat_id'] }}');" {{'checked' if chatbot['header_enabled'] else ''}}>
+                                   <input type="text" id="header-name-{{ chatbot['chat_id'] }}" placeholder="Header Name" class=" dark:border-gray-600 rounded-md dark:bg-dark dark:text-white border p-2 w-full {{'cursor-not-allowed' if not chatbot['header_enabled'] else ''}}" {{'disabled' if not chatbot['header_enabled'] else ''}} value="{{ chatbot['header_name'] or '' }}">
+                                   <button id="save-button-{{ chatbot['chat_id'] }}" class="ml-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline {{'cursor-not-allowed' if not chatbot['header_enabled'] else ''}}" {{'disabled' if not chatbot['header_enabled'] else ''}} onclick="updateHeaderName('{{ chatbot['chat_id'] }}', document.getElementById('header-name-{{ chatbot['chat_id'] }}').value);">
+                                     Save
+                                 </button>
+                                 </div>
+                                 
+                                 <span class="whitespace-nowrap text-dark dark:text-white text-base font-bold mx-3">Chatbot Display Colors</span>
+                                 <div class="flex justify-between items-center px-10">
+                                     <!-- Header Color Picker -->
+                                     <div>
+                                       <p class="text-dark dark:text-white text-sm">Header</p>
+                                       <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['header_color'] or '' }}" data-color-type="header" class="color-picker"></div>
+                                     </div>
+                                     
+                                   
+                                    <!-- Text Color Picker -->
+                                    <div>
+                                      <p class="text-dark dark:text-white text-sm">Text</p>
+                                      <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['text_color'] or '' }}" data-color-type="text" class="color-picker"></div>
+                                    </div>
+
+                                    <!-- User Message Color Picker -->
+                                    <div>
+                                      <p class="text-dark dark:text-white text-sm">User Message</p>
+                                      <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['user_msg_color'] or '' }}" data-color-type="user_message" class="color-picker"></div>
+                                    </div>
+
+                                  </div>
+
+
+                                  <div class="flex justify-between items-center px-10">
+                                    
+
+                                     <!-- Theme Color Picker -->
+                                     <div>
+                                      <p class="text-dark dark:text-white text-sm">Border</p>
+                                      <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['custom_color'] or ''}}" data-color-type="theme" class="color-picker"></div>
+                                    </div>
+                                  <!-- Background Color Picker -->
+                                  <div>
+                                   <p class="text-dark dark:text-white text-sm">Background</p>
+                                   <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['background_color'] or '' }}" data-color-type="background" class="color-picker"></div>
+                               </div>
+                               
+
+                                   
+                                   <!-- Bot Message Color Picker -->
+                                   <div>
+                                       <p class="text-dark dark:text-white text-sm">Bot Message</p>
+                                       <div data-color-picker-id="{{ chatbot['chat_id'] }}" data-custom-color="{{ chatbot['bot_msg_color'] or '' }}" data-color-type="bot_message" class="color-picker"></div>
+                                   </div>
+
+                                 </div>
+
+                                  
+                                  <!-- reset colors -->
+                                  <div class="flex flex-col items-center">
+                                    <button
+                                    onclick="resetColors('{{ chatbot['chat_id'] }}')"
+                                        class="mt-2 px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:shadow-outline">
+                                        Reset Colors
+                                    </button>
+                                  </div>
+                                  
+
+
+                                     </div>
+                                     <!-- End -->
+                                    
+                                      </div>
+                            
+                                        
+                                            
+                                </div>
+                            </div>
+
+                              
+
+
+                          </td>
+
+
+                          </tr>
+                          {% else %}
+                          <tr class="items-center flex border-2 dark:border-black border-gradient-1">
+                            <td class="flex-grow px-6 py-4 truncate rounded-lg">
+                              <div class="text-sm leading-5 text-body-color flex gap-2">
+                                A chatbot is being created...  <div style="border-top-color:transparent" class="w-4 h-4 border-2 border-body-color rounded-full animate-spin"></div>
+                              </div>
+                            </td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          
+                          
+
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {% if chatbots|length == 0 %}
+                    <p class="text-center text-gray-500 dark:text-white font-semibold py-4">Looks like your chatbot crew is still gathering. Click the button above to create your very first assistant!</p>
+                    {% endif %}
+
+
+                  </div>
+                
+            
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Mybots end ===== -->
+
+
+    <!-- ===== Footer start ===== -->
+    <footer id="footer" class="bottom-0 w-full">
+      <div class="p-10 wow fadeInUp bg-white dark:bg-dark" data-wow-delay=".25s">
+        <p class="text-center text-primary font-semibold text-body-color">
+            chatflux.io ©</p>
+          <p class="text-center text-base font-semibold text-body-color">
+         made by <a class="text-center text-primary font-bold text-body-color" href="mailto:aymane@chatflux.io">aymane</a> with 💙
+        </p>
+        
+      </div>
+    </footer>
+    <!-- ===== Footer end ===== -->
+
+
+    <!-- ====== Back To Top Start -->
+    <a
+      x-show="scrolledFromTop"
+      href="javascript:void(0)"
+      class="hover:shadow-signUp back-to-top fixed bottom-8 right-8 left-auto z-[999] flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-md transition"
+    >
+      <span
+        class="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"
+      ></span>
+    </a>
+    <!-- ====== Back To Top End -->
+
+    <!-- ===== JS Files ====== -->   
+
+
+    <script>
+
+document.querySelectorAll("[data-network]").forEach(function (button) {
+  button.addEventListener("click", function () {
+    if (!button.disabled) {
+      let network = button.getAttribute("data-network");
+      let chatId = button.getAttribute("data-id");
+      let shareText =  encodeURIComponent("Creating custom AI chatbots has never been easier! Explore my AI chatbot created using chatflux.io ");
+      const shareUrl = `https://chatflux.io/chatbot/${chatId}`;
+      let url = '';
+
+      switch (network) {
+      case 'Facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${shareText}`;
+        break;
+      case 'Twitter':
+        url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${shareText}`;
+        break;
+      case 'WhatsApp':
+        url = `https://wa.me/?text=${shareText + encodeURIComponent(shareUrl)}`;
+        break;
+      case 'Telegram':
+        url = `https://telegram.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${shareText}`;
+        break;
+      default:
+        return;
+    }
+    
+
+      window.open(url, "_blank");
+    }
+  });
+});
+
+
+
+      function toggleChatBubblePlacement(selected, chatId) {
+    const formData = new FormData();
+    formData.append('chat_bubble_placement', selected ? '1' : '0');
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          showAlert('success');
+            console.log(`Chatbubble placement toggled to ${selected ? 'Left' : 'Right'}`);
+        }else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+    };
+    xhttp.open("POST", `/toggle_chat_bubble_placement/${chatId}`, true);
+    xhttp.send(formData);
+}
+
+// suggested messages v2
+document.querySelectorAll('textarea[id^="suggested-messages"]').forEach(textarea => {
+    textarea.addEventListener('change', function(event) {
+        let chatId = event.target.getAttribute('data-chat-id');
+        let messages = event.target.value;
+
+        fetch('/update_suggested_messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ chat_id: chatId, suggested_messages: messages }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                showAlert("success");
+            } else {
+                showAlert("error");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+
+// profile pic
+
+const uploadBtns = document.querySelectorAll("[id^='profile-pic-upload-']");
+
+uploadBtns.forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    event.preventDefault();
+    const chatId = btn.id.split("upload-").pop();
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = e => {
+      const file = e.target.files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+      fetch(`/upload_profile_pic/${chatId}`, {
+        method: "POST",
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "success") {
+          document.getElementById(`profile-pic-display-${chatId}`).src = data.image_url;
+          showAlert("success");
+        } else {
+          showAlert("error");
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        showAlert("error");
+      });
+    };
+    fileInput.click();
+  });
+});
+
+
+
+// loading
+
+const loadingStyles = document.querySelectorAll('[name^="loading-style-"]');
+
+loadingStyles.forEach((radio) => {
+    radio.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            const chatbotId = e.target.parentElement.parentElement.parentElement.dataset.chatbotId;
+            const loadingStyle = parseInt(e.target.id.split('-')[2]);
+
+            const response = await fetch(`/update_loading_style/${chatbotId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ loadingStyle: loadingStyle })
+            });
+
+            if (response.ok) {
+              showAlert('success');
+              console.log(`Loading style updated to ${loadingStyle} for chatbot ID ${chatbotId}`);
+            } else {
+              showAlert('error');
+              console.error(`Failed to update loading style for chatbot ID ${chatbotId}`);
+            }
+          
+        }
+    });
+});
+
+
+document.querySelectorAll('.color-picker').forEach((pickerElement) => {
+    const chatbotId = pickerElement.dataset.colorPickerId;
+    const customColor = pickerElement.dataset.customColor || '#5e81f7';
+    const colorType = pickerElement.dataset.colorType;
+
+    const colorPicker = Pickr.create({
+      el: pickerElement,
+      theme: 'classic',
+      default: customColor,
+      components: {
+        preview: true,
+        opacity: false,
+        hue: true,
+        interaction: {
+          hex: true,
+          rgba: false,
+          hsla: false,
+          hsva: false,
+          cmyk: false,
+          input: true,
+          clear: false,
+          save: true
+        }
+      }
+    });
+
+    colorPicker.on('save', async (color, instance) => {
+      const hexColor = color.toHEXA().toString();
+
+      let route = "";
+      switch(colorType) {
+        case 'header':
+          route = '/update_header_color';
+          break;
+        case 'text':
+          route = '/update_text_color';
+          break;
+        case 'user_message':
+          route = '/update_user_message_color';
+          break;
+        case 'bot_message':
+          route = '/update_bot_message_color';
+          break;
+        case 'background':
+          route = '/update_background_color';
+          break;
+        case 'theme':
+          route = '/update_custom_color';
+          break;
+      }
+      
+      const colorupdate = {
+        color: hexColor,
+        chatid: chatbotId 
+      };
+
+      const response = await fetch(`${route}/${chatbotId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(colorupdate)
+      });
+
+      if (response.ok) {
+        showAlert('success');
+        console.log(`Color saved in ${colorType}:`, hexColor);
+      } else {
+        showAlert('error');
+        console.error("Failed to save color");
+      }
+    });
+});
+
+
+function toggleHeaderInput(selected, inputId, buttonId) {
+    const input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+
+    if (selected) {
+        input.removeAttribute('disabled');
+        input.classList.remove('cursor-not-allowed');
+
+        button.removeAttribute('disabled');
+        button.classList.remove('cursor-not-allowed');
+    } else {
+        input.setAttribute('disabled', 'disabled');
+        input.classList.add('cursor-not-allowed');
+
+        button.setAttribute('disabled', 'disabled');
+        button.classList.add('cursor-not-allowed');
+    }
+}
+
+function resetColors(chatId) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      showAlert('success');
+      console.log(`Colors reset.`);
+      setTimeout(() => {
+        window.location.reload();
+        }, 1500);
+    } else if (this.readyState === 4 && this.status === 400) {
+      showAlert('error');
+    }
+  };
+  xhttp.open("POST", `/reset_colors/${chatId}`, true);
+  xhttp.send();
+}
+
+
+
+function toggleHeader(selected, chatId) {
+    const formData = new FormData();
+    formData.append('header_enabled', selected ? '1' : '0');
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        
+        showAlert('success');
+        console.log(`Header toggled to ${selected ? 'enabled' : 'disabled'}`);
+      }else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+    };
+    xhttp.open("POST", `/toggle_header/${chatId}`, true);
+    xhttp.send(formData);
+}
+
+function toggleProfile(selected, chatId) {
+    const formData = new FormData();
+    formData.append('profile_pic_enabled', selected ? '1' : '0');
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        showAlert('success');
+        console.log(`Profile picture toggled to ${selected ? 'enabled' : 'disabled'}`);
+      }else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+    };
+    xhttp.open("POST", `/profile_pic_enable/${chatId}`, true);
+    xhttp.send(formData);
+}
+
+function deleteFile(chatId, fileName) {
+  const formData = new FormData();
+  formData.append('file_name', fileName);
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      showAlert('success');
+      setTimeout(() => {
+        window.location.reload();
+        }, 1500);
+      console.log(`File ${fileName} deleted.`);
+    } else if (this.readyState === 4 && this.status === 400) {
+      showAlert('error');
+    }
+  };
+  xhttp.open("POST", `/delete_file/${chatId}`, true);
+  xhttp.send(formData);
+}
+
+
+function updateHeaderName(chatId, headerName) {
+  const formData = new FormData();
+  formData.append('header_name', headerName);
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      showAlert('success');
+      console.log(`Header name updated to ${headerName}`);
+    }else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+  };
+  xhttp.open("POST", `/update_header_name/${chatId}`, true);
+  xhttp.send(formData);
+}
+
+function switchTab(tabName, chatbotId) {
+          
+          const generalTab = document.getElementById('general-tab-' + chatbotId);
+          const updateTab = document.getElementById('update-tab-' + chatbotId);
+          const appearanceTab = document.getElementById('appearance-tab-' + chatbotId);
+          const analyticsTab = document.getElementById('analytics-tab-' + chatbotId);
+          const displayTab = document.getElementById('display-tab-' + chatbotId);
+
+          const generalContent = document.getElementById('general-content-' + chatbotId)
+          const updateContent = document.getElementById('update-content-' + chatbotId);
+          const appearanceContent = document.getElementById('appearance-content-' + chatbotId);
+          const analyticsContent = document.getElementById('analytics-content-' + chatbotId);
+          const displayContent = document.getElementById('display-content-' + chatbotId);
+
+          const tabs = [generalTab, appearanceTab, updateTab, analyticsTab, displayTab];
+  const contents = [generalContent, appearanceContent, updateContent, analyticsContent, displayContent];
+
+  tabs.forEach(tab => {
+      tab.classList.remove('text-primary', 'border-primary');
+      tab.classList.add('text-body-color', 'border-transparent');
+  });
+
+  contents.forEach(content => {
+      content.style.display = 'none';
+  });
+
+  if (tabName === 'general') {
+      generalTab.classList.add('text-primary', 'border-primary');
+      generalTab.classList.remove('text-body-color', 'border-transparent');
+      generalContent.style.display = '';
+  } 
+  else if(tabName === 'appearance') {
+      appearanceTab.classList.add('text-primary', 'border-primary');
+      appearanceTab.classList.remove('text-body-color', 'border-transparent');
+      appearanceContent.style.display = '';
+  }
+  else if(tabName === 'update') {
+      updateTab.classList.add('text-primary', 'border-primary');
+      updateTab.classList.remove('text-body-color', 'border-transparent');
+      updateContent.style.display = '';
+  }
+  else if(tabName === 'analytics') {
+      analyticsTab.classList.add('text-primary', 'border-primary');
+      analyticsTab.classList.remove('text-body-color', 'border-transparent');
+      analyticsContent.style.display = '';
+  }
+  else if(tabName === 'display') {
+      displayTab.classList.add('text-primary', 'border-primary');
+      displayTab.classList.remove('text-body-color', 'border-transparent');
+      displayContent.style.display = '';
+  }
+                                              }
+
+
+        </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-chatbot-btn');
+    
+        deleteButtons.forEach((button) => {
+          button.addEventListener('click', (event) => {
+            const chatbotItem = event.target.closest('.chatbot-item');
+            const chatbotId = chatbotItem.getAttribute('data-chatbot-id');
+            console.log('Chatbot deleted : ', chatbotId)
+            deleteChat(chatbotId);
+          });
+        });
+      });
+    
+      function deleteChat(chatbotId) {
+        fetch(`/delete-chat?chatId=${chatbotId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === 'success') {
+              window.location.reload();
+            } else {
+              // Handle error
+              alert('Error deleting chatbot. Please try again.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert('Error deleting chatbot. Please try again.');
+          });
+      }
+    </script>
+    <script>
+ 
+          function showAlert(type) {
+        const errorAlert = document.getElementById('error-alert');
+        const successAlert = document.getElementById('success-alert');
+        const errorAlertshare = document.getElementById('error-alert-share');
+
+        if (type === 'success') {
+            // Show the success alert and hide the error alert
+            successAlert.classList.remove('opacity-0');
+            successAlert.classList.remove('hidden');
+            setTimeout(() => {
+            successAlert.classList.add('opacity-0');
+            setTimeout(() => {
+            successAlert.classList.add('hidden');
+            }, 1000);
+            }, 3000);
+
+        } else if (type === 'error') {
+
+            // Show the error alert and hide the success alert
+            errorAlert.classList.remove('opacity-0');
+            errorAlert.classList.remove('hidden');
+            setTimeout(() => {
+            errorAlert.classList.add('opacity-0');
+            setTimeout(() => {
+            errorAlert.classList.add('hidden');
+            }, 1000);
+            }, 4000);
+        }else if (type === 'share') {
+
+        // Show the error alert and hide the success alert
+        errorAlertshare.classList.remove('opacity-0');
+        errorAlertshare.classList.remove('hidden');
+        setTimeout(() => {
+          errorAlertshare.classList.add('opacity-0');
+        setTimeout(() => {
+          errorAlertshare.classList.add('hidden');
+        }, 1000);
+        }, 4000);
+        }
+
+        }
+
+
+        function showAlert2(type) {
+        const errorAlert = document.getElementById('error-alert');
+        const successAlert = document.getElementById('success-alert2');
+        const shareAlert = document.getElementById('error-alert-share');
+
+        if (type === 'success') {
+            // Show the success alert and hide the error alert
+            successAlert.classList.remove('opacity-0');
+            successAlert.classList.remove('hidden');
+            setTimeout(() => {
+            successAlert.classList.add('opacity-0');
+            setTimeout(() => {
+            successAlert.classList.add('hidden');
+            }, 1000);
+            }, 3000);
+
+        } else if (type === 'error') {
+
+            // Show the error alert and hide the success alert
+            errorAlert.classList.remove('opacity-0');
+            errorAlert.classList.remove('hidden');
+            setTimeout(() => {
+            errorAlert.classList.add('opacity-0');
+            setTimeout(() => {
+            errorAlert.classList.add('hidden');
+            }, 1000);
+            }, 4000);
+        }else if (type === 'share') {
+
+          // Show the error alert and hide the success alert
+          shareAlert.classList.remove('opacity-0');
+          shareAlert.classList.remove('hidden');
+          setTimeout(() => {
+            shareAlert.classList.add('opacity-0');
+          setTimeout(() => {
+            shareAlert.classList.add('hidden');
+          }, 1000);
+          }, 4000);
+          }
+        }
+
+
+
+
+    </script>
+
+    <script>
+    
+    //share iframe
+      document.querySelectorAll('.iframe-copy-code-button').forEach((copyButton, index) => {
+          copyButton.addEventListener('click', () => {
+              const codeArea = document.querySelectorAll('#iframe-code-area')[index];
+              const range = document.createRange();
+              range.selectNode(codeArea);
+              window.getSelection().removeAllRanges();
+              window.getSelection().addRange(range);
+              document.execCommand('copy');
+              window.getSelection().removeAllRanges();
+              
+              const successDivs = document.querySelectorAll('.iframe-copy-code-success');
+              copyButton.style.display = "none";
+              successDivs[index].style.opacity = '1';
+              
+              setTimeout(() => {
+                  successDivs[index].style.opacity = '0'; 
+              }, 2000);
+              setTimeout(() => {
+                  copyButton.style.display = "";
+              }, 2150);
+          });
+      });
+
+      
+
+      //share embed
+      document.querySelectorAll('.copy-code-button').forEach((copyButton, index) => {
+    copyButton.addEventListener('click', () => {
+        const codeArea = document.querySelectorAll('#code-area')[index];
+        const range = document.createRange();
+        range.selectNode(codeArea);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        
+        const successDivs = document.querySelectorAll('.copy-code-success');
+        copyButton.style.display = "none";
+        successDivs[index].style.opacity = '1';
+        
+        setTimeout(() => {
+            successDivs[index].style.opacity = '0'; 
+        }, 2000);
+        setTimeout(() => {
+            copyButton.style.display = "";
+        }, 2150);
+    });
+});
+
+      
+    </script>
+    
+      
+    <script>
+function saveprompt(buttonElement) {
+    const inputElement = buttonElement.previousElementSibling;
+    const chatbotId = inputElement.getAttribute('data-chatbot-id');
+    const newPrompt = inputElement.value;
+
+    
+      savepromptcb(newPrompt, chatbotId).then(response => {
+          if (response.ok) {
+              showAlert('success');
+              console.log('Chatbot prompt saved:', newPrompt, 'Chatbot :', chatbotId);
+             
+          } else {
+              showAlert2('error');
+              console.error('Failed to save chatbot name');
+          }
+      });
+  }
+
+  function savepromptcb(newPrompt, chatbotId) {
+      return fetch('/save_prompt', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: newPrompt, chatid: chatbotId }),
+      });
+  }
+
+      function savegreeting(buttonElement) {
+          const inputElement = buttonElement.previousElementSibling;
+          const chatbotId = inputElement.getAttribute('data-chatbot-id');
+          const newGreeting = inputElement.value;
+
+          
+            savegreetingcb(newGreeting, chatbotId).then(response => {
+                if (response.ok) {
+                    showAlert('success');
+                    console.log('Chatbot greeting saved:', newGreeting, 'Chatbot :', chatbotId);
+                   
+                } else {
+                    showAlert2('error');
+                    console.error('Failed to save chatbot name');
+                }
+            });
+        }
+
+        function savegreetingcb(newGreeting, chatbotId) {
+            return fetch('/save_greeting', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ greeting: newGreeting, chatid: chatbotId }),
+            });
+        }
+
+        function redirectTo(chatbot_id, contentType) {
+            // Initialize URL
+            let url = '';
+
+            // Construct URL based on contentType
+            switch (contentType) {
+                case 'document':
+                    url = '/updatedocuments/' + chatbot_id;
+                    break;
+                case 'youtube':
+                    url = '/youtubeupdate/' + chatbot_id;
+                    break;
+                case 'text':
+                    url = '/updatetext/' + chatbot_id;
+                    break;
+                case 'website':
+                    url = '/urlupdate/' + chatbot_id;
+                    break;
+            }
+
+            // Redirect to the constructed URL
+            window.location.href = url;
+        }
+
+    
+      function saveChatbotNameOnClick(buttonElement) {
+        const inputElement = buttonElement.previousElementSibling;
+        const chatbotId = inputElement.getAttribute('data-chatbot-id');
+        const newName = inputElement.value;
+
+        
+          saveChatbotName(newName, chatbotId).then(response => {
+              if (response.ok) {
+                  showAlert2('success');
+                  console.log('Chatbot name saved:', newName);
+                  setTimeout(function () {
+                      window.location.href = "/mychatbots";
+                  }, 4000);
+              } else {
+                  showAlert2('error');
+                  console.error('Failed to save chatbot name');
+              }
+          });
+      }
+
+      function saveChatbotName(newName, chatbotId) {
+          return fetch('/save_name', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ name: newName, chatid: chatbotId }),
+          });
+      }
+
+      </script>
+      
+
+    <script>
+
+      const shareButtons = document.querySelectorAll('#shareButton');
+
+      function copyToClipboard(text) {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+      }
+
+      shareButtons.forEach((shareButton) => {
+          shareButton.addEventListener('click', () => {
+
+            // prevent action if button is disabled
+            if (shareButton.disabled) {
+               
+              console.log('DISABLED');
+              return;
+            }
+              const chatbotidcopy = shareButton.getAttribute('chatbotid');
+              const chatbotLink = "https://chatflux.io/chatbot/"+chatbotidcopy
+              copyToClipboard(chatbotLink);
+              shareButton.innerHTML = 'Link Copied!';
+
+              setTimeout(() => {
+                  shareButton.innerHTML = 'Copy Chatbot Link';
+              }, 2000);
+          });
+      });
+
+    </script>
+
+    <script>
+      // make bot private/public
+      function toggleChatbotState(selected, chatId) {
+        const newState = selected ? "private" : "public";
+    
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log(`Chatbot state updated to ${newState}`);
+          }
+        };
+    
+        xhttp.open("GET", `/chatbot/make_chatbot_${newState}/${chatId}`, true);
+        xhttp.send();
+      }
+      
+      // toggle email collection
+      function toggleCollectEmails(selected, chatId) {
+        const formData = new FormData();
+        formData.append('collect_emails', selected ? '1' : '0');
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4 && this.status === 200) {
+            showAlert('success');
+            console.log(`Email collection toggled to ${selected ? 'enabled' : 'disabled'}`);
+          }else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+        };
+        xhttp.open("POST", `/toggle_collect_emails/${chatId}`, true);
+        xhttp.send(formData);
+      }
+
+      // toggle human assistance
+      function toggleHumanAssistance(selected, chatId) {
+        const formData = new FormData();
+        formData.append('human_assistance', selected ? '1' : '0');
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4 && this.status === 200) {
+            showAlert('success');
+            console.log(`Human assistance toggled to ${selected ? 'enabled' : 'disabled'}`);
+          } else if (this.readyState === 4 && this.status === 400) {
+            showAlert('error');
+          }
+        };
+        xhttp.open("POST", `/toggle_human_assistance/${chatId}`, true);
+        xhttp.send(formData);
+      }
+      
+      // toggle GPT model
+      function toggleGPTModel(selected, chatId) {
+          const formData = new FormData();
+          formData.append('gpt4', selected ? '1' : '0');
+
+          const xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState === 4 && this.status === 200) {
+                  showAlert('success');
+                  console.log(`GPT model toggled to ${selected ? 'GPT-4' : 'GPT-3.5 Turbo'}`);
+              } else if (this.readyState === 4 && this.status === 400) {
+                  showAlert('error');
+              }
+          };
+          xhttp.open("POST", `/toggle_gpt_model/${chatId}`, true);
+          xhttp.send(formData);
+      }
+
+    </script>
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+      // improve qa
+
+      function navigateToImproveQA(chatbotid) {
+        const settingsButton = document.getElementById('settings-button-' + chatbotid);
+        settingsButton.click();
+        switchTab('analytics', chatbotid)
+      }
+
+
+
+      $(window).on('load', function(){      
+        $('.spin-wrapper').fadeOut();
+        
+        });
+        
+      // info message
+      $(document).ready(function(){
+          $(".info-btn").click(function(){
+              var infoMsg = $(this).next(".info-msg");
+              if(infoMsg.css("opacity") == "0"){
+                  infoMsg.css("opacity", "1");
+              } else {
+                  infoMsg.css("opacity", "0");
+              }
+          });
+      });
+  </script>
+    <script>
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".menu-scroll");
+
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".scroll-menu");
+        const scrollPos =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document
+              .querySelector(".scroll-menu")
+              .classList.remove("text-primary");
+            currLink.classList.add("text-primary");
+          } else {
+            currLink.classList.remove("text-primary");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+    </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="{{ url_for('static', filename='bundle.js') }}"></script>
+  <script  src="{{ url_for('static', filename='switcher.js') }}"></script>
+  <script  src="{{ url_for('static', filename='tutorials.js') }}"></script>
+  <script  src="{{ url_for('static', filename='functions.js') }}"></script>
+
+  {% if tutorial_type == 'zero' %}
+  <script>
+  showTutorial0();
+    
+  </script>
+  {% endif %}
+  
+  {% if tutorial_type == 'one' %}
+  <script>
+    function getChatbotId() {
+      const chatbotItems = document.querySelectorAll('[data-chatbot-id]');
+      const chatbotItem = chatbotItems[0];
+      const chatbotId = chatbotItem.getAttribute('data-chatbot-id');
+      return chatbotId;
+    }
+    chatbotId = getChatbotId();
+    showTutorial1(chatbotId);
+  
+  </script>
+  {% endif %}
+
+</body>
+</html>
